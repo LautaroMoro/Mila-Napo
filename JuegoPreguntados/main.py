@@ -4,13 +4,13 @@ pygame.init()
 
 pantalla = pygame.display.set_mode((ANCHO, ALTO))
 pygame.display.set_caption("Preguntas Para Basados")
-icono_juego = pygame.image.load("LogoJuegoPreguntas.png")
+icono_juego = pygame.image.load("Game_assets/LogoJuegoPreguntas.png")
 #Pude cambiar el icono, basicamente el error estaba en que la imagen tenia que estar en la carpeta general,
 #  además de que la imagen tenia que ser formato 32x32 pixeles.   
 pygame.display.set_icon(icono_juego)
 
 # # Cargar y escalar imágenes
-imagen_de_fondo = pygame.image.load("fondoPreguntados.png")
+imagen_de_fondo = pygame.image.load("Game_assets/fondoPreguntados.png")
 imagen_de_fondo = pygame.transform.scale(imagen_de_fondo, (ANCHO, ALTO))
 pantalla.blit(imagen_de_fondo, (0, 0))
 pygame.display.flip()

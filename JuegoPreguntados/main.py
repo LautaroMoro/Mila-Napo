@@ -8,9 +8,9 @@ pygame.init()
 pantalla = pygame.display.set_mode((ANCHO, ALTO))
 pygame.display.set_caption("Preguntados")
 icono_juego = pygame.image.load("Game_assets/LogoJuegoPreguntas.png")
+pygame.display.set_icon(icono_juego)
 #Pude cambiar el icono, basicamente el error estaba en que la imagen tenia que estar en la carpeta general,
 #  además de que la imagen tenia que ser formato 32x32 pixeles.   
-pygame.display.set_icon(icono_juego)
 
 
 
@@ -21,8 +21,6 @@ pantalla.blit(imagen_de_fondo, (0, 0))
 
 #Boton de arranque
 imagen_boton = pygame.image.load("Game_assets/BotonDeArranque.png")
-coordenada_x_boton = (ANCHO - ancho_boton) // 2
-coordenada_y_boton = (ALTO - alto_boton) // 2
 imagen_empezar = pygame.image.load("Game_assets/BotonDeArranque.png")
 imagen_empezar = pygame.transform.scale(imagen_empezar, (0, 0))
 pygame.draw.rect(pantalla, COLOR_CELESTE, pygame.Rect(coordenada_x_boton, coordenada_y_boton,240, 60))

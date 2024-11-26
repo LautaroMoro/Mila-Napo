@@ -19,13 +19,13 @@ def pantalla_principal_juego():
                     introducir_nombre = False
                 else:
                     error = False
-            elif tema_seleccionado:
-                tema_seleccionado = elegir_categoria_aleatoria(preguntas[categoria])
-                pregunta_actual = None
-                if pregunta_actual:
-                    opciones = pregunta_actual["opciones"]
-                    respuesta = pregunta_actual["respuesta"]
-            print(tema_seleccionado)
+                if tema_random is None:
+                    tema_random = seleccionar_categoria(categorias)  # Selecciona una categoría aleatoria
+                    pregunta = seleccionar_pregunta(preguntas.get(tema_random, []))  # Selecciona una pregunta
+
+                print(f"Tema seleccionado: {tema_random}")
+                print(f"Pregunta: {pregunta}")
+        
         # Aquí iría la lógica del juego
         pygame.display.flip()
             

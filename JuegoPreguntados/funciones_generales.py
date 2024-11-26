@@ -25,9 +25,13 @@ def pantalla_jugar():
     
     pantalla_jugar()
 
-def elegir_categoria_aleatoria(categoria):
-    categoria = ["geografia", "historia", "entretenimiento", "deportes", "ciencia", "tecnologia"]
-    return random.choice(categoria)
+def seleccionar_categoria(categorias: list) -> str:
+    return random.choice(categorias)
+
+def seleccionar_pregunta(pregunta_por_categoria: list) -> str:
+    if not pregunta_por_categoria:  # Manejo de listas vacías
+        return "No hay preguntas disponibles en esta categoría"
+    return random.choice(pregunta_por_categoria)            
 
 
 

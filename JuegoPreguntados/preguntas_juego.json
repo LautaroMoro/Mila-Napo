@@ -1,5 +1,4 @@
-    { 
-    "categorias": {   
+{  
     "ciencia": [
         {
             "pregunta": "¿Cuál es el planeta más cercano al Sol?",
@@ -141,6 +140,8 @@
         }
         ]
     }
-    }
+    
+
+    
 
 

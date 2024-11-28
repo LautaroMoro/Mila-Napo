@@ -3,22 +3,26 @@
         {
             "pregunta": "¿Cuál es el planeta más cercano al Sol?",
             "opciones": ["Mercurio", "Venus", "Tierra", "Marte"],
-            "respuesta_correcta": "Mercurio"
+            "respuesta_correcta": "Mercurio",
+            "dificultad":""
         },
         {
             "pregunta": "¿Qué tipo de animal es una rana?",
             "opciones": ["Reptil", "Ave", "Mamífero", "Anfibio"],
-            "respuesta_correcta": "Anfibio"
+            "respuesta_correcta": "Anfibio",
+            "dificultad": "Facil"
         },
         {
             "pregunta": "¿Cuál es el animal terrestre más rápido?",
             "opciones": ["León", "Guepardo", "Tigre", "Jaguar"],
-            "respuesta_correcta": "Guepardo"
+            "respuesta_correcta": "Guepardo",
+            "dificultad":""
         },
         {
             "pregunta": "¿Qué elemento químico tiene el símbolo 'O'?",
             "opciones": ["Oro", "Osmio", "Oxígeno", "Oganesón"],
-            "respuesta_correcta": "Oxígeno"
+            "respuesta_correcta": "Oxígeno",
+            "dificultad":""
         }
             ],
 
@@ -26,7 +30,8 @@
         {
             "pregunta": "¿Cuántos jugadores hay en un equipo de fútbol?",
             "opciones": ["10", "11", "12", "13"],
-            "respuesta_correcta": "11"
+            "respuesta_correcta": "11",
+            "dificultad":""
         },
         
         {
@@ -131,7 +136,7 @@
         {
             "pregunta":"Como se llama el protagonista de Braking Bad",
             "opciones":["Walter White", "Gustavo Fring", "Saul Goodman", "Tuco Salamanca"],
-            "respuesta_correcta":"" 
+            "respuesta_correcta":"Walter White" 
         },
         {
             "pregunta":"Cual es el premio mas importante de la industria del entrenimiento",

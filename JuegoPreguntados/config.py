@@ -2,6 +2,7 @@ import pygame
 import json
 ALTO = 600
 ANCHO = 800
+WHITE = (255, 255, 255)
 COLOR_CELESTE = (135,206,235)
 AQUAMARINE4 = (69, 139, 116)
 COLOR_NORMAL = (0, 128, 255)

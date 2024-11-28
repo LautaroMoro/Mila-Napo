@@ -10,6 +10,7 @@ def pantalla_principal_juego():
     while flag_correr:
         # Dibujar el fondo
         pantalla.blit(imagen_de_fondo, (0, 0))
+        crear_boton_arranque(pantalla, "Empezar", 200, 450, 350, 50, COLOR_NORMAL, COLOR_HOVER, empezar_juego)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 flag_correr = False
@@ -20,17 +21,15 @@ def pantalla_principal_juego():
                         introducir_nombre = False
                     else:
                         error = False
-            if tema_random is None:
+            elif tema_random is None:
                 tema_random = seleccionar_categoria(categorias)
-                pregunta = seleccionar_pregunta(preguntas.get(tema_random, []))  # Selecciona una pregunta
+                pregunta = seleccionar_pregunta(preguntas.get(tema_random, []))
+                tiempo_respuestas  # Selecciona una pregunta
                 opciones = pregunta['opciones']
                 respuesta_correcta = pregunta['respuesta_correcta']
-                print(f"Tema seleccionado: {tema_random}")
-                print(f"Pregunta: {pregunta}")
-                print(f"opciones {opciones}")
-                print(f"respuesta_correcta {respuesta_correcta}")
+                botones = crear_botones_opciones(pantalla, [pregunta["pregunta"]], fuente, config.WHITE,(100, 50), (600, 50), opciones, tiempo_respuestas)
+            
                 
-        crear_boton(pantalla, "Empezar", 200, 450, 350, 50, COLOR_NORMAL, COLOR_HOVER, empezar_juego)
         # Aquí iría la lógica del juego
         pygame.display.flip()
     pygame.quit()

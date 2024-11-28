@@ -1,305 +1,144 @@
-{
+{  
     "ciencia": [
         {
-            "monto": 100,
             "pregunta": "¿Cuál es el planeta más cercano al Sol?",
             "opciones": ["Mercurio", "Venus", "Tierra", "Marte"],
-            "respuesta_correcta": "Mercurio",
-            "palabra_clave": "es un metal"
+            "respuesta_correcta": "Mercurio"
         },
         {
-            "monto": 100,
-            "pregunta": "¿Cuál es el componente principal del sol?",
-            "opciones": ["Hidrógeno", "Helio", "Oxígeno", "Carbono"],
-            "respuesta_correcta": "Hidrógeno",
-            "palabra_clave":"H2"
-        },
-        {
-            "monto": 100,
-            "pregunta": "¿Qué órgano del cuerpo humano bombea sangre?",
-            "opciones": ["Cerebro", "Pulmones", "Hígado", "Corazón"],
-            "respuesta_correcta": "Corazón",
-            "palabra_clave":"late"
-        },
-        {
-            "monto": 200,
             "pregunta": "¿Qué tipo de animal es una rana?",
             "opciones": ["Reptil", "Ave", "Mamífero", "Anfibio"],
-            "respuesta_correcta": "Anfibio",
-            "palabra_clave":"A..."
+            "respuesta_correcta": "Anfibio"
         },
         {
-            "monto": 200,
-            "pregunta": "¿Qué gas exhalan los seres humanos?",
-            "opciones": ["Oxígeno", "Hidrógeno", "Dióxido de carbono", "Metano"],
-            "respuesta_correcta": "Dióxido de carbono",
-            "palabra_clave":"CO2"
-        },
-        {
-            "monto": 200,
-            "pregunta": "¿Qué metal se encuentra en el centro de la Tierra?",
-            "opciones": ["Plomo", "Hierro", "Oro", "Mercurio"],
-            "respuesta_correcta": "Hierro",
-            "palabra_clave":"iron"
-        },
-        {
-            "monto": 300,
-            "pregunta": "molécula principal que transporta energía en las células",
-            "opciones": ["ADN", "ARN", "ATP", "Glucosa"],
-            "respuesta_correcta": "ATP",
-            "palabra_clave":"Trifosfato"
-        },
-        {
-            "monto": 300,
-            "pregunta": "sustancia química le da el color verde a las plantas",
-            "opciones": ["Clorofila", "Hemicelulosa", "Celulosa", "Glucosa"],
-            "respuesta_correcta": "Clorofila",
-            "palabra_clave":"cloro"
-        },
-        {
-            "monto": 300,
             "pregunta": "¿Cuál es el animal terrestre más rápido?",
             "opciones": ["León", "Guepardo", "Tigre", "Jaguar"],
-            "respuesta_correcta": "Guepardo",
-            "palabra_clave":"Guepardex"
+            "respuesta_correcta": "Guepardo"
         },
         {
-            "monto": 500,
-            "pregunta": "¿Qué planeta es conocido como el planeta rojo?",
-            "opciones": ["Júpiter", "Marte", "Saturno", "Neptuno"],
-            "respuesta_correcta": "Marte",
-            "palabra_clave":"futuro hogar de la humanidad"
-        },
-        {
-            "monto": 500,
-            "pregunta": "¿Qué órgano humano se encarga de filtrar la sangre?",
-            "opciones": ["Pulmón", "Riñón", "Corazón", "Hígado"],
-            "respuesta_correcta": "Riñón",
-            "palabra_clave":"riñonera"
-        },
-        {
-            "monto": 500,
-            "pregunta": "¿Cuál es la unidad básica de la vida?",
-            "opciones": ["Tejido", "Célula", "Órgano", "Molécula"],
-            "respuesta_correcta": "Célula",
-            "palabra_clave":"unidad pequeña"
-        },
-        {
-            "monto": 1000,
-            "pregunta": "la sustancia más abundante en el cuerpo humano",
-            "opciones": ["Oxígeno", "Agua", "Carbono", "Calcio"],
-            "respuesta_correcta": "Agua",
-            "palabra_clave":"liquido vital"
-        },
-        {
-            "monto": 1000,
-            "pregunta": "tipo de sangre es considerado el donante universal",
-            "opciones": ["A", "B", "AB", "O"],
-            "respuesta_correcta": "O",
-            "palabra_clave":"oniversal"
-        },
-        {
-            "monto": 1000,
-            "pregunta": "¿Qué científico propuso la teoría de la relatividad?",
-            "opciones": ["Isaac Newton", "Galileo Galilei", "Albert Einstein", "Niels Bohr"],
-            "respuesta_correcta": "Albert Einstein",
-            "palabra_clave":"famosa foto con lengua afuera"
-        },
-        {
-            "monto": 2000,
-            "pregunta": "las plantas consiguen energia de la luz solar con:",
-            "opciones": ["Respiración", "Fotosíntesis", "Transpiración", "Fermentación"],
-            "respuesta_correcta": "Fotosíntesis",
-            "palabra_clave":"foto"
-        },
-        {
-            "monto": 2000,
-            "pregunta": "¿Qué partícula subatómica tiene carga negativa?",
-            "opciones": ["Protón", "Neutrón", "Electrón", "Núcleo"],
-            "respuesta_correcta": "Electrón",
-            "palabra_clave":"tron"
-        },
-        {
-            "monto": 2000,
-            "pregunta": "¿Qué órgano del cuerpo humano produce insulina?",
-            "opciones": ["Hígado", "Estómago", "Páncreas", "Riñón"],
-            "respuesta_correcta": "Páncreas",
-            "palabra_clave":"jugos pancreaticos"
-        },
-        {
-            "monto": 4000,
-            "pregunta": "¿Qué científico descubrió la penicilina?",
-            "opciones": ["Alexander Fleming", "Louis Pasteur", "Gregor Mendel", "Marie Curie"],
-            "respuesta_correcta": "Alexander Fleming",
-            "palabra_clave":"cientifico britanico"
-        },
-        {
-            "monto": 4000,
-            "pregunta": "¿Cuál es el metal más ligero?",
-            "opciones": ["Hierro", "Aluminio", "Litio", "Plomo"],
-            "respuesta_correcta": "Litio",
-            "palabra_clave":"se usa en vidrios"
-        },
-        {
-            "monto": 4000,
             "pregunta": "¿Qué elemento químico tiene el símbolo 'O'?",
             "opciones": ["Oro", "Osmio", "Oxígeno", "Oganesón"],
-            "respuesta_correcta": "Oxígeno",
-            "palabra_clave": "elemento vital"
-        },
-        {
-            "monto": 8000,
-            "pregunta": "¿Cuál es la distancia promedio entre la Tierra y el Sol?",
-            "opciones": ["93 millones de millas", "50 millones de millas", "150 millones de millas", "120 millones de millas"],
-            "respuesta_correcta": "93 millones de millas",
-            "palabra_clave":"no par"
-        },
-        {
-            "monto": 8000,
-            "pregunta": "¿Qué planeta tiene el mayor número de lunas?",
-            "opciones": ["Marte", "Júpiter", "Saturno", "Urano"],
-            "respuesta_correcta": "Júpiter",
-            "palabra_clave":"el gigante"
-        },
-        {
-            "monto": 8000,
-            "pregunta": "¿Quién es conocido como el padre de la medicina moderna?",
-            "opciones": ["Hipócrates", "Aristóteles", "Platón", "Sócrates"],
-            "respuesta_correcta": "Hipócrates",
-            "palabra_clave":"juramento médico"
-        },
-        {
-            "monto": 16000,
-            "pregunta": "animal con lengua más larga en proporción a su cuerpo",
-            "opciones": ["Girafa", "Camaleón", "Hormiga león", "Pez Napoleón"],
-            "respuesta_correcta": "Camaleón",
-            "palabra_clave":"camuflaje"
-        },
-        {
-            "monto": 16000,
-            "pregunta": "¿Cuál es el órgano más grande del cuerpo humano?",
-            "opciones": ["Hígado", "Cerebro", "Piel", "Pulmones"],
-            "respuesta_correcta": "Piel",
-            "palabra_clave":"protección"
-        },
-        {
-            "monto": 16000,
-            "pregunta": "partícula subatómica que esta en el núcleo de un átomo",
-            "opciones": ["Electrón", "ninguna de ellas", "Neutrón", "Quark"],
-            "respuesta_correcta": "Neutrón",
-            "palabra_clave":"neutro"
-        },
-        {
-            "monto": 32000,
-            "pregunta": "científica que ganó dos premios Nobel en distintas disciplinas",
-            "opciones": ["Rosalind Franklin", "Marie Curie", "Ada Lovelace", "Lise Meitner"],
-            "respuesta_correcta": "Marie Curie",
-            "palabra_clave":"radioactividad"
-        },
-        {
-            "monto": 32000,
-            "pregunta": "¿Qué es la velocidad de la luz?",
-            "opciones": ["300,000 km/s", "150,000 km/s", "500,000 km/s", "1,000,000 km/s"],
-            "respuesta_correcta": "300,000 km/s",
-            "palabra_clave":"menos de medio millon"
-        },
-        {
-            "monto": 32000,
-            "pregunta": "¿Qué planeta tiene un día más largo que su año?",
-            "opciones": ["Venus", "Mercurio", "Júpiter", "Saturno"],
-            "respuesta_correcta": "Venus",
-            "palabra_clave":"no es tan grande como lo otros"
-        },
-        {
-            "monto": 64000,
-            "pregunta": "¿Cuál es el elemento químico más abundante en el universo?",
-            "opciones": ["Hidrógeno", "Helio", "Oxígeno", "Carbono"],
-            "respuesta_correcta": "Hidrógeno",
-            "palabra_clave":"H2"
-        },
-        {
-            "monto": 64000,
-            "pregunta": "¿Qué fenómeno natural se mide con la escala de Richter?",
-            "opciones": ["Tornados", "Terremotos", "Huracanes", "Inundaciones"],
-            "respuesta_correcta": "Terremotos",
-            "palabra_clave":"movimiento sísmico"
-        },
-        {
-            "monto": 64000,
-            "pregunta": "formuló la teoría de la evolución por selección natural",
-            "opciones": ["Gregor Mendel", "Alfred Wallace", "Jean-Baptiste Lamarck", "Charles Darwin"],
-            "respuesta_correcta": "Charles Darwin",
-            "palabra_clave":"evolución"
-        },
-        {
-            "monto": 125000,
-            "pregunta": "¿Qué partícula descubrió Peter Higgs?",
-            "opciones": ["Bosón de Higgs", "Electrón", "Protón", "Neutrino"],
-            "respuesta_correcta": "Bosón de Higgs",
-            "palabra_clave":"le dejo su marca"
-        },
-        {
-            "monto": 125000,
-            "pregunta": "¿Qué teoría explica el origen del universo?",
-            "opciones": ["Teoría del Big Bang", "Teoría de la Relatividad", "Teoría de la Evolución", "Teoría de las Cuerdas"],
-            "respuesta_correcta": "Teoría del Big Bang",
-            "palabra_clave":"gran explocion"
-        },
-        {
-            "monto": 125000,
-            "pregunta": "principal gas responsable del efecto invernadero",
-            "opciones": ["Metano", "Dióxido de carbono", "Ozono", "Óxidos de nitrógeno"],
-            "respuesta_correcta": "Dióxido de carbono",
-            "palabra_clave":"CO2"
-        },
-        {
-            "monto": 250000,
-            "pregunta": "¿Qué tipo de energía se obtiene de la luz del sol?",
-            "opciones": ["Energía nuclear", "Energía solar", "Energía eólica", "Energía geotérmica"],
-            "respuesta_correcta": "Energía solar",
-            "palabra_clave":"energia de ese lugar"
-        },
-        {
-            "monto": 250000,
-            "pregunta": "Proceso donde las células producen energía en ausencia de 02",
-            "opciones": ["Fotosíntesis", "Respiración aeróbica", "Fermentación", "Glucólisis"],
-            "respuesta_correcta": "Fermentación",
-            "palabra_clave":"sin oxígeno"
-        },
-        {
-            "monto": 250000,
-            "pregunta": "descubrimiento  atribuido a James Watson y Francis Crick",
-            "opciones": ["Estructura del ADN", "Teoría del Big Bang", "Teoría de la Relatividad", "Tabla Periódica"],
-            "respuesta_correcta": "Estructura del ADN",
-            "palabra_clave":"acido.."
-        },
-        {
-            "monto": 500000,
-            "pregunta": "enlace químico entre dos átomos que comparten electrones",
-            "opciones": ["Iónico", "Covalente", "Metálico", "Puente de hidrógeno"],
-            "respuesta_correcta": "Covalente",
-            "palabra_clave":"lente"
-        },
-        {
-            "monto": 500000,
-            "pregunta": "científico  conocido como el padre de la química moderna",
-            "opciones": ["Isaac Newton", "Albert Einstein", "Antoine Lavoisier", "Dmitri Mendeléyev"],
-            "respuesta_correcta": "Antoine Lavoisier",
-            "palabra_clave":"química moderna"
-        },
-        {
-            "monto": 500000,
-            "pregunta": "¿Qué elemento químico tiene el número atómico 1?",
-            "opciones": ["Helio", "Hidrógeno", "Oxígeno", "Nitrógeno"],
-            "respuesta_correcta": "Hidrógeno",
-            "palabra_clave":"H2"
-        },
-        {
-            "monto": 1000000,
-            "pregunta": "¿Quién fue el primer ser humano en viajar al espacio?",
-            "opciones": ["Neil Armstrong", "Yuri Gagarin", "John Glenn", "Buzz Aldrin"],
-            "respuesta_correcta": "Yuri Gagarin",
-            "palabra_clave":"primer cosmonauta"
+            "respuesta_correcta": "Oxígeno"
         }
-    ]
-}        
+            ],
+
+    "deportes": [
+        {
+            "pregunta": "¿Cuántos jugadores hay en un equipo de fútbol?",
+            "opciones": ["10", "11", "12", "13"],
+            "respuesta_correcta": "11"
+        },
+        
+        {
+            "pregunta": "ciudad donde se jugaron los primeros Juegos Olímpicos modernos",
+            "opciones": ["París", "Atenas", "Londres", "Roma"],
+            "respuesta_correcta": "Atenas"
+        },
+
+        {
+            "pregunta": "¿Qué país gano mas Copas del Mundo de FUTBOL?",
+            "opciones": ["Brasil", "Alemania", "Italia", "Argentina"],
+            "respuesta_correcta": "Brasil"
+        },
+
+        {
+            "pregunta": "¿Qué país ha ganado más Copas del Mundo de Rugby?",
+            "opciones": ["Australia", "Nueva Zelanda", "Inglaterra", "Sudáfrica"],
+            "respuesta_correcta": "Nueva Zelanda"
+        }
+            ],
+
+    "geografia": [
+        {   
+            "pregunta": "¿Qué océano bordea la costa este de los Estados Unidos?",
+            "opciones": ["Océano Atlántico", "Océano Pacífico", "Océano Índico", "Océano Ártico"],
+            "respuesta_correcta": "Océano Atlántico"
+        },
+        {
+            "pregunta": "¿Cuál es la capital de Francia?",
+            "opciones": ["París", "Londres", "Roma", "Berlín"],
+            "respuesta_correcta": "París"
+        },
+        {
+            "pregunta": "¿En qué continente se encuentra Egipto?",
+            "opciones": ["Asia", "África", "Europa", "América"],
+            "respuesta_correcta": "África"
+        },
+        {
+            "pregunta": "¿Qué país tiene la mayor población del mundo?",
+            "opciones": ["India", "Estados Unidos", "Indonesia", "China"],
+            "respuesta_correcta": "China"
+        }
+        ],
+
+    "tecnologia": [
+        {
+            "pregunta": "¿Qué empresa desarrolló el sistema operativo Windows?",
+            "opciones": ["Apple", "Google", "Microsoft", "IBM"],
+            "respuesta_correcta": "Microsoft"
+        },
+        {
+            "pregunta": "¿Qué significa la sigla CPU?",
+            "opciones": ["Control Processing Unit", "Central Processing Unit", "Central Performance Unit", "Computer Personal Unit"],
+            "respuesta_correcta": "Central Processing Unit"
+        },
+        {
+            "pregunta": "¿Qué empresa es conocida por sus tarjetas gráficas GeForce?",
+            "opciones": ["AMD", "NVIDIA", "Intel", "Qualcomm"],
+            "respuesta_correcta": "NVIDIA"
+        },
+        {
+            "pregunta": "¿Qué lenguaje de programación es conocido por su logo de una serpiente?",
+            "opciones": ["Java", "C++", "Python", "Ruby"],
+            "respuesta_correcta": "Python"
+        }
+        ],   
+
+    "historia": [
+        {
+            "pregunta": "¿En qué año comenzó la Primera Guerra Mundial?",
+            "opciones": ["1914", "1918", "1939", "1945"],
+            "respuesta_correcta": "1914"
+        },
+        {
+            "pregunta": "¿En qué año llegó Cristóbal Colón a América?",
+            "opciones": ["1492", "1498", "1501", "1520"],
+            "respuesta_correcta": "1492"
+        },
+        {
+            "pregunta": "¿En qué año cayó el Muro de Berlín?",
+            "opciones": ["1987", "1988", "1989", "1990"],
+            "respuesta_correcta": "1989"
+        },
+        {
+            "pregunta": "¿Qué tratado puso fin a la Primera Guerra Mundial?",
+            "opciones": ["Tratado de Versalles", "Tratado de París", "Tratado de Utrecht", "Tratado de Tordesillas"],
+            "respuesta_correcta": "Tratado de Versalles"
+        }
+        ],
+
+    "entretenemiento":[
+        {
+            "pregunta":"como se llama el padre de la familia simpson en Los Simpsons",
+            "opciones":["Barney", "Moe", "Homero", "Carl"],
+            "respuesta_correcta":"Homero" 
+        },
+        {
+            "pregunta":"Como se llama el actor que protagoniza las peliculas de mision imposible",
+            "opciones":["Tom cruise", "Brad Pitt", "Leonardo di Caprio", "Chris Evans"],
+            "respuesta_correcta":"Tom Cruise"
+        },
+        {
+            "pregunta":"Como se llama el protagonista de Braking Bad",
+            "opciones":["Walter White", "Gustavo Fring", "Saul Goodman", "Tuco Salamanca"],
+            "respuesta_correcta":"" 
+        },
+        {
+            "pregunta":"Cual es el premio mas importante de la industria del entrenimiento",
+            "opciones":["Premios Emmy", "Premios Oscars", "Premios Latin Grammy", "Premios Golden Raspberry"],
+            "respuesta_correcta":"Premios Oscars" 
+        }
+        ]
+    }
+   
+    

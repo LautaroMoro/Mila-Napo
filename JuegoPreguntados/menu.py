@@ -13,7 +13,6 @@ def menu():
             if evento.type == pygame.QUIT:
                 flag_correr = False
 
-        crear_boton("Game_assets/imagenes/Boton.webp", pygame.Rect(coordenada_x_boton, coordenada_y_boton, 240, 60), COLOR_CELESTE, funcion = None)
 
         #BOTONES Y PANTALLAS ACÁ   
         pygame.display.flip()

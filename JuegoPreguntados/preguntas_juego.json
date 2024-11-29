@@ -30,8 +30,8 @@
         {
             "pregunta": "¿Cuántos jugadores hay en un equipo de fútbol?",
             "opciones": ["10", "11", "12", "13"],
-            "respuesta_correcta": "11",
-            "dificultad":""
+            "respuesta_correcta": "11"
+
         },
         
         {

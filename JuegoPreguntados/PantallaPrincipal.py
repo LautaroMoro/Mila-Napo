@@ -23,12 +23,11 @@ def pantalla_principal_juego():
                         error = False
             elif tema_random is None:
                 tema_random = seleccionar_categoria(categorias)
-                pregunta = seleccionar_pregunta(preguntas.get(tema_random, []))
-                tiempo_respuestas  # Selecciona una pregunta
+                pregunta = seleccionar_pregunta(preguntas.get(tema_random, []))  # Selecciona una pregunta
                 opciones = pregunta['opciones']
                 respuesta_correcta = pregunta['respuesta_correcta']
-                botones = crear_botones_opciones(pantalla, [pregunta["pregunta"]], fuente, config.WHITE,(100, 50), (600, 50), opciones, tiempo_respuestas)
-            
+                botones = crear_botones_opciones(pantalla, [pregunta["pregunta"]], fuente, config.WHITE,(100, 50),)
+                
                 
         # Aquí iría la lógica del juego
         pygame.display.flip()

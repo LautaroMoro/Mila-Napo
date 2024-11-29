@@ -165,6 +165,12 @@ def crear_botones_opciones(pantalla, fuente, posiciones_botones, tamaño_botones
     Retorna 4 botones dibujados en la pantalla con texto en su superficie y las opciones a elegir para la pregunta
     """
     buttons = []
+    posiciones_botones = [
+        (220, 443),
+        (590, 443),
+        (220, 514),
+        (590, 514)
+    ]
     for pos, opcion in zip(posiciones_botones, opciones):
         button_rect = pygame.Rect(pos, tamaño_botones)
         buttons.append((button_rect, opcion))

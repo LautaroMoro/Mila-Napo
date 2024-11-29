@@ -2,6 +2,7 @@ import pygame
 import config
 import json
 import random
+
 def cargar_preguntas(file_path: str) -> str:
     """_summary_
 
@@ -76,28 +77,6 @@ def seleccionar_pregunta(pregunta_por_categoria: list) -> str:
     return random.choice(pregunta_por_categoria)
 
 
-def dibujar_boton(pantalla, rect, color, text, font, text_color):
-    """
-    Dibuja un botón con un texto centrado en la pantalla.
-
-    Args:
-        pantalla: Superficie donde se dibuja.
-        rect: pygame.Rect que define la posición y tamaño del botón.
-        color: Color del borde del botón.
-        text: Texto que se muestra dentro del botón.
-        font: Fuente para renderizar el texto.
-        text_color: Color del texto.
-    """
-    # Dibujar el borde del botón
-    pygame.draw.rect(pantalla, color, rect, 2)
-
-    # Renderizar el texto
-    text_surface = font.render(text, True, text_color)
-    text_rect = text_surface.get_rect(center=rect.center)
-    pantalla.blit(text_surface, text_rect)
-
-
-
 
 def crear_boton_arranque(pantalla, texto, x, y, ancho, alto, color_normal, color_hover, accion=None):
     """_summary_
@@ -139,18 +118,13 @@ def temporizador_pregunta(duracion_ms):
 
         # Calcula el tiempo restante
     tiempo_restante = duracion_ms - (pygame.time.get_ticks() - inicio_ticks)
-
-    # Si el tiempo se agota
-    if tiempo_restante <= 0:
-        print("¡Tiempo agotado!")
-        corriendo = False
     # Actualiza la pantalla
-    fuente = pygame.font.Font(None, 74)
-    texto = fuente.render(f"Tiempo: {tiempo_restante // 1000}", True, (config.WHITE))
-    config.pantalla.blit(texto, (100, 100))
+    fuente_temporizador = pygame.font.Font(None, 74)
+    texto_temporizador = fuente_temporizador.render(f"Tiempo: {tiempo_restante // 1000}", True, (config.WHITE))
+    config.pantalla.blit(texto_temporizador, (100, 100))
 tiempo_respuestas = temporizador_pregunta(15000)
 
-def crear_botones_opciones(pantalla, fuente, posiciones_botones, tamaño_botones, color, opciones, tiempo_respuestas):
+def crear_botones_opciones(pantalla, texto, fuente, color, rect, opciones, tiempo_respuestas):
     """_summary_
 
     Args:
@@ -160,21 +134,35 @@ def crear_botones_opciones(pantalla, fuente, posiciones_botones, tamaño_botones
         tamaño_botones: Tamaño (ancho, alto) de los botones.
         color_normal (_type_): color normal del boton
         opciones (_type_): opciones de la pregunta aleatoria
-        tiempo_respuesta (_type): tiempo para responder la pregunta
+        tiempo_respuestas (_type_): tiempo para responder la pregunta
     Returns:
     Retorna 4 botones dibujados en la pantalla con texto en su superficie y las opciones a elegir para la pregunta
+
     """
+    rect = pygame.Rect(rect)
+
     buttons = []
+
+    for i in texto:
+        text_surface = fuente.render(i, True, color)
+        pantalla.blit(text_surface, (238, 360))
+
     posiciones_botones = [
         (220, 443),
         (590, 443),
         (220, 514),
         (590, 514)
     ]
+    tamaño_boton = (300, 50)
+
     for pos, opcion in zip(posiciones_botones, opciones):
-        button_rect = pygame.Rect(pos, tamaño_botones)
-        buttons.append((button_rect, opcion))
-        dibujar_boton(pantalla, button_rect, config.WHITE, opcion, fuente, color, tiempo_respuestas)
+        boton_rect = pygame.Rect(pos, tamaño_boton)
+        if i < len(opciones):
+            buttons.append((boton_rect, opcion))
+            pygame.draw.rect(pantalla, config.WHITE, boton_rect, 2)
+            text_surface = fuente.render(opciones[i], True, color)
+            pantalla.blit(text_surface, (boton_rect.x + 10, boton_rect.y + 10))
+
     return buttons
     
 def empezar_juego():

@@ -1,6 +1,7 @@
 import pygame
 from funciones_generales import *
 from config import *
+
 pygame.init()
 input_box, boton_rect = mostrar_pantalla_inicio(pantalla, fuente)
 def pantalla_principal_juego():
@@ -26,7 +27,12 @@ def pantalla_principal_juego():
                 pregunta = seleccionar_pregunta(preguntas.get(tema_random, []))  # Selecciona una pregunta
                 opciones = pregunta['opciones']
                 respuesta_correcta = pregunta['respuesta_correcta']
-                botones = crear_botones_opciones(pantalla, [pregunta["pregunta"]], fuente, config.WHITE,(100, 50),)
+                tiempo_respuestas = temporizador_pregunta(15000)
+                print(f"tema aleatorio: {tema_random}")
+                print(f"pregunta: {pregunta}")
+                print(f"opciones: {opciones}")
+                print(f" respuesta correcta: {respuesta_correcta}")
+                #botones = crear_botones_opciones(pantalla, [pregunta["pregunta"]], config.fuente, config.WHITE, (100, 50, 600, 50), opciones, tiempo_respuestas)
                 
                 
         # Aquí iría la lógica del juego

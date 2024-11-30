@@ -41,14 +41,21 @@ def pantalla_principal_juego():
                         match dificultad:
                             case "Facil":
                                 print("correcto!")
+                                #SONIDO ACA
                                 puntuacion += 1
                             case "Intermedio":
                                 print("correcto")
+                                #SONIDO ACA
                                 puntuacion += 3
                             case "Dificil":
+                                #SONIDO ACA
                                 print("CORRECTOO, estaba dificil esa eh")
                                 puntuacion += 6
-
+                        guardar_ranking(file_path, puntuacion, nombre, tiempo_total_partida)
+                    else:
+                        #SONIDO ACA
+                        print("Incorrecto")
+                        guardar_ranking(file_path, puntuacion, nombre, tiempo_total_partida)
         # Aquí iría la lógica del juego
         pygame.display.flip()
     pygame.quit()

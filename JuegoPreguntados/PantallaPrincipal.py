@@ -1,7 +1,7 @@
 import pygame
-from funciones_generales import *
 from config import *
-
+from funciones_generales import *
+from colores import *
 pygame.init()
 input_box, boton_rect = mostrar_pantalla_inicio(pantalla, fuente)
 def pantalla_principal_juego():
@@ -11,7 +11,7 @@ def pantalla_principal_juego():
     while flag_correr:
         # Dibujar el fondo
         pantalla.blit(imagen_de_fondo, (0, 0))
-        crear_boton_arranque(pantalla, "Empezar", 200, 450, 350, 50, COLOR_NORMAL, COLOR_HOVER, empezar_juego)
+        crear_botones(pantalla, "Empezar", fuente, (200, 450, 350, 50), COLOR_NORMAL, COLOR_HOVER, empezar_juego)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 flag_correr = False

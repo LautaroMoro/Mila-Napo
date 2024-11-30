@@ -74,7 +74,7 @@
             "opciones": ["India", "Estados Unidos", "Indonesia", "China"],
             "respuesta_correcta": "China"
         }
-        ],
+            ],
 
     "tecnologia": [
         {
@@ -97,7 +97,7 @@
             "opciones": ["Java", "C++", "Python", "Ruby"],
             "respuesta_correcta": "Python"
         }
-        ],   
+            ],   
 
     "historia": [
         {
@@ -120,7 +120,7 @@
             "opciones": ["Tratado de Versalles", "Tratado de París", "Tratado de Utrecht", "Tratado de Tordesillas"],
             "respuesta_correcta": "Tratado de Versalles"
         }
-        ],
+            ],
 
     "entretenemiento":[
         {
@@ -143,7 +143,7 @@
             "opciones":["Premios Emmy", "Premios Oscars", "Premios Latin Grammy", "Premios Golden Raspberry"],
             "respuesta_correcta":"Premios Oscars" 
         }
-        ]
+            ]
     }
    
     

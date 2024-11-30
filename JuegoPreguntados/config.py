@@ -1,32 +1,18 @@
 import pygame
-import json
-from funciones_generales import * 
 ALTO = 600
 ANCHO = 800
-WHITE = (255, 255, 255)
-COLOR_CELESTE = (135,206,235)
-AQUAMARINE4 = (69, 139, 116)
-COLOR_NORMAL = (0, 128, 255)
-COLOR_HOVER = (0, 200, 255)
-COLOR_TEXTO = (0, 0, 0)
 puntuacion = 0
 tiempo_restante = 30
 respuesta_correcta = ""
 nombre = ""
-categorias = ["ciencia", "entretenimiento", "deportes", "geografia", "tecnologia", "historia"]
-nombre = ""
 manejar_string = None
 error = False
 pregunta = None
-ancho_boton = 237
-alto_boton = -286
-
-
-categoria = ["geografia", "historia", "entretenimiento", "deportes", "ciencia", "tecnologia"]
+categorias = ["geografia", "historia", "entretenimiento", "deportes", "ciencia", "tecnologia"]
 nombre = ""
 manejar_string = None
 error = False
-tema_seleccionado = None
+
 
 pygame.init()  
 pantalla = pygame.display.set_mode((ANCHO, ALTO))

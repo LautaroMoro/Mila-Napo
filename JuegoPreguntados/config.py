@@ -2,7 +2,7 @@ import pygame
 ALTO = 600
 ANCHO = 800
 puntuacion = 0
-tiempo_restante = 30
+vidas = 5
 respuesta_correcta = ""
 nombre = ""
 manejar_string = None

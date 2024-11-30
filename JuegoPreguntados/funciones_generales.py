@@ -3,7 +3,10 @@ import config
 import json
 import random
 import colores
+import datetime
 pygame.init()
+def empezar_juego():
+    print("Juego Iniciado!")
 def cargar_preguntas(file_path: str) -> str:
     """_summary_
 
@@ -79,6 +82,33 @@ def seleccionar_pregunta(pregunta_por_categoria: list) -> str:
 
 ###################################################################### FUNCIONES QUE YA FUNCIONAN XD ##################################################################################
 
+
+def temporizador_pregunta(duracion_ms):
+    inicio_ticks = pygame.time.get_ticks()  # Obtén el tiempo inicial en milisegundos
+        # Calcula el tiempo restante
+    tiempo_restante = duracion_ms - (pygame.time.get_ticks() - inicio_ticks)
+    # Actualiza la pantalla
+    fuente_temporizador = pygame.font.Font(None, 74)
+    texto_temporizador = fuente_temporizador.render(f"Tiempo: {tiempo_restante // 1000}", True, (colores.WHITE))
+    config.pantalla.blit(texto_temporizador, (100, 100))
+    return tiempo_restante
+
+def guardar_ranking(file_path, puntuacion, nombre, tiempo_total_partida=None):
+    """Guarda en un archivo formato "csv" el nombre, el timepo de la partida total y los puntos optenidos por el jugador.
+
+    Args:
+        file_path (_type_): camino hacia el archivo
+        puntuacion (_type_): variable que guarda los puntos obtenidos por el jugador
+        nombre (_type_): guarda el nombre ingresado por el jugador
+        tiempo_total_partida (_type_, optional): variable que guarda el tiempo que duró la partida. Defaults to None.
+        
+    """
+    fecha_actual = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    with open(file_path, 'a', newline='') as file:
+        datos = f"{nombre},{puntuacion},{fecha_actual},{tiempo_total_partida}\n"
+        file.write(datos)
+    
+
 def crear_botones(pantalla, texto, font, rect, color_normal, color_hover, accion=None, opciones=None , tiempo_respuestas=None):
     """_summary_
 
@@ -133,23 +163,6 @@ def crear_botones(pantalla, texto, font, rect, color_normal, color_hover, accion
         text_surface = font.render(opcion, True, color_normal)
         pantalla.blit(text_surface, (boton_rect_opciones.left + 10, boton_rect_opciones.top + 10))
     return buttons
-
-def temporizador_pregunta(duracion_ms):
-    inicio_ticks = pygame.time.get_ticks()  # Obtén el tiempo inicial en milisegundos
-        # Calcula el tiempo restante
-    tiempo_restante = duracion_ms - (pygame.time.get_ticks() - inicio_ticks)
-    # Actualiza la pantalla
-    fuente_temporizador = pygame.font.Font(None, 74)
-    texto_temporizador = fuente_temporizador.render(f"Tiempo: {tiempo_restante // 1000}", True, (colores.WHITE))
-    config.pantalla.blit(texto_temporizador, (100, 100))
-    return tiempo_restante
-tiempo_respuestas = temporizador_pregunta(15000)
-
-    
-def empezar_juego():
-    print("Juego Iniciado!")
-
-
 
 
 

@@ -27,14 +27,28 @@ def pantalla_principal_juego():
                 pregunta = seleccionar_pregunta(preguntas.get(tema_random, []))  # Selecciona una pregunta
                 opciones = pregunta['opciones']
                 respuesta_correcta = pregunta['respuesta_correcta']
-                tiempo_respuestas = temporizador_pregunta(15000)
+                tiempo_restante = temporizador_pregunta(15000)
+                dificultad = ["dificultad"]
                 print(f"tema aleatorio: {tema_random}")
                 print(f"pregunta: {pregunta}")
                 print(f"opciones: {opciones}")
                 print(f" respuesta correcta: {respuesta_correcta}")
-                #botones = crear_botones_opciones(pantalla, [pregunta["pregunta"]], config.fuente, config.WHITE, (100, 50, 600, 50), opciones, tiempo_respuestas)
-                
-                
+                botones = crear_botones(pantalla, [pregunta["pregunta"]], config.fuente,(100, 50, 600, 50), WHITE, COLOR_HOVER, opciones, tiempo_restante)
+        else:
+            for boton in botones:
+                if boton[0].collidepoint(event.pos):
+                    if boton[1] == respuesta_correcta :
+                        match dificultad:
+                            case "Facil":
+                                print("correcto!")
+                                puntuacion += 1
+                            case "Intermedio":
+                                print("correcto")
+                                puntuacion += 3
+                            case "Dificil":
+                                print("CORRECTOO, estaba dificil esa eh")
+                                puntuacion += 6
+
         # Aquí iría la lógica del juego
         pygame.display.flip()
     pygame.quit()

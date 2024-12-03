@@ -2,17 +2,16 @@ import pygame
 ALTO = 600
 ANCHO = 800
 puntuacion = 0
-vidas = 5
+vidas = 3
 respuesta_correcta = ""
-nombre = ""
 manejar_string = None
-error = False
 pregunta = None
 categorias = ["geografia", "historia", "entretenimiento", "deportes", "ciencia", "tecnologia"]
 nombre = ""
 manejar_string = None
-error = False
-
+ultimo_tiempo = pygame.time.get_ticks()
+tiempo_restante = 15
+cambiar_ingreso_nombre = True
 
 pygame.init()  
 pantalla = pygame.display.set_mode((ANCHO, ALTO))

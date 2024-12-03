@@ -5,8 +5,12 @@ import random
 import colores
 import datetime
 pygame.init()
+
 def empezar_juego():
+    global cambiar_ingreso_nombre
+    cambiar_ingreso_nombre = True  # Activa la bandera para cambiar de pantalla
     print("Juego Iniciado!")
+
 def cargar_preguntas(file_path: str) -> str:
     """_summary_
 
@@ -35,28 +39,6 @@ def manejar_string(cadena: str) -> str:
     cadena_modificada = cadena_mayusculas.replace(' ', '_')
     return cadena_modificada
 
-def mostrar_pantalla_inicio(pantalla, font):
-    """_summary_
-
-    Args:
-        pantalla (_type_): pantalla donde blitea
-        font (_type_): fuente de la letra
-
-    Returns:
-        _type_: retorna el input box donde se va a escribir el nombre de usuario y el button rec que es el rectangulo del boton play
-    """
-    pantalla.blit(config.imagen_de_fondo, (0, 0))
-    text_surface = font.render("Introduce tu nombre:", True, colores.AQUAMARINE4)
-    pantalla.blit(text_surface, (310, 200))
-
-    input_box = pygame.Rect(312, 226, 393, 49)
-    pygame.draw.rect(pantalla, colores.COLOR_CELESTE, input_box, 2)
-
-    button_rect = pygame.Rect(450, 300, 100, 50)
-    pygame.draw.rect(pantalla, colores.COLOR_CELESTE, button_rect, 2)
-    text_surface = font.render("JUGAR", True, colores.AQUAMARINE4)
-    pantalla.blit(text_surface, (button_rect.x + 20, button_rect.y + 15))
-    return input_box, button_rect
 
 
 def seleccionar_categoria(categorias: list) -> str:
@@ -83,17 +65,9 @@ def seleccionar_pregunta(pregunta_por_categoria: list) -> str:
 ###################################################################### FUNCIONES QUE YA FUNCIONAN XD ##################################################################################
 
 
-def temporizador_pregunta(duracion_ms):
-    inicio_ticks = pygame.time.get_ticks()  # Obtén el tiempo inicial en milisegundos
-        # Calcula el tiempo restante
-    tiempo_restante = duracion_ms - (pygame.time.get_ticks() - inicio_ticks)
-    # Actualiza la pantalla
-    fuente_temporizador = pygame.font.Font(None, 74)
-    texto_temporizador = fuente_temporizador.render(f"Tiempo: {tiempo_restante // 1000}", True, (colores.WHITE))
-    config.pantalla.blit(texto_temporizador, (100, 100))
-    return tiempo_restante
 
-def guardar_ranking(file_path, puntuacion, nombre, tiempo_total_partida=None):
+
+def guardar_ranking(file_path, puntuacion, nombre_formateado, tiempo_total_partida=None):
     """Guarda en un archivo formato "csv" el nombre, el timepo de la partida total y los puntos optenidos por el jugador.
 
     Args:
@@ -105,11 +79,11 @@ def guardar_ranking(file_path, puntuacion, nombre, tiempo_total_partida=None):
     """
     fecha_actual = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     with open(file_path, 'a', newline='') as file:
-        datos = f"{nombre},{puntuacion},{fecha_actual},{tiempo_total_partida}\n"
+        datos = f"{nombre_formateado},{puntuacion},{fecha_actual},{tiempo_total_partida}\n"
         file.write(datos)
     
 
-def crear_botones(pantalla, texto, font, rect, color_normal, color_hover, accion=None, opciones=None , tiempo_respuestas=None):
+def crear_botones(pantalla, texto, font, rect, color_normal, color_hover, accion=None, opciones=None , tiempo_restante=None):
     """_summary_
 
     Args:
@@ -129,16 +103,24 @@ def crear_botones(pantalla, texto, font, rect, color_normal, color_hover, accion
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
 
+    if tiempo_restante == None:
+        tiempo_restante = 15
     posiciones_botones = [
         (220, 443),
         (590, 443),
         (220, 514),
         (590, 514)
     ]
+    
     if opciones is None:
         opciones = []
-    if tiempo_respuestas is None:
-        pass
+    elif not isinstance(opciones, (list, tuple)):
+        print(f"{opciones} debe ser una lista o tupla, pero se recibió: {type(opciones)}")
+    elif len(opciones) > len (posiciones_botones):
+        print(f"Hay mas opciones que posiciones disponibles para los botones")
+
+
+        
     buttons = []
 
     # Cambia color si el mouse está sobre el botón
@@ -150,7 +132,7 @@ def crear_botones(pantalla, texto, font, rect, color_normal, color_hover, accion
     else:
         pygame.draw.rect(pantalla, color_normal, rect)
 
-    texto_superficie = font.render(texto, True, colores.COLOR_TEXTO)
+    texto_superficie = font.render(str(texto), True, colores.COLOR_TEXTO)
     texto_rect = texto_superficie.get_rect(center=(rect.left + rect.width // 2, rect.top + rect.height // 2))
     pantalla.blit(texto_superficie, texto_rect)
 
@@ -163,18 +145,6 @@ def crear_botones(pantalla, texto, font, rect, color_normal, color_hover, accion
         text_surface = font.render(opcion, True, color_normal)
         pantalla.blit(text_surface, (boton_rect_opciones.left + 10, boton_rect_opciones.top + 10))
     return buttons
-
-
-
-
-
-
-
-def pantalla_de_configuracion_juego():
-    pantalla_de_configuracion_juego()
-
-def pantalla_ranking():
-    pantalla_ranking()
 
 
 

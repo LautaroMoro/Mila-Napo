@@ -2,11 +2,18 @@ import pygame
 from config import *
 from funciones_generales import *
 from colores import *
+from funciones_pantallas import *
+import time
+
 pygame.init()
-input_box, boton_rect = mostrar_pantalla_inicio(pantalla, fuente)
+ultimo_tiempo = pygame.time.get_ticks()
 def pantalla_principal_juego():
+    global cambiar_ingreso_nombre
+    global ultimo_tiempo
+    global  tiempo_restante
+    error = False
+    introduciendo_nombre = True
     tema_random = None
-    introducir_nombre = True
     flag_correr = True
     while flag_correr:
         # Dibujar el fondo
@@ -15,47 +22,49 @@ def pantalla_principal_juego():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 flag_correr = False
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if introducir_nombre:
-                    if nombre.strip() != "":
-                        nombre_formateado = manejar_string(nombre.strip())
-                        introducir_nombre = False
-                    else:
-                        error = False
+
             elif tema_random is None:
                 tema_random = seleccionar_categoria(categorias)
                 pregunta = seleccionar_pregunta(preguntas.get(tema_random, []))  # Selecciona una pregunta
                 opciones = pregunta['opciones']
                 respuesta_correcta = pregunta['respuesta_correcta']
-                tiempo_restante = temporizador_pregunta(15000)
                 dificultad = ["dificultad"]
-                print(f"tema aleatorio: {tema_random}")
-                print(f"pregunta: {pregunta}")
-                print(f"opciones: {opciones}")
-                print(f" respuesta correcta: {respuesta_correcta}")
-                botones = crear_botones(pantalla, [pregunta["pregunta"]], config.fuente,(100, 50, 600, 50), WHITE, COLOR_HOVER, opciones, tiempo_restante)
+                botones = crear_botones(pantalla, [pregunta["pregunta"]], fuente,(100, 50, 600, 50), WHITE, COLOR_HOVER, opciones)
+
+        if cambiar_ingreso_nombre:
+            mostrar_pantalla_ingreso_nombre(pantalla, nombre)
+            cambiar_ingreso_nombre = False
+            introduciendo_nombre = True
         else:
             for boton in botones:
-                if boton[0].collidepoint(event.pos):
-                    if boton[1] == respuesta_correcta :
-                        match dificultad:
-                            case "Facil":
-                                print("correcto!")
-                                #SONIDO ACA
-                                puntuacion += 1
-                            case "Intermedio":
-                                print("correcto")
-                                #SONIDO ACA
-                                puntuacion += 3
-                            case "Dificil":
-                                #SONIDO ACA
-                                print("CORRECTOO, estaba dificil esa eh")
-                                puntuacion += 6
-                        guardar_ranking(file_path, puntuacion, nombre, tiempo_total_partida)
-                    else:
-                        #SONIDO ACA
-                        print("Incorrecto")
-                        guardar_ranking(file_path, puntuacion, nombre, tiempo_total_partida)
+                    if boton[0].collidepoint(event.pos):
+                        if boton[1] == respuesta_correcta:
+                            match dificultad:
+                                case "Facil":
+                                    print("correcto!")
+                                    #SONIDO ACA
+                                    puntuacion += 1
+                                case "Intermedio":
+                                    print("correcto")
+                                    #SONIDO ACA
+                                    puntuacion += 3
+                                case "Dificil":
+                                    #SONIDO ACA
+                                    print("CORRECTOO, estaba dificil esa eh")
+                                    puntuacion += 6
+                            guardar_ranking("ranking.csv", puntuacion, nombre, ultimo_tiempo)
+                        else:
+                            #SONIDO ACA
+                            print("Incorrecto")
+                            guardar_ranking("ranking.csv", puntuacion, nombre, ultimo_tiempo)
+            else:
+                tiempo_actual = time.time()
+                if tiempo_actual - ultimo_tiempo >= 1000:
+                    tiempo_restante -= 1
+                    ultimo_tiempo = tiempo_actual
+                texto_tiempo = fuente.render(f"Tiempo restante: {tiempo_restante}", True, BLACK)
+                pantalla.blit(texto_tiempo, (20, 20))
+
         # Aquí iría la lógica del juego
         pygame.display.flip()
     pygame.quit()

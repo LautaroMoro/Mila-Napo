@@ -8,10 +8,20 @@ def pantalla_de_configuracion_juego():
 def pantalla_ranking():
     pantalla_ranking()
 
-def mostrar_pantalla_ingreso_nombre(pantalla, nombre):
+def mostrar_pantalla_ingreso_nombre(pantalla):
+    """Muestra un rectangulo, en una pantalla alterna para ingresar el nombre del jugador y poder arrancar a responder las preguntas
+
+    Args:
+        pantalla (surface): pantalla alterna en negro, donde se mostrara el rectangulo para poner el nombre
+
+    Returns:
+        nombre (str): Retorna el nombre puesto por el jugador
+    """
+    global error
+    global nombre
     input_box = pygame.Rect(312, 226, 393, 49)
     introduciendo_nombre = True
-    error = False
+    
 
     while introduciendo_nombre:
         pantalla.fill(BLACK)
@@ -27,12 +37,14 @@ def mostrar_pantalla_ingreso_nombre(pantalla, nombre):
                 if event.key == pygame.K_RETURN:
                     if nombre.strip():
                         introduciendo_nombre = False
+                        return nombre
                     else:
                         error = True
                 elif event.key == pygame.K_BACKSPACE:
                     nombre = nombre[:-1]
                 else:
-                    nombre += event.unicode
+                    if len(nombre) < 35:
+                        nombre += event.unicode
 
         # Mostrar nombre en el cuadro de texto
         nombre_surface = fuente.render(nombre, True, WHITE)

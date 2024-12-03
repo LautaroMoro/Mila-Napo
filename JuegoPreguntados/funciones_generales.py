@@ -1,5 +1,4 @@
 import pygame
-import config
 import json
 import random
 import colores
@@ -67,7 +66,7 @@ def seleccionar_pregunta(pregunta_por_categoria: list) -> str:
 
 
 
-def guardar_ranking(file_path, puntuacion, nombre_formateado, tiempo_total_partida=None):
+def guardar_ranking(file_path, puntuacion, nombre_formateado, duracion_partida):
     """Guarda en un archivo formato "csv" el nombre, el timepo de la partida total y los puntos optenidos por el jugador.
 
     Args:
@@ -77,9 +76,9 @@ def guardar_ranking(file_path, puntuacion, nombre_formateado, tiempo_total_parti
         tiempo_total_partida (_type_, optional): variable que guarda el tiempo que duró la partida. Defaults to None.
         
     """
-    fecha_actual = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    fecha_actual = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     with open(file_path, 'a', newline='') as file:
-        datos = f"{nombre_formateado},{puntuacion},{fecha_actual},{tiempo_total_partida}\n"
+        datos = f"{nombre_formateado},{puntuacion},{fecha_actual},{duracion_partida}\n"
         file.write(datos)
     
 

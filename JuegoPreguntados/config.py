@@ -11,8 +11,8 @@ nombre = ""
 manejar_string = None
 ultimo_tiempo = pygame.time.get_ticks()
 tiempo_restante = 15
-cambiar_ingreso_nombre = True
-
+cambiar_ingreso_nombre = False
+error = False
 pygame.init()  
 pantalla = pygame.display.set_mode((ANCHO, ALTO))
 pygame.display.set_caption("Preguntados")

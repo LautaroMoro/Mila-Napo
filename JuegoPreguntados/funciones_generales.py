@@ -5,10 +5,10 @@ import colores
 import datetime
 pygame.init()
 
-def empezar_juego():
-    global cambiar_ingreso_nombre
+def empezar_juego(cambiar_ingreso_nombre):
     cambiar_ingreso_nombre = True  # Activa la bandera para cambiar de pantalla
     print("Juego Iniciado!")
+    return cambiar_ingreso_nombre
 
 def cargar_preguntas(file_path: str) -> str:
     """_summary_
@@ -51,6 +51,8 @@ def seleccionar_categoria(categorias: list) -> str:
     """
     return random.choice(categorias)
 
+
+
 def seleccionar_pregunta(pregunta_por_categoria: list) -> str:
     """_summary_
 
@@ -66,7 +68,7 @@ def seleccionar_pregunta(pregunta_por_categoria: list) -> str:
 
 
 
-def guardar_ranking(file_path, puntuacion, nombre_formateado, duracion_partida):
+def guardar_ranking(file_path, puntuacion, nombre_formateado, duracion_partida=None):
     """Guarda en un archivo formato "csv" el nombre, el timepo de la partida total y los puntos optenidos por el jugador.
 
     Args:
@@ -76,13 +78,16 @@ def guardar_ranking(file_path, puntuacion, nombre_formateado, duracion_partida):
         tiempo_total_partida (_type_, optional): variable que guarda el tiempo que duró la partida. Defaults to None.
         
     """
+    if duracion_partida == None:
+        duracion_partida = None
+
     fecha_actual = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     with open(file_path, 'a', newline='') as file:
         datos = f"{nombre_formateado},{puntuacion},{fecha_actual},{duracion_partida}\n"
         file.write(datos)
     
 
-def crear_botones(pantalla, texto, font, rect, color_normal, color_hover, accion=None, opciones=None , tiempo_restante=None):
+def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, accion=None, opciones=None , tiempo_restante=None):
     """_summary_
 
     Args:
@@ -101,22 +106,23 @@ def crear_botones(pantalla, texto, font, rect, color_normal, color_hover, accion
     rect = pygame.Rect(rect)
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
+    
 
     if tiempo_restante == None:
-        tiempo_restante = 15
-    posiciones_botones = [
-        (220, 443),
-        (590, 443),
-        (220, 514),
-        (590, 514)
-    ]
+        tiempo_restante = 5
     
     if opciones is None:
         opciones = []
-    elif not isinstance(opciones, (list, tuple)):
-        print(f"{opciones} debe ser una lista o tupla, pero se recibió: {type(opciones)}")
-    elif len(opciones) > len (posiciones_botones):
+    
+    posiciones_botones = [
+        (200, 443),  # Botón 1
+        (570, 443),  # Botón 2
+        (200, 514),  # Botón 3
+        (570, 514)
+    ]
+    if len(opciones) > len (posiciones_botones):
         print(f"Hay mas opciones que posiciones disponibles para los botones")
+        return []
 
 
         
@@ -131,7 +137,7 @@ def crear_botones(pantalla, texto, font, rect, color_normal, color_hover, accion
     else:
         pygame.draw.rect(pantalla, color_normal, rect)
 
-    texto_superficie = font.render(str(texto), True, colores.COLOR_TEXTO)
+    texto_superficie = font.render(texto, True, colores.COLOR_TEXTO)
     texto_rect = texto_superficie.get_rect(center=(rect.left + rect.width // 2, rect.top + rect.height // 2))
     pantalla.blit(texto_superficie, texto_rect)
 
@@ -140,10 +146,25 @@ def crear_botones(pantalla, texto, font, rect, color_normal, color_hover, accion
     for pos, opcion in zip(posiciones_botones, opciones):
         boton_rect_opciones = pygame.Rect(pos, tamaño_boton)
         buttons.append((boton_rect_opciones, opcion))
-        pygame.draw.rect(pantalla, colores.WHITE, boton_rect_opciones, 2)
-        text_surface = font.render(opcion, True, color_normal)
+        
+        # Si el mouse está sobre el botón, cambiar color
+        if boton_rect_opciones.collidepoint(mouse):
+            pygame.draw.rect(pantalla, color_hover, boton_rect_opciones)
+                # Aquí puedes añadir lo que suceda cuando el botón de opción es presionado
+        else:
+            pygame.draw.rect(pantalla, color_normal, boton_rect_opciones)
+
+        # Dibujar texto de las opciones
+        text_surface = font.render(opcion, True, (0, 0, 0))  # Texto negro
         pantalla.blit(text_surface, (boton_rect_opciones.left + 10, boton_rect_opciones.top + 10))
+
     return buttons
 
+contadores_preguntas = {}
+def actualizar_estadisticas_preguntas(pregunta, respuesta_correcta, respuesta_usuario):
+    if pregunta not in contadores_preguntas:
+        contadores_preguntas[pregunta] = {
+            
+        }
 
 

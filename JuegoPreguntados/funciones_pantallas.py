@@ -113,6 +113,8 @@ def mostrar_pantalla_opciones(pantalla, fuente):
                             print("¡Incorrecto!")
                             vidas -= 1
 
+                        actualizar_estadisticas_preguntas(pregunta["pregunta"], respuesta_correcta, boton[1])
+
                         guardar_ranking("ranking.csv", puntuacion, nombre)
 
                         # Actualizar o terminar el juego
@@ -147,4 +149,6 @@ def mostrar_pantalla_opciones(pantalla, fuente):
     duracion_partida = (tiempo_final - tiempo_inicial) / 1000
     print(f"La partida duró: {duracion_partida:.2f} segundos")
     guardar_ranking("ranking.csv", puntuacion, nombre, duracion_partida)
+
+    guardar_estadisticas_preguntas_realizadas_csv()
     return puntuacion

@@ -3,6 +3,7 @@ import json
 import random
 import colores
 import datetime
+import csv
 pygame.init()
 
 def empezar_juego(cambiar_ingreso_nombre):
@@ -160,11 +161,41 @@ def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, a
 
     return buttons
 
-contadores_preguntas = {}
+estadisticas_preguntas = {}
 def actualizar_estadisticas_preguntas(pregunta, respuesta_correcta, respuesta_usuario):
-    if pregunta not in contadores_preguntas:
-        contadores_preguntas[pregunta] = {
-            
+    if pregunta not in estadisticas_preguntas:
+        estadisticas_preguntas[pregunta] = {
+            "total_preguntas": 0,
+            "respuestas_correctas": 0,
+            "respuestas_incorrectas": 0    
         }
 
+    estadisticas_preguntas[pregunta]["total_preguntas"] += 1
 
+    # Incrementar las respuestas correctas o incorrectas
+    if respuesta_usuario == respuesta_correcta:
+        estadisticas_preguntas[pregunta]["respuestas_correctas"] += 1
+    else:
+        estadisticas_preguntas[pregunta]["respuestas_incorrectas"] += 1
+
+
+def guardar_estadisticas_preguntas_realizadas_csv():
+    with open("estadisticas_preguntas.csv", mode="w", newline="", encoding="utf-8") as file:
+        campos = ["Pregunta hecha", "Veces que se preguntó", "Respuestas acertadas", "Respuestas erradas", "Porcentaje Aciertos"]
+        escrito = csv.DictWriter(file, fieldnames=campos)
+        escrito.writeheader()
+
+        for pregunta, estadisticas in estadisticas_preguntas.items():
+            if estadisticas["total_preguntas"] > 0:
+                porcentaje_aciertos = (estadisticas["respuestas_correctas"] / estadisticas["total_preguntas"]) * 100
+            else:
+                porcentaje_aciertos = 0
+            fila = {
+            'Pregunta hecha': pregunta,
+            'Veces que se preguntó': estadisticas['total_preguntas'],
+            'Respuestas acertadas': estadisticas['respuestas_correctas'],
+            'Respuestas erradas': estadisticas['respuestas_incorrectas'],
+            'Porcentaje Aciertos': f"{porcentaje_aciertos:.2f}%"  # Formateamos el porcentaje a 2 decimales
+            }
+
+            escrito.writerow(fila)

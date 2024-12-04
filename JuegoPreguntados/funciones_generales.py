@@ -200,6 +200,23 @@ def guardar_estadisticas_preguntas_realizadas_csv():
             }
 
             escrito.writerow(fila)
+def cargar_ranking_csv_top10_hecho(archivo_ranking):
+    ranking_csv = []
+    with open(archivo_ranking, mode="r") as file:
+        lector = csv.reader(file)
+        encabezado = True
+        for fila in lector:
+            if encabezado:
+                encabezado = False
+                continue
+            nombre, puntuacion, duracion_partida = fila
+            ranking_csv.append((nombre, int(puntuacion), float(duracion_partida)))
+    ranking_csv.sort(ranking_csv, key=lambda x: x[1], reverse=True)
+    return ranking_csv
+
+
+
+############################################# NO USADAS #################################################################
 def menu_configuracion():
     global puntuacion
     global vidas
@@ -227,54 +244,7 @@ def menu_configuracion():
 
 preguntas_agregar = []
 
-def agregar_preguntas():
-    
-    print("\n--- Agregar nueva pregunta ---")
-    categoria_agregar = input("Ingresa la categoría de la pregunta (Ciencia, Historia, Entretenimiento, Tecnologia, Deportes, Geografia): ")
-    texto_pregunta = input("Ingresa el texto de la pregunta: ")
-
-    opciones_pregunta_agregar = []
-    for i in range(4):
-        opcion_pregunta_agregar = input(f"Ingresa la opción {i + 1}: ")
-        opciones_pregunta_agregar.append(opcion_pregunta_agregar)
-
-    respuesta_correcta_pregunta_agregar = (input("Ingresa la respuesta ")) 
-    dificultad_pregunta_agregar = input("Ingresa la dificultad (fácil, medio, difícil): ")
-
-    nueva_pregunta = {
-        "categoria": categoria_agregar,
-        "pregunta": texto_pregunta,
-        "opciones": opciones_pregunta_agregar,
-        "respuesta_correcta": respuesta_correcta_pregunta_agregar,
-        "dificultad": dificultad_pregunta_agregar
-    }
-
-    preguntas_agregar.append(nueva_pregunta)
-    print("¡Pregunta agregada con éxito!")
-
-
-    
-def mostrar_ranking_scv(pantalla_r, ranking):
-    pantalla_r.fill((0, 0, 50))  # Fondo azul oscuro
-
-    titulo = fuente.render("Ranking", True, (WHITE))
-    pantalla_r.blit(titulo, (ANCHO // 2 - titulo.get_width() // 2, 50))
-
-    # Mostrar los datos del ranking
-    for i, (nombre_ranking, puntuacion_ranking, duracion) in enumerate(sorted(ranking, key=lambda x: x[1], reverse=True)):
-        texto = fuente.render(f"{i + 1}. {nombre_ranking}: {puntuacion_ranking} pts ({duracion:.2f}s)", True, (WHITE))
-        pantalla_r.blit(texto, (100, 150 + i * 40))
-
-
-
 # Fuentes
-font = pygame.font.Font(None, 28)
-
-
-# Función para renderizar texto
-def render_texto(texto, posicion, COLO):
-    superficie = font.render(texto, True, BLACK)
-    pantalla.blit(superficie, posicion)
 
 # Función para mostrar un campo de texto
 def mostrar_input(campo_rect, texto, activo):
@@ -337,26 +307,16 @@ def agregar_preguntas():
                     input_boxes[activo_campo]["texto"] += evento.unicode
 
         for input_box in input_boxes:
-            render_texto(input_box["etiqueta"], (input_box["rect"].x, input_box["rect"].y - 30))
+            texto = fuente.render(input_box["etiqueta"], (input_box["rect"].x, input_box["rect"].y - 30))
             mostrar_input(input_box["rect"], input_box["texto"], input_box["activo"])
 
-        mouse = pygame.mouse.get_pos()
         boton_color = ["BUTTON_HOVER"] if boton_guardar.collidepoint(mouse) else ["BUTTON"]
         pygame.draw.rect(pantalla, boton_color, boton_guardar)
-        render_texto("Guardar", (boton_guardar.x + 50, boton_guardar.y + 5))
+        ("Guardar", (boton_guardar.x + 50, boton_guardar.y + 5))
 
         pygame.display.update()
 
 # Función para el juego
-def jugar():
-    global puntuacion, vidas, tiempo_restante
-    pantalla.fill(["WHITE"])
-    render_texto("--- Comienza el Juego ---", (250, 100))
-    render_texto(f"Puntos por respuesta correcta: {puntuacion}", (200, 200))
-    render_texto(f"Vidas: {vidas}", (200, 250))
-    render_texto(f"Tiempo entre preguntas: {tiempo_restante}s", (200, 300))
-    pygame.display.update()
-    pygame.time.wait(3000)  # Pausa para simular el inicio del juego
 
 # Función para mostrar el menú de configuración
 def menu_configuracion():
@@ -385,7 +345,7 @@ def menu_configuracion():
             boton_rect = pygame.Rect(pos, (600, 50))
             color = ["BUTTON_HOVER"] if boton_rect.collidepoint(mouse) else ["BUTTON"]
             pygame.draw.rect(pantalla, color, boton_rect)
-            render_texto(opcion, (boton_rect.x + 10, boton_rect.y + 10))
+            texto = fuente.render(opcion, (boton_rect.x + 10, boton_rect.y + 10))
 
             if boton_rect.collidepoint(mouse) and click[0] == 1:
                 pygame.time.wait(200)  # Breve pausa para evitar múltiples clics
@@ -407,8 +367,8 @@ def modificar_valor(etiqueta, valor_actual):
     texto = str(valor_actual)
 
     while True:
-        pantalla.fill(["WHITE"])
-        render_texto(f"Modificar {etiqueta} (Actual: {valor_actual})", (200, 200))
+        pantalla.fill(WHITE)
+        texto = fuente.render(f"Modificar {etiqueta} (Actual: {valor_actual})", (200, 200))
 
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
@@ -429,7 +389,7 @@ def modificar_valor(etiqueta, valor_actual):
 
         color = ["HOVER"] if activo else ["INPUT_BG"]
         pygame.draw.rect(pantalla, color, input_rect)
-        texto_surface = font.render(texto, True, ["BLACK"])
+        texto_surface = fuente.render(texto, True, BLACK)
         pantalla.blit(texto_surface, (input_rect.x + 10, input_rect.y + 10))
 
         pygame.display.update()

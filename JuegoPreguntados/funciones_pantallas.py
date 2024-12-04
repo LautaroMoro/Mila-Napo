@@ -54,6 +54,34 @@ def mostrar_pantalla_ingreso_nombre(pantalla):
         pygame.display.flip()
 
 
+def mostrar_ranking_top_10(pantalla, fuente, archivo_ranking):
+    top_10 = cargar_top_10(archivo_ranking)
+    
+    pantalla.fill((0, 0, 50))  # Fondo oscuro
+
+    # Título "Ranking"
+    titulo = fuente.render("Top 10 Ranking", True, (255, 255, 255))
+    pantalla.blit(titulo, (pantalla.get_width() // 2 - titulo.get_width() // 2, 50))
+
+    # Mostrar las posiciones del ranking
+    for i, (nombre_rank_top10, puntuacion, duracion_partida) in enumerate(top_10):
+        texto = fuente.render(f"{i + 1}. {nombre_rank_top10}: {puntuacion} pts ({duracion_partida:.2f}s)", True, (255, 255, 255))
+        pantalla.blit(texto, (100, 150 + i * 40))
+
+def pantalla_ranking(pantalla,fuente):
+    archivo_ranking = "ranking.csv"
+    ranking_mostrandose = True
+    while ranking_mostrandose:
+        mostrar_ranking_top_10(pantalla, fuente, archivo_ranking)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    ranking_mostrandose = False
+
+
 def mostrar_pantalla_opciones(pantalla, fuente):
     global puntuacion, vidas, tiempo_restante
 
@@ -151,4 +179,5 @@ def mostrar_pantalla_opciones(pantalla, fuente):
     guardar_ranking("ranking.csv", puntuacion, nombre, duracion_partida)
 
     guardar_estadisticas_preguntas_realizadas_csv()
+    
     return puntuacion

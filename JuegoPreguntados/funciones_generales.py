@@ -1,9 +1,10 @@
 import pygame
 import json
 import random
-import colores
+from colores import *
 import datetime
 import csv
+from config import *
 pygame.init()
 
 def empezar_juego(cambiar_ingreso_nombre):
@@ -138,7 +139,7 @@ def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, a
     else:
         pygame.draw.rect(pantalla, color_normal, rect)
 
-    texto_superficie = font.render(texto, True, colores.COLOR_TEXTO)
+    texto_superficie = font.render(texto, True, COLOR_TEXTO)
     texto_rect = texto_superficie.get_rect(center=(rect.left + rect.width // 2, rect.top + rect.height // 2))
     pantalla.blit(texto_superficie, texto_rect)
 
@@ -199,3 +200,236 @@ def guardar_estadisticas_preguntas_realizadas_csv():
             }
 
             escrito.writerow(fila)
+def menu_configuracion():
+    global puntuacion
+    global vidas
+    global tiempo_restante
+    
+    while True:
+        print("\n--- Configuración ---")
+        print(f"1. Modificar puntos por respuesta correcta (Actual: {puntuacion})")
+        print(f"2. Modificar cantidad de vidas (Actual: {vidas})")
+        print(f"3. Modificar tiempo entre preguntas (Actual: {tiempo_restante}s)")
+        print("4. Volver al menú principal")
+        
+        opcion = input("Selecciona una opción: ")
+        if opcion == "1":
+            puntuacion = int(input("Ingresa la nueva cantidad de puntos por respuesta correcta: "))
+        elif opcion == "2":
+            vidas = int(input("Ingresa la nueva cantidad de vidas: "))
+        elif opcion == "3":
+            tiempo_restante = int(input("Ingresa el nuevo tiempo entre preguntas (en segundos): "))
+        elif opcion == "4":
+            break
+        else:
+            print("Opción no válida, intenta de nuevo.")
+
+
+preguntas_agregar = []
+
+def agregar_preguntas():
+    
+    print("\n--- Agregar nueva pregunta ---")
+    categoria_agregar = input("Ingresa la categoría de la pregunta (Ciencia, Historia, Entretenimiento, Tecnologia, Deportes, Geografia): ")
+    texto_pregunta = input("Ingresa el texto de la pregunta: ")
+
+    opciones_pregunta_agregar = []
+    for i in range(4):
+        opcion_pregunta_agregar = input(f"Ingresa la opción {i + 1}: ")
+        opciones_pregunta_agregar.append(opcion_pregunta_agregar)
+
+    respuesta_correcta_pregunta_agregar = (input("Ingresa la respuesta ")) 
+    dificultad_pregunta_agregar = input("Ingresa la dificultad (fácil, medio, difícil): ")
+
+    nueva_pregunta = {
+        "categoria": categoria_agregar,
+        "pregunta": texto_pregunta,
+        "opciones": opciones_pregunta_agregar,
+        "respuesta_correcta": respuesta_correcta_pregunta_agregar,
+        "dificultad": dificultad_pregunta_agregar
+    }
+
+    preguntas_agregar.append(nueva_pregunta)
+    print("¡Pregunta agregada con éxito!")
+
+
+    
+def mostrar_ranking_scv(pantalla_r, ranking):
+    pantalla_r.fill((0, 0, 50))  # Fondo azul oscuro
+
+    titulo = fuente.render("Ranking", True, (WHITE))
+    pantalla_r.blit(titulo, (ANCHO // 2 - titulo.get_width() // 2, 50))
+
+    # Mostrar los datos del ranking
+    for i, (nombre_ranking, puntuacion_ranking, duracion) in enumerate(sorted(ranking, key=lambda x: x[1], reverse=True)):
+        texto = fuente.render(f"{i + 1}. {nombre_ranking}: {puntuacion_ranking} pts ({duracion:.2f}s)", True, (WHITE))
+        pantalla_r.blit(texto, (100, 150 + i * 40))
+
+
+
+# Fuentes
+font = pygame.font.Font(None, 28)
+
+
+# Función para renderizar texto
+def render_texto(texto, posicion, COLO):
+    superficie = font.render(texto, True, BLACK)
+    pantalla.blit(superficie, posicion)
+
+# Función para mostrar un campo de texto
+def mostrar_input(campo_rect, texto, activo):
+    color = COLOR_HOVER if activo else [WHITE]
+    pygame.draw.rect(pantalla, color, campo_rect)
+    texto_superficie = font.render(texto, True, BLACK)
+    pantalla.blit(texto_superficie, (campo_rect.x + 10, campo_rect.y + 10))
+
+# Función para agregar preguntas
+def agregar_preguntas():
+    global preguntas_agregar
+    input_boxes = [
+        {"rect": pygame.Rect(220, 150, 360, 30), "texto": "", "activo": False, "etiqueta": "Categoría"},
+        {"rect": pygame.Rect(220, 210, 560, 30), "texto": "", "activo": False, "etiqueta": "Texto de la Pregunta"},
+        {"rect": pygame.Rect(220, 270, 460, 30), "texto": "", "activo": False, "etiqueta": "Opción 1"},
+        {"rect": pygame.Rect(220, 330, 460, 30), "texto": "", "activo": False, "etiqueta": "Opción 2"},
+        {"rect": pygame.Rect(220, 390, 460, 30), "texto": "", "activo": False, "etiqueta": "Opción 3"},
+        {"rect": pygame.Rect(220, 450, 460, 30), "texto": "", "activo": False, "etiqueta": "Opción 4"},
+        {"rect": pygame.Rect(220, 510, 460, 30), "texto": "", "activo": False, "etiqueta": "Respuesta Correcta"}
+    ]
+
+    boton_guardar = pygame.Rect(300, 560, 200, 40)
+    activo_campo = None
+    corriendo = True
+
+    while corriendo:
+        pantalla.fill(["WHITE"])
+
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if evento.type == pygame.MOUSEBUTTONDOWN:
+                for i, input_box in enumerate(input_boxes):
+                    if input_box["rect"].collidepoint(evento.pos):
+                        activo_campo = i
+                        input_box["activo"] = True
+                    else:
+                        input_box["activo"] = False
+
+                if boton_guardar.collidepoint(evento.pos):
+                    nueva_pregunta = {
+                        "categoria": input_boxes[0]["texto"],
+                        "pregunta": input_boxes[1]["texto"],
+                        "opciones": [
+                            input_boxes[2]["texto"],
+                            input_boxes[3]["texto"],
+                            input_boxes[4]["texto"],
+                            input_boxes[5]["texto"]
+                        ],
+                        "respuesta_correcta": input_boxes[6]["texto"]
+                    }
+                    preguntas_agregar.append(nueva_pregunta)
+                    print("¡Pregunta agregada con éxito!")
+                    corriendo = False
+            if evento.type == pygame.KEYDOWN and activo_campo is not None:
+                if evento.key == pygame.K_BACKSPACE:
+                    input_boxes[activo_campo]["texto"] = input_boxes[activo_campo]["texto"][:-1]
+                else:
+                    input_boxes[activo_campo]["texto"] += evento.unicode
+
+        for input_box in input_boxes:
+            render_texto(input_box["etiqueta"], (input_box["rect"].x, input_box["rect"].y - 30))
+            mostrar_input(input_box["rect"], input_box["texto"], input_box["activo"])
+
+        mouse = pygame.mouse.get_pos()
+        boton_color = ["BUTTON_HOVER"] if boton_guardar.collidepoint(mouse) else ["BUTTON"]
+        pygame.draw.rect(pantalla, boton_color, boton_guardar)
+        render_texto("Guardar", (boton_guardar.x + 50, boton_guardar.y + 5))
+
+        pygame.display.update()
+
+# Función para el juego
+def jugar():
+    global puntuacion, vidas, tiempo_restante
+    pantalla.fill(["WHITE"])
+    render_texto("--- Comienza el Juego ---", (250, 100))
+    render_texto(f"Puntos por respuesta correcta: {puntuacion}", (200, 200))
+    render_texto(f"Vidas: {vidas}", (200, 250))
+    render_texto(f"Tiempo entre preguntas: {tiempo_restante}s", (200, 300))
+    pygame.display.update()
+    pygame.time.wait(3000)  # Pausa para simular el inicio del juego
+
+# Función para mostrar el menú de configuración
+def menu_configuracion():
+    global puntuacion, vidas, tiempo_restante
+
+    opciones = [
+        f"Modificar Puntos por Respuesta Correcta (Actual: {puntuacion})",
+        f"Modificar Cantidad de Vidas (Actual: {vidas})",
+        f"Modificar Tiempo entre Preguntas (Actual: {tiempo_restante}s)",
+        "Volver al Menú Principal"
+    ]
+    posiciones_botones = [(100, 200 + i * 70) for i in range(len(opciones))]
+
+    corriendo = True
+    while corriendo:
+        pantalla.fill(["WHITE"])
+        mouse = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+        for i, (opcion, pos) in enumerate(zip(opciones, posiciones_botones)):
+            boton_rect = pygame.Rect(pos, (600, 50))
+            color = ["BUTTON_HOVER"] if boton_rect.collidepoint(mouse) else ["BUTTON"]
+            pygame.draw.rect(pantalla, color, boton_rect)
+            render_texto(opcion, (boton_rect.x + 10, boton_rect.y + 10))
+
+            if boton_rect.collidepoint(mouse) and click[0] == 1:
+                pygame.time.wait(200)  # Breve pausa para evitar múltiples clics
+                if i == 0:
+                    puntuacion = modificar_valor("Puntos por Respuesta Correcta", puntuacion)
+                elif i == 1:
+                    vidas = modificar_valor("Cantidad de Vidas", vidas)
+                elif i == 2:
+                    tiempo_restante = modificar_valor("Tiempo entre Preguntas (en segundos)", tiempo_restante)
+                elif i == 3:
+                    corriendo = False
+
+        pygame.display.update()
+
+def modificar_valor(etiqueta, valor_actual):
+    """Muestra un cuadro de entrada para modificar un valor."""
+    input_rect = pygame.Rect(250, 300, 300, 50)
+    activo = False
+    texto = str(valor_actual)
+
+    while True:
+        pantalla.fill(["WHITE"])
+        render_texto(f"Modificar {etiqueta} (Actual: {valor_actual})", (200, 200))
+
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if evento.type == pygame.MOUSEBUTTONDOWN:
+                if input_rect.collidepoint(evento.pos):
+                    activo = True
+                else:
+                    activo = False
+            if evento.type == pygame.KEYDOWN and activo:
+                if evento.key == pygame.K_RETURN:
+                    return int(texto)
+                elif evento.key == pygame.K_BACKSPACE:
+                    texto = texto[:-1]
+                else:
+                    texto += evento.unicode
+
+        color = ["HOVER"] if activo else ["INPUT_BG"]
+        pygame.draw.rect(pantalla, color, input_rect)
+        texto_surface = font.render(texto, True, ["BLACK"])
+        pantalla.blit(texto_surface, (input_rect.x + 10, input_rect.y + 10))
+
+        pygame.display.update()

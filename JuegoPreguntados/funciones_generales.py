@@ -7,10 +7,9 @@ import csv
 from config import *
 pygame.init()
 
-def empezar_juego(cambiar_ingreso_nombre):
-    cambiar_ingreso_nombre = True  # Activa la bandera para cambiar de pantalla
+def empezar_juego():
+      # Activa la bandera para cambiar de pantalla
     print("Juego Iniciado!")
-    return cambiar_ingreso_nombre
 
 def cargar_preguntas(file_path: str) -> str:
     """_summary_
@@ -64,10 +63,6 @@ def seleccionar_pregunta(pregunta_por_categoria: list) -> str:
     _type_: lista de preguntas de la categoria elegida aleatoriamente 
     """
     return random.choice(pregunta_por_categoria)
-
-###################################################################### FUNCIONES QUE YA FUNCIONAN XD ##################################################################################
-
-
 
 
 def guardar_ranking(file_path, puntuacion, nombre_formateado, duracion_partida=None):
@@ -164,6 +159,13 @@ def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, a
 
 estadisticas_preguntas = {}
 def actualizar_estadisticas_preguntas(pregunta, respuesta_correcta, respuesta_usuario):
+    """Actualiza las estadisticas cada vez que se realiza una pregunta
+
+    Args:
+        pregunta (clave del dikt): pregunta realizada mediante el json
+        respuesta_correcta (clave del dikt): respuesta correcta de la pregunta
+        respuesta_usuario (clave del dikt): respuesta del usuario
+    """
     if pregunta not in estadisticas_preguntas:
         estadisticas_preguntas[pregunta] = {
             "total_preguntas": 0,
@@ -181,6 +183,8 @@ def actualizar_estadisticas_preguntas(pregunta, respuesta_correcta, respuesta_us
 
 
 def guardar_estadisticas_preguntas_realizadas_csv():
+    """guarda y escribe las estadisticas actualizadas en un csv
+    """
     with open("estadisticas_preguntas.csv", mode="w", newline="", encoding="utf-8") as file:
         campos = ["Pregunta hecha", "Veces que se preguntó", "Respuestas acertadas", "Respuestas erradas", "Porcentaje Aciertos"]
         escrito = csv.DictWriter(file, fieldnames=campos)
@@ -200,23 +204,33 @@ def guardar_estadisticas_preguntas_realizadas_csv():
             }
 
             escrito.writerow(fila)
-def cargar_ranking_csv_top10_hecho(archivo_ranking):
-    ranking_csv = []
-    with open(archivo_ranking, mode="r") as file:
-        lector = csv.reader(file)
-        encabezado = True
-        for fila in lector:
-            if encabezado:
-                encabezado = False
-                continue
-            nombre, puntuacion, duracion_partida = fila
-            ranking_csv.append((nombre, int(puntuacion), float(duracion_partida)))
-    ranking_csv.sort(ranking_csv, key=lambda x: x[1], reverse=True)
-    return ranking_csv
 
 
 
 ############################################# NO USADAS #################################################################
+def cargar_top_10(archivo_ranking):
+    """carga el top 10 del ranking
+
+    Args:
+        archivo_ranking (.csv): archivo en formato csv donde previamente guardó el ranking de las partidas
+
+    Returns:
+        _type_: _description_
+    """
+    top_10 = []
+    with open(archivo_ranking, mode="r") as archivo:
+            lector = csv.reader(archivo)
+            for fila in lector:
+                if len(fila) == 3:
+                        nombre = fila[0]
+                        puntuacion = int(fila[1])
+                        duracion_partida = float(fila[2])
+                        top_10.append((nombre, puntuacion, duracion_partida))
+                        print(f"Error en la fila: {fila}")
+    top_10.sort(key=lambda x: x[1], reverse=True)
+    return top_10[:10]
+
+
 def menu_configuracion():
     global puntuacion
     global vidas

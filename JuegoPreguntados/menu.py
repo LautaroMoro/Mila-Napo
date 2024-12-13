@@ -16,7 +16,7 @@ def menu():
     posiciones_botones = [(220, 200 + i * 70) for i in range(len(opciones))]
 
     while True:
-        pantalla.fill(["WHITE"])
+        pantalla.fill(WHITE)
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
 
@@ -36,7 +36,7 @@ def menu():
                 if i == 0:
                     agregar_preguntas()
                 elif i == 1:
-                    jugar()
+                    empezar_juego()
                 elif i == 2:
                     menu_configuracion()
                 elif i == 3:

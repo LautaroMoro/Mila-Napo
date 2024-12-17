@@ -320,7 +320,7 @@ def menu_configuracion():
 
     corriendo = True
     while corriendo:
-        pantalla.fill(["WHITE"])
+        pantalla.blit(imagen_de_fondo, (0, 0))
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
 
@@ -348,7 +348,7 @@ def menu_configuracion():
             pantalla.blit(texto, (boton_rect.x + 10, boton_rect.y + 10))
 
 
-        pygame.display.update()
+        pygame.display.flip()
 
 def modificar_valor(etiqueta, valor_actual):
     """Muestra un cuadro de entrada para modificar un valor."""
@@ -358,7 +358,6 @@ def modificar_valor(etiqueta, valor_actual):
 
     while True:
         pantalla.blit(imagen_de_fondo, (0, 0))
-        texto = fuente.render(f"Modificar {etiqueta} (Actual: {valor_actual})", (200, 200))
 
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
@@ -381,5 +380,4 @@ def modificar_valor(etiqueta, valor_actual):
         pygame.draw.rect(pantalla, color, input_rect)
         texto_surface = fuente.render(texto, True, BLACK)
         pantalla.blit(texto_surface, (input_rect.x + 10, input_rect.y + 10))
-
-        pygame.display.update()
+        pygame.display.flip()

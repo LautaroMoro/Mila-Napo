@@ -7,10 +7,6 @@ import csv
 from config import *
 pygame.init()
 
-def empezar_juego():
-      # Activa la bandera para cambiar de pantalla
-    print("Juego Iniciado!")
-
 def cargar_preguntas(file_path: str) -> str:
     """_summary_
 

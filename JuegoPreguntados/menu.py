@@ -2,7 +2,7 @@ import pygame
 from config import *
 from colores import * 
 from funciones_generales import *
-opciones_mini_menu = ["Agregar Pregunta", "Jugar", "Configuración", "Salir"]
+opciones_mini_menu = ["Agregar Pregunta", "Configuración", "Salir"]
 pygame.init()
 
 def menu():
@@ -32,10 +32,8 @@ def menu():
                 if i == 0:
                     agregar_preguntas()
                 elif i == 1:
-                    empezar_juego()
-                elif i == 2:
                     menu_configuracion()
-                elif i == 3:
+                else:
                     pygame.quit()
                     quit()
             #PUSE UN BLIT PARA QUESE DIBUJEN LAS PREGUNTAS Y CAMBIE EL NOMBRE DE LA VARIABLE DE TEXTO A TEXTO_OPCION_MINI_MENU
@@ -43,6 +41,5 @@ def menu():
             pantalla.blit(texto_de_opcion_menu_mini, (boton_rect.x + 10, boton_rect.y + 10))
 
 
-        #BOTONES Y PANTALLAS ACÁ   
+
         pygame.display.flip()
-menu()

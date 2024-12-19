@@ -140,7 +140,7 @@ def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, a
     else:
         pygame.draw.rect(pantalla, color_normal, rect)
 
-    texto_superficie = font.render(texto, True, COLOR_TEXTO)
+    texto_superficie = font.render(texto, True, BLACK)
     texto_rect = texto_superficie.get_rect(center=(rect.left + rect.width // 2, rect.top + rect.height // 2))
     pantalla.blit(texto_superficie, texto_rect)
 
@@ -158,7 +158,7 @@ def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, a
             pygame.draw.rect(pantalla, color_normal, boton_rect_opciones)
 
         # Dibujar texto de las opciones
-        text_surface = font.render(opcion, True, (0, 0, 0))  # Texto negro
+        text_surface = font.render(opcion, True, BLACK)  # Texto negro
         pantalla.blit(text_surface, (boton_rect_opciones.left + 10, boton_rect_opciones.top + 10))
 
     return buttons
@@ -333,7 +333,7 @@ def menu_configuracion():
                     tiempo_restante = modificar_valor("Tiempo entre Preguntas (en segundos)", tiempo_restante)
                 elif i == 3:
                     corriendo = False
-            texto = fuente.render(opcion, True, (0, 0, 0))
+            texto = fuente.render(opcion, True, BLACK)
             pantalla.blit(texto, (boton_rect.x + 10, boton_rect.y + 10))
 
 

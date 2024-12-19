@@ -37,7 +37,7 @@ def menu():
                     pygame.quit()
                     quit()
             #PUSE UN BLIT PARA QUESE DIBUJEN LAS PREGUNTAS Y CAMBIE EL NOMBRE DE LA VARIABLE DE TEXTO A TEXTO_OPCION_MINI_MENU
-            texto_de_opcion_menu_mini = fuente.render(opcion, True, (0, 0, 0))  # Se extrae el texto
+            texto_de_opcion_menu_mini = fuente.render(opcion, True, BLACK) # extrae el texto
             pantalla.blit(texto_de_opcion_menu_mini, (boton_rect.x + 10, boton_rect.y + 10))
 
 

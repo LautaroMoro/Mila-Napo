@@ -20,10 +20,20 @@ def cargar_preguntas(file_path: str) -> str:
     Returns:
         _type_: retorna las preguntas que carga del Json
     """
-    with open("JuegoPreguntados/preguntas_juego.json", 'r', encoding='utf-8') as file:
+    with open("preguntas_juego.json", 'r', encoding='utf-8') as file:
         preguntas = json.load(file)
     return preguntas
-preguntas = cargar_preguntas('JuegoPreguntados/preguntas_juego.json')
+preguntas = cargar_preguntas('preguntas_juego.json')
+
+def guardar_preguntas_json(preguntas_por_categoria, nombre_archivo="preguntas_juego.json"):
+# Función para mostrar un campo de texto
+    """Guarda las preguntas organizadas por categoría en un archivo JSON."""
+    try:
+        with open(nombre_archivo, "w", encoding="utf-8") as archivo:
+            json.dump(preguntas_por_categoria, archivo, indent=4, ensure_ascii=False)
+        print(f"Preguntas guardadas correctamente en {nombre_archivo}")
+    except Exception as e:
+        print(f"Error al guardar las preguntas: {e}")
 
 def manejar_string(cadena: str) -> str:
     """_summary_
@@ -206,43 +216,10 @@ def guardar_estadisticas_preguntas_realizadas_csv():
             escrito.writerow(fila)
 
 
-
-############################################# NO USADAS #################################################################
-def cargar_top_10(archivo_ranking):
-    """carga el top 10 del ranking
-
-    Args:
-        archivo_ranking (.csv): archivo en formato csv donde previamente guardó el ranking de las partidas
-
-    Returns:
-        _type_: _description_
-    """
-    top_10 = []
-    with open(archivo_ranking, mode="r") as archivo:
-            lector = csv.reader(archivo)
-            for fila in lector:
-                if len(fila) == 3:
-                        nombre = fila[0]
-                        puntuacion = int(fila[1])
-                        duracion_partida = float(fila[2])
-                        top_10.append((nombre, puntuacion, duracion_partida))
-                        print(f"Error en la fila: {fila}")
-    top_10.sort(key=lambda x: x[1], reverse=True)
-    return top_10[:10]
-
-
-# Función para mostrar un campo de texto
-def mostrar_input(campo_rect, texto, activo):
-    color = COLOR_HOVER if activo else WHITE
-    pygame.draw.rect(pantalla, color, campo_rect)
-    texto_superficie = fuente.render(texto, True, BLACK)
-    pantalla.blit(texto_superficie, (campo_rect.x + 10, campo_rect.y + 10))
-
-preguntas_agregar = []
 # Función para agregar preguntas
 def agregar_preguntas():
-    global preguntas_agregar
-
+    global preguntas_por_categoria
+    preguntas_por_categoria = preguntas
     input_boxes = [
         {"rect": pygame.Rect(220, 150, 360, 30), "texto": "", "activo": False, "etiqueta": "Categoría"},
         {"rect": pygame.Rect(220, 210, 560, 30), "texto": "", "activo": False, "etiqueta": "Texto de la Pregunta"},
@@ -250,10 +227,9 @@ def agregar_preguntas():
         {"rect": pygame.Rect(220, 330, 460, 30), "texto": "", "activo": False, "etiqueta": "Opción 2"},
         {"rect": pygame.Rect(220, 390, 460, 30), "texto": "", "activo": False, "etiqueta": "Opción 3"},
         {"rect": pygame.Rect(220, 450, 460, 30), "texto": "", "activo": False, "etiqueta": "Opción 4"},
-        {"rect": pygame.Rect(220, 510, 460, 30), "texto": "", "activo": False, "etiqueta": "Respuesta Correcta"}
+        {"rect": pygame.Rect(220, 510, 460, 30), "texto": "", "activo": False, "etiqueta": "Respuesta Correcta"},
+        {"rect": pygame.Rect(220, 570, 460, 30), "texto": "", "activo": False, "etiqueta": "Dificultad"}
     ]
-
-    mouse = pygame.mouse.get_pos()
     boton_guardar = pygame.Rect(300, 560, 200, 40)
     activo_campo = None
     corriendo = True
@@ -274,8 +250,8 @@ def agregar_preguntas():
                         input_box["activo"] = False
 
                 if boton_guardar.collidepoint(evento.pos):
+                    categoria = input_boxes[0]["texto"]
                     nueva_pregunta = {
-                        "categoria": input_boxes[0]["texto"],
                         "pregunta": input_boxes[1]["texto"],
                         "opciones": [
                             input_boxes[2]["texto"],
@@ -283,11 +259,19 @@ def agregar_preguntas():
                             input_boxes[4]["texto"],
                             input_boxes[5]["texto"]
                         ],
-                        "respuesta_correcta": input_boxes[6]["texto"]
+                        "respuesta_correcta": input_boxes[6]["texto"],
+                        "dificultad": input_boxes[7]["texto"]
                     }
-                    preguntas_agregar.append(nueva_pregunta)
+                     # Agregar la nueva pregunta a la categoría correspondiente
+                    if categoria in preguntas_por_categoria:
+                        preguntas_por_categoria[categoria].append(nueva_pregunta)
+                    else:
+                        preguntas_por_categoria[categoria] = [nueva_pregunta]
+
+                    guardar_preguntas_json(preguntas_por_categoria)  # Guardar en archivo JSON
                     print("¡Pregunta agregada con éxito!")
                     corriendo = False
+
             if evento.type == pygame.KEYDOWN and activo_campo is not None:
                 if evento.key == pygame.K_BACKSPACE:
                     input_boxes[activo_campo]["texto"] = input_boxes[activo_campo]["texto"][:-1]
@@ -295,16 +279,25 @@ def agregar_preguntas():
                     input_boxes[activo_campo]["texto"] += evento.unicode
 
         for input_box in input_boxes:
-            texto = fuente.render(input_box["etiqueta"], input_box["rect"].x, input_box["rect"].y - 30)
+            etiqueta = fuente.render(input_box["etiqueta"], True, BLACK)
+            pantalla.blit(etiqueta, ( input_box["rect"].x, input_box["rect"].y - 30))
             mostrar_input(input_box["rect"], input_box["texto"], input_box["activo"])
-
+        
+        texto_boton_guardar = fuente.render("Guardar", True, BLACK)
+        
+        mouse = pygame.mouse.get_pos()
         boton_color = COLOR_HOVER if boton_guardar.collidepoint(mouse) else COLOR_NORMAL
         pygame.draw.rect(pantalla, boton_color, boton_guardar)
-        ("Guardar", (boton_guardar.x + 50, boton_guardar.y + 5))
+        pantalla.blit(texto_boton_guardar, (boton_guardar.x + 50, boton_guardar.y + 5))
 
-        pygame.display.update()
+        pygame.display.flip()
 
-# Función para el juego
+def mostrar_input(campo_rect, texto, activo):
+    color = COLOR_HOVER if activo else WHITE
+    pygame.draw.rect(pantalla, color, campo_rect)
+    texto_superficie = fuente.render(texto, True, BLACK)
+    pantalla.blit(texto_superficie, (campo_rect.x + 10, campo_rect.y + 10))
+
 
 # Función para mostrar el menú de configuración
 def menu_configuracion():
@@ -358,6 +351,8 @@ def modificar_valor(etiqueta, valor_actual):
 
     while True:
         pantalla.blit(imagen_de_fondo, (0, 0))
+        color = COLOR_HOVER if activo else WHITE
+        pygame.draw.rect(pantalla, color, input_rect)
 
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
@@ -376,8 +371,32 @@ def modificar_valor(etiqueta, valor_actual):
                 else:
                     texto += evento.unicode
 
-        color = COLOR_HOVER if activo else WHITE
-        pygame.draw.rect(pantalla, color, input_rect)
         texto_surface = fuente.render(texto, True, BLACK)
         pantalla.blit(texto_surface, (input_rect.x + 10, input_rect.y + 10))
         pygame.display.flip()
+
+############################################# NO USADAS #################################################################
+def cargar_top_10(archivo_ranking):
+    """carga el top 10 del ranking
+
+    Args:
+        archivo_ranking (.csv): archivo en formato csv donde previamente guardó el ranking de las partidas
+
+    Returns:
+        _type_: _description_
+    """
+    top_10 = []
+    with open(archivo_ranking, mode="r") as archivo:
+            lector = csv.reader(archivo)
+            for fila in lector:
+                if len(fila) == 3:
+                        nombre = fila[0]
+                        puntuacion = int(fila[1])
+                        duracion_partida = float(fila[2])
+                        top_10.append((nombre, puntuacion, duracion_partida))
+                        print(f"Error en la fila: {fila}")
+    top_10.sort(key=lambda x: x[1], reverse=True)
+    return top_10[:10]
+
+
+

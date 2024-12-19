@@ -10,17 +10,8 @@ def menu():
     while flag_correr:
         #CAMBIE EL .FILL POR UN BLITEO DEL FONDO
         pantalla.blit(imagen_de_fondo, (0, 0))
-        lista_eventos = pygame.event.get()
-        for evento in lista_eventos:
 
-            if evento.type == pygame.QUIT:
-                flag_correr = False
-    #cambie el nombre de las vars de opciones del mini menu y sus posiciones
-    posiciones_botones_mini_menu = [(220, 200 + i * 70) for i in range(len(opciones_mini_menu))]
-
-    while True:
-        #aca se bliteo tmb
-        pantalla.blit(imagen_de_fondo, (0, 0))
+        posiciones_botones_mini_menu = [(220, 200 + i * 70) for i in range(len(opciones_mini_menu))]
 
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()

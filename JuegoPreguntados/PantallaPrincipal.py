@@ -5,11 +5,14 @@ from colores import *
 from funciones_pantallas import *
 from menu import * 
 pygame.init()
+pygame.mixer.init()
 def pantalla_principal_juego():
     cambiar_ingreso_nombre = False
     flag_correr = True
     error = False
+    pygame.mixer.music.set_volume(0.2)
     boton_empezar = pygame.Rect(200, 450, 350, 50)
+    pygame.mixer.music.play(-1)
     while flag_correr:
         # Dibujar el fondo
         pantalla.blit(imagen_de_fondo, (0, 0))

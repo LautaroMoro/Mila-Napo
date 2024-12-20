@@ -231,7 +231,7 @@ def agregar_preguntas():
     corriendo = True
 
     while corriendo:
-        pantalla.blit(imagen_de_fondo, (0, 0))
+        pantalla.blit(imagen_de_fondo_pantalla_agregar_preguntas, (0, 0))
 
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
@@ -309,7 +309,7 @@ def menu_configuracion():
 
     corriendo = True
     while corriendo:
-        pantalla.blit(imagen_de_fondo, (0, 0))
+        pantalla.blit(imagen_de_fondo_pantalla_mini_menu, (0, 0))
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
 

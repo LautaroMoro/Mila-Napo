@@ -64,14 +64,14 @@ def mostrar_top_10(pantalla, fuente, archivo_ranking="ranking.csv"):
         top_10: Lista de los 10 mejores registros en formato (nombre, puntuacion, duracion_partida).
     """
     top_10 = obtener_top_10("ranking.csv")
-    pantalla.fill((0, 0, 50))  # Fondo azul oscuro
+    pantalla.blit(imagen_de_fondo_pantalla_ranking, (0, 0))  # Fondo azul oscuro
     
     for i, datos in enumerate(top_10):
         nombre, puntuacion, duracion_partida = datos[:3]
-        texto = fuente.render(f"{i + 1}. {nombre}: {puntuacion} pts ({duracion_partida}s)", True, (255, 255, 255))
+        texto = fuente.render(f"{i + 1}. {nombre}: {puntuacion} pts ({duracion_partida}s)", True, BLACK)
         pantalla.blit(texto, (100, 150 + i * 40))
     pygame.display.flip()
-    pygame.time.wait(6000)
+    pygame.time.wait(15000)
 
 
 def mostrar_pantalla_opciones(pantalla, fuente):

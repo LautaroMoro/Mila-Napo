@@ -15,7 +15,8 @@ pregunta = None
 tema_random = None
 
 
-pygame.init()  
+pygame.init() 
+pygame.mixer.init() 
 pantalla = pygame.display.set_mode((ANCHO, ALTO))
 pygame.display.set_caption("Preguntados")
 icono_juego = pygame.image.load("Game_assets/imagenes/LogoJuegoPreguntas.png")
@@ -29,7 +30,25 @@ pantalla.blit(imagen_de_fondo, (0, 0))
 
 imagen_de_fondo_pantalla_opciones = pygame.image.load("Game_assets/imagenes/fondo_pantalla_opciones.png")
 imagen_de_fondo_pantalla_opciones = pygame.transform.scale(imagen_de_fondo_pantalla_opciones, (ANCHO, ALTO))
+
+imagen_de_fondo_pantalla_mini_menu = pygame.image.load("Game_assets/imagenes/imagen_para_mini_menu.jpg")
+imagen_de_fondo_pantalla_mini_menu = pygame.transform.scale(imagen_de_fondo_pantalla_mini_menu, (ANCHO, ALTO))
+
+imagen_de_fondo_pantalla_ranking = pygame.image.load("Game_assets/imagenes/imagen_para_ranking.jpg")
+imagen_de_fondo_pantalla_ranking = pygame.transform.scale(imagen_de_fondo_pantalla_ranking, (ANCHO, ALTO))
+
+imagen_de_fondo_pantalla_agregar_preguntas = pygame.image.load("Game_assets/imagenes/imagen_para_agregar_preguntas.jpg")
+imagen_de_fondo_pantalla_agregar_preguntas = pygame.transform.scale(imagen_de_fondo_pantalla_agregar_preguntas, (ANCHO, ALTO))
+
+sonido_correcto = pygame.mixer.Sound("Game_assets/sonidos/respuesta-correcta.mp3")
+sonido_incorrecto = pygame.mixer.Sound("Game_assets/sonidos/respuesta-incorrecta.mp3")
+sonido_interfaz_ps2 = pygame.mixer.Sound("Game_assets/Sonidos/ps2-select-sound.mp3")
+
+musica_fondo = pygame.mixer.music.load("Game_assets/sonidos/musica_fondo.ogg")
+
+
 fuente = pygame.font.SysFont("arial", 20)
+
 
 
 

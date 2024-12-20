@@ -9,7 +9,7 @@ def menu():
     flag_correr = True
     while flag_correr:
         #CAMBIE EL .FILL POR UN BLITEO DEL FONDO
-        pantalla.blit(imagen_de_fondo, (0, 0))
+        pantalla.blit(imagen_de_fondo_pantalla_mini_menu, (0, 0))
 
         posiciones_botones_mini_menu = [(220, 200 + i * 70) for i in range(len(opciones_mini_menu))]
 

@@ -372,27 +372,26 @@ def modificar_valor(etiqueta, valor_actual):
         pygame.display.flip()
 
 ############################################# NO USADAS #################################################################
-def cargar_top_10(archivo_ranking):
-    """carga el top 10 del ranking
+
+def obtener_top_10(file_path):
+    """_summary_
 
     Args:
-        archivo_ranking (.csv): archivo en formato csv donde previamente guardó el ranking de las partidas
+        file_path (_type_): _description_
 
     Returns:
         _type_: _description_
     """
-    top_10 = []
-    with open(archivo_ranking, mode="r") as archivo:
-            lector = csv.reader(archivo)
-            for fila in lector:
-                if len(fila) == 3:
-                        nombre = fila[0]
-                        puntuacion = int(fila[1])
-                        duracion_partida = float(fila[2])
-                        top_10.append((nombre, puntuacion, duracion_partida))
-                        print(f"Error en la fila: {fila}")
-    top_10.sort(key=lambda x: x[1], reverse=True)
-    return top_10[:10]
 
+    try:
+        with open(file_path, newline="") as file:
+            archivo = csv.reader(file)
+            next(archivo)
+            datos = sorted(archivo, key=lambda x: int(x[1]), reverse=True)
+            return datos[:10]
+    except FileNotFoundError:
+        return [] 
+    except ValueError:
+        return [] 
 
 

@@ -15,6 +15,8 @@ def pantalla_principal_juego():
         pantalla.blit(imagen_de_fondo, (0, 0))
         crear_botones(pantalla, fuente, (200, 450, 350, 50), COLOR_NORMAL, COLOR_HOVER, "Empezar",  None)
         crear_botones(pantalla, fuente, (10, 10, 100, 50), COLOR_NORMAL, COLOR_HOVER, "Menu",  menu)
+        crear_botones(pantalla, fuente, (200, 520, 350, 50), COLOR_NORMAL, COLOR_HOVER, "Ver ranking", lambda: mostrar_top_10(pantalla, fuente, "ranking.csv")) 
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 flag_correr = False

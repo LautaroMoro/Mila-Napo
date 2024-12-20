@@ -54,32 +54,24 @@ def mostrar_pantalla_ingreso_nombre(pantalla):
         pygame.display.flip()
 
 
-def mostrar_ranking_top_10(pantalla, fuente, archivo_ranking):
-    top_10 = cargar_top_10(archivo_ranking)
+def mostrar_top_10(pantalla, fuente, archivo_ranking="ranking.csv"):
+    global puntuacion, nombre, duracion_partida
+    """
+    dibuja el Top 10 en la pantalla.
+
+    Args:
+        pantalla: Superficie de Pygame donde se dibujará el ranking.
+        top_10: Lista de los 10 mejores registros en formato (nombre, puntuacion, duracion_partida).
+    """
+    top_10 = obtener_top_10("ranking.csv")
+    pantalla.fill((0, 0, 50))  # Fondo azul oscuro
     
-    pantalla.fill((0, 0, 50))  # Fondo oscuro
-
-    # Título "Ranking"
-    titulo = fuente.render("Top 10 Ranking", True, (255, 255, 255))
-    pantalla.blit(titulo, (pantalla.get_width() // 2 - titulo.get_width() // 2, 50))
-
-    # Mostrar las posiciones del ranking
-    for i, (nombre_rank_top10, puntuacion, duracion_partida) in enumerate(top_10):
-        texto = fuente.render(f"{i + 1}. {nombre_rank_top10}: {puntuacion} pts ({duracion_partida:.2f}s)", True, (255, 255, 255))
+    for i, datos in enumerate(top_10):
+        nombre, puntuacion, duracion_partida = datos[:3]
+        texto = fuente.render(f"{i + 1}. {nombre}: {puntuacion} pts ({duracion_partida}s)", True, (255, 255, 255))
         pantalla.blit(texto, (100, 150 + i * 40))
-
-def pantalla_ranking(pantalla,fuente):
-    archivo_ranking = "ranking.csv"
-    ranking_mostrandose = True
-    while ranking_mostrandose:
-        mostrar_ranking_top_10(pantalla, fuente, archivo_ranking)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    ranking_mostrandose = False
+    pygame.display.flip()
+    pygame.time.wait(6000)
 
 
 def mostrar_pantalla_opciones(pantalla, fuente):

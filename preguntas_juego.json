@@ -285,5 +285,18 @@
             "respuesta_correcta": "Premios Oscars",
             "dificultad": "Facil"
         }
+    ],
+    "": [
+        {
+            "pregunta": "",
+            "opciones": [
+                "",
+                "",
+                "",
+                ""
+            ],
+            "respuesta_correcta": "",
+            "dificultad": ""
+        }
     ]
 }

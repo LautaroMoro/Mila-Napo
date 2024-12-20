@@ -371,7 +371,7 @@ def modificar_valor(etiqueta, valor_actual):
         pantalla.blit(texto_surface, (input_rect.x + 10, input_rect.y + 10))
         pygame.display.flip()
 
-############################################# NO USADAS #################################################################
+
 
 def obtener_top_10(file_path):
     """_summary_

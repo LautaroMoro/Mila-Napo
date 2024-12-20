@@ -301,9 +301,9 @@ def mostrar_input(campo_rect, texto, activo):
     """Muestra un campo de entrada de texto en la pantalla.
 
     Args:
-        campo_rect (Rect): Rectángulo que define la posición y tamaño del campo de entrada.
-        texto (str): Texto actual del campo de entrada.
-        activo (bool): Indica si el campo de entrada está activo (seleccionado) o no.
+        campo_rect (Rect): rectángulo que define la posición y tamaño del campo de entrada.
+        texto (str): texto actual del campo de entrada.
+        activo (bool): indica si el campo de entrada está activo (seleccionado) o no.
     """
     color = COLOR_HOVER if activo else WHITE
     pygame.draw.rect(pantalla, color, campo_rect)

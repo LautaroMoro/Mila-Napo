@@ -8,13 +8,13 @@ from config import *
 pygame.init()
 
 def cargar_preguntas(file_path: str) -> str:
-    """_summary_
+    """Permite agregar nuevas preguntas al juego mediante una interfaz gráfica.
 
     Args:
         file_path (_type_): toma el path(camino) del archivo
 
     Returns:
-        _type_: retorna las preguntas que carga del Json
+        str: retorna las preguntas que carga del Json
     """
     with open("preguntas_juego.json", 'r', encoding='utf-8') as file:
         preguntas = json.load(file)
@@ -22,8 +22,12 @@ def cargar_preguntas(file_path: str) -> str:
 preguntas = cargar_preguntas('preguntas_juego.json')
 
 def guardar_preguntas_json(preguntas_por_categoria, nombre_archivo="preguntas_juego.json"):
-# Función para mostrar un campo de texto
-    """Guarda las preguntas organizadas por categoría en un archivo JSON."""
+    """Guarda las preguntas en un archivo JSON.
+
+    Args:
+        preguntas_por_categoria (list): lista de preguntas segun la categoria escogida
+        nombre_archivo (json, optional): archivo.json opcional para guardar las preguntas. Defaults to "preguntas_juego.json".
+    """
     try:
         with open(nombre_archivo, "w", encoding="utf-8") as archivo:
             json.dump(preguntas_por_categoria, archivo, indent=4, ensure_ascii=False)
@@ -35,10 +39,10 @@ def manejar_string(cadena: str) -> str:
     """_summary_
 
     Args:
-        cadena (_type_): nombre que ingresa el usuario
+        cadena (str): nombre que ingresa el usuario
 
     Returns:
-        _type_: retorna la cadena modificada con mayuscula y guion en caso de espacio
+        str: retorna la cadena modificada con mayuscula y guion en caso de espacio
     """
     cadena_mayusculas = cadena.capitalize()
     # Reemplazar espacios con guiones bajos
@@ -64,9 +68,9 @@ def seleccionar_pregunta(pregunta_por_categoria: list) -> str:
     """_summary_
 
     Args:
-    pregunta_por_categoria (list): _type_: lista de preguntas de cada categoria
+    pregunta_por_categoria (list): lista de preguntas de cada categoria
     Returns:
-    _type_: lista de preguntas de la categoria elegida aleatoriamente 
+    pregunta_por_categoria: lista de preguntas de la categoria elegida aleatoriamente 
     """
     if not pregunta_por_categoria:
         raise ValueError("No hay preguntas disponibles para la categoría seleccionada.")
@@ -133,10 +137,10 @@ def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, a
         
     buttons = []
 
-    # Cambia color si el mouse está sobre el botón
+
     if rect.collidepoint(mouse):
         pygame.draw.rect(pantalla, color_hover, rect)
-        # Verificar si se hace clic en el botón
+ 
         if click[0] == 1 and accion is not None:
             accion()
     else:
@@ -152,14 +156,14 @@ def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, a
         boton_rect_opciones = pygame.Rect(pos, tamaño_boton)
         buttons.append((boton_rect_opciones, opcion))
         
-        # Si el mouse está sobre el botón, cambiar color
+
         if boton_rect_opciones.collidepoint(mouse):
             pygame.draw.rect(pantalla, color_hover, boton_rect_opciones)
-                # Aquí puedes añadir lo que suceda cuando el botón de opción es presionado
+
         else:
             pygame.draw.rect(pantalla, color_normal, boton_rect_opciones)
 
-        # Dibujar texto de las opciones
+
         text_surface = font.render(opcion, True, BLACK)  # Texto negro
         pantalla.blit(text_surface, (boton_rect_opciones.left + 10, boton_rect_opciones.top + 10))
 
@@ -208,14 +212,17 @@ def guardar_estadisticas_preguntas_realizadas_csv():
             'Veces que se preguntó': estadisticas['total_preguntas'],
             'Respuestas acertadas': estadisticas['respuestas_correctas'],
             'Respuestas erradas': estadisticas['respuestas_incorrectas'],
-            'Porcentaje Aciertos': f"{porcentaje_aciertos:.2f}%"  # Formateamos el porcentaje a 2 decimales
+            'Porcentaje Aciertos': f"{porcentaje_aciertos:.2f}%"  
             }
 
             escrito.writerow(fila)
 
 
-# Función para agregar preguntas
+
 def agregar_preguntas():
+    """
+    Permite agregar nuevas preguntas mediante una pantalla alterna.
+    """
     global preguntas_por_categoria
     preguntas_por_categoria = preguntas
     input_boxes = [
@@ -291,14 +298,24 @@ def agregar_preguntas():
         pygame.display.flip()
 
 def mostrar_input(campo_rect, texto, activo):
+    """Muestra un campo de entrada de texto en la pantalla.
+
+    Args:
+        campo_rect (Rect): Rectángulo que define la posición y tamaño del campo de entrada.
+        texto (str): Texto actual del campo de entrada.
+        activo (bool): Indica si el campo de entrada está activo (seleccionado) o no.
+    """
     color = COLOR_HOVER if activo else WHITE
     pygame.draw.rect(pantalla, color, campo_rect)
     texto_superficie = fuente.render(texto, True, BLACK)
     pantalla.blit(texto_superficie, (campo_rect.x + 10, campo_rect.y + 10))
 
 
-# Función para mostrar el menú de configuración
+
 def menu_configuracion():
+    """
+    Muestra un menú de configuración con opciones para modificar la puntuación, vidas y tiempo entre preguntas.
+    """
     global puntuacion, vidas, tiempo_restante
 
     opciones = [
@@ -342,7 +359,15 @@ def menu_configuracion():
         pygame.display.flip()
 
 def modificar_valor(etiqueta, valor_actual):
-    """Muestra un cuadro de entrada para modificar un valor."""
+    """Permite modificar un valor entero mediante una pantalla alterna.
+
+    Args:
+        etiqueta (str): etiqueta mostrada en pantalla paraayudar al usuario a identificar que dato esta por modificar.
+        valor_actual (str): valor que se quiere modificar.
+
+    Returns:
+        _type_: _description_
+    """
     input_rect = pygame.Rect(250, 300, 300, 50)
     activo = False
     texto = str(valor_actual)
@@ -376,13 +401,13 @@ def modificar_valor(etiqueta, valor_actual):
 
 
 def obtener_top_10(file_path):
-    """_summary_
+    """obtinene el top 10 de los jugadores con mayor puntuacion en el ranking.
 
     Args:
-        file_path (_type_): _description_
+        file_path (csv): camino hacia el archivo csv
 
     Returns:
-        _type_: _description_
+        datos[:10]: retorna los 10 primeros datos del archivo csv(ordenados en base a su puntuacion, tiempo de partida y nombre)
     """
 
     try:

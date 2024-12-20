@@ -48,6 +48,7 @@ def pantalla_principal_juego():
 
 
         pygame.display.flip()
+    pygame.mixer.music.stop()
     pygame.quit()
     quit()
 pantalla_principal_juego()

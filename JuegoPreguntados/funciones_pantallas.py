@@ -56,14 +56,14 @@ def mostrar_pantalla_ingreso_nombre(pantalla):
 
 
 def mostrar_top_10(pantalla, fuente, archivo_ranking="ranking.csv"):
-    global puntuacion, nombre, duracion_partida
     """
     dibuja el Top 10 en la pantalla.
 
     Args:
-        pantalla: Superficie de Pygame donde se dibujará el ranking.
-        top_10: Lista de los 10 mejores registros en formato (nombre, puntuacion, duracion_partida).
+        pantalla: superficie donde se dibuja el ranking.
+        top_10: Lista de los 10 mejores datos en formato (nombre, puntuacion, duracion_partida).
     """
+    global puntuacion, nombre, duracion_partida
     top_10 = obtener_top_10("ranking.csv")
     pantalla.blit(imagen_de_fondo_pantalla_ranking, (0, 0))  # Fondo azul oscuro
     
@@ -72,10 +72,19 @@ def mostrar_top_10(pantalla, fuente, archivo_ranking="ranking.csv"):
         texto = fuente.render(f"{i + 1}. {nombre}: {puntuacion} pts ({duracion_partida}s)", True, BLACK)
         pantalla.blit(texto, (100, 150 + i * 40))
     pygame.display.flip()
-    pygame.time.delay(5000)
+    pygame.time.delay(10000)
 
 
 def mostrar_pantalla_opciones(pantalla, fuente):
+    """Muestra la pantalla de opciones con la pregunta y las posibles respuestas de la misma.
+
+    Args:
+        pantalla (Surface): superficie donde se dibuja la pantalla de opciones.
+        fuente (Font): fuente utilizada para renderizar el texto.
+
+    Returns:
+        puntuacion(int): La puntuación obtenida al terminar la partida.
+    """
     sonido_correcto.set_volume(0.4)
     sonido_incorrecto.set_volume(0.4)
     pygame.mixer.music.set_volume(0.2)

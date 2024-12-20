@@ -33,6 +33,8 @@ def menu():
                     agregar_preguntas()
                 elif i == 1:
                     menu_configuracion()
+                elif opcion == "Salir":
+                    flag_correr = False
                 else:
                     pygame.quit()
                     quit()

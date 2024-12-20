@@ -1,9 +1,10 @@
 import pygame
 import sys
+import random
 from config import *
 from colores import *
 from funciones_generales import *
-
+pygame.mixer.init()
 def mostrar_pantalla_ingreso_nombre(pantalla):
     """Muestra un rectangulo, en una pantalla alterna para ingresar el nombre del jugador y poder arrancar a responder las preguntas
 
@@ -71,10 +72,13 @@ def mostrar_top_10(pantalla, fuente, archivo_ranking="ranking.csv"):
         texto = fuente.render(f"{i + 1}. {nombre}: {puntuacion} pts ({duracion_partida}s)", True, BLACK)
         pantalla.blit(texto, (100, 150 + i * 40))
     pygame.display.flip()
-    pygame.time.wait(15000)
+    pygame.time.delay(5000)
 
 
 def mostrar_pantalla_opciones(pantalla, fuente):
+    sonido_correcto.set_volume(0.4)
+    sonido_incorrecto.set_volume(0.4)
+    pygame.mixer.music.set_volume(0.2)
     global puntuacion, vidas, tiempo_restante
 
     tema_random = seleccionar_categoria(categorias)
@@ -123,19 +127,20 @@ def mostrar_pantalla_opciones(pantalla, fuente):
                             match dificultad:
                                 case "Facil":
                                     puntuacion += 1
-                                case "Intermedio":
-                                    puntuacion += 3
+                                case "Media":
+                                    puntuacion += 2
                                 case "Dificil":
-                                    puntuacion += 6
+                                    puntuacion += 3
                             print("¡Correcto!")
+                            sonido_correcto.play() 
+                            pygame.time.delay(1000) 
                         else:
-                            # Respuesta incorrecta
                             print("¡Incorrecto!")
+                            sonido_incorrecto.play() 
+                            pygame.time.delay(1000)
                             vidas -= 1
 
                         actualizar_estadisticas_preguntas(pregunta["pregunta"], respuesta_correcta, boton[1])
-
-                        guardar_ranking("ranking.csv", puntuacion, nombre)
 
                         # Actualizar o terminar el juego
                         if vidas > 0:
@@ -144,7 +149,7 @@ def mostrar_pantalla_opciones(pantalla, fuente):
                             opciones = pregunta["opciones"]
                             respuesta_correcta = pregunta["respuesta_correcta"]
                             dificultad = pregunta["dificultad"]
-                            tiempo_restante = 5
+                            tiempo_restante = 10
                         else:
                             flag_correr = False
 
@@ -162,6 +167,7 @@ def mostrar_pantalla_opciones(pantalla, fuente):
             else:
                 print("¡Fin del juego!")
                 flag_correr = False
+                pygame.quit()
 
         pygame.display.flip()
 
@@ -169,7 +175,6 @@ def mostrar_pantalla_opciones(pantalla, fuente):
     duracion_partida = (tiempo_final - tiempo_inicial) / 1000
     print(f"La partida duró: {duracion_partida:.2f} segundos")
     guardar_ranking("ranking.csv", puntuacion, nombre, duracion_partida)
-
     guardar_estadisticas_preguntas_realizadas_csv()
     
     return puntuacion

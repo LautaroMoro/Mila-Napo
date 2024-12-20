@@ -8,7 +8,7 @@ nombre = ""
 respuesta_correcta = ""
 cambiar_ingreso_nombre = False
 error = False
-tiempo_restante = 5
+tiempo_restante = 10
 ultimo_tiempo = pygame.time.get_ticks()
 categorias = ["geografia", "historia", "entretenimiento", "deportes", "ciencia", "tecnologia"]
 pregunta = None
@@ -40,9 +40,9 @@ imagen_de_fondo_pantalla_ranking = pygame.transform.scale(imagen_de_fondo_pantal
 imagen_de_fondo_pantalla_agregar_preguntas = pygame.image.load("Game_assets/imagenes/imagen_para_agregar_preguntas.jpg")
 imagen_de_fondo_pantalla_agregar_preguntas = pygame.transform.scale(imagen_de_fondo_pantalla_agregar_preguntas, (ANCHO, ALTO))
 
-sonido_correcto = pygame.mixer.Sound("Game_assets/sonidos/respuesta-correcta.mp3")
-sonido_incorrecto = pygame.mixer.Sound("Game_assets/sonidos/respuesta-incorrecta.mp3")
-sonido_interfaz_ps2 = pygame.mixer.Sound("Game_assets/Sonidos/ps2-select-sound.mp3")
+sonido_correcto = pygame.mixer.Sound("Game_assets/sonidos/respuesta-correcta.ogg")
+sonido_incorrecto = pygame.mixer.Sound("Game_assets/sonidos/respuesta-incorrecta.ogg")
+sonido_interfaz_ps2 = pygame.mixer.Sound("Game_assets/Sonidos/ps2-select-sound.ogg")
 
 musica_fondo = pygame.mixer.music.load("Game_assets/sonidos/musica_fondo.ogg")
 

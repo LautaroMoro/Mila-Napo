@@ -10,9 +10,10 @@ def pantalla_principal_juego():
     cambiar_ingreso_nombre = False
     flag_correr = True
     error = False
-    pygame.mixer.music.set_volume(0.2)
-    boton_empezar = pygame.Rect(200, 450, 350, 50)
+    sonido_interfaz_ps2.set_volume(0.5)
+    pygame.mixer.music.set_volume(0.4)
     pygame.mixer.music.play(-1)
+    boton_empezar = pygame.Rect(200, 450, 350, 50)
     while flag_correr:
         # Dibujar el fondo
         pantalla.blit(imagen_de_fondo, (0, 0))
@@ -26,6 +27,8 @@ def pantalla_principal_juego():
 
             mouse = pygame.mouse.get_pos()
             if event.type == pygame.MOUSEBUTTONDOWN:
+                sonido_interfaz_ps2.play()
+                pygame.time.delay(200)
                 if not cambiar_ingreso_nombre:
                     if event.button == 1 and boton_empezar.collidepoint(mouse):
                         cambiar_ingreso_nombre = True
@@ -34,14 +37,17 @@ def pantalla_principal_juego():
             nombre = mostrar_pantalla_ingreso_nombre(pantalla)
             if nombre.strip():
                 cambiar_ingreso_nombre = False
-                puntuacion = mostrar_pantalla_opciones(pantalla, fuente)
-                print(f"Puntos finales: {puntuacion}")
-                flag_correr = False
+                try:
+                    puntuacion = mostrar_pantalla_opciones(pantalla, fuente)
+                    print(f"Puntos finales: {puntuacion}")
+                except ValueError as e:
+                    print(e)
+                    flag_correr = False
             else:
                 error = True
 
 
         pygame.display.flip()
-        # Aquí iría la lógica del juego
     pygame.quit()
+    quit()
 pantalla_principal_juego()

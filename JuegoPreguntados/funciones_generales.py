@@ -48,13 +48,13 @@ def manejar_string(cadena: str) -> str:
 
 
 def seleccionar_categoria(categorias: list) -> str:
-    """_summary_
+    """Selecciona una categoría aleatoria de una lista de categorías.
 
     Args:
-    categorias: _type_: keys del archivo .json donde random.choise elige aleatoriamente 
+    categorias: list: keys del archivo .json donde random.choise elige aleatoriamente 
 
     Returns:
-    _type_: retorna una categoria aleatoria en formato de str
+    str: retorna una categoria aleatoria en formato de str
     """
     return random.choice(categorias)
 
@@ -68,6 +68,8 @@ def seleccionar_pregunta(pregunta_por_categoria: list) -> str:
     Returns:
     _type_: lista de preguntas de la categoria elegida aleatoriamente 
     """
+    if not pregunta_por_categoria:
+        raise ValueError("No hay preguntas disponibles para la categoría seleccionada.")
     return random.choice(pregunta_por_categoria)
 
 

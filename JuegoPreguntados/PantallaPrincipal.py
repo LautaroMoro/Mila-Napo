@@ -8,6 +8,7 @@ pygame.init()
 pygame.mixer.init()
 def pantalla_principal_juego():
     cambiar_ingreso_nombre = False
+    cambiar_a_mostrar_menu = False
     flag_correr = True
     error = False
     sonido_interfaz_ps2.set_volume(0.5)
@@ -45,8 +46,7 @@ def pantalla_principal_juego():
                     flag_correr = False
             else:
                 error = True
-
-
+    
         pygame.display.flip()
     pygame.mixer.music.stop()
     pygame.quit()

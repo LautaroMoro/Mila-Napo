@@ -65,14 +65,39 @@ def mostrar_top_10(pantalla, fuente, archivo_ranking="ranking.csv"):
     """
     global puntuacion, nombre, duracion_partida
     top_10 = obtener_top_10("ranking.csv")
-    pantalla.blit(imagen_de_fondo_pantalla_ranking, (0, 0))  # Fondo azul oscuro
+    mostrando_ranking = True
+    boton_retroceder = pygame.Rect(30, 10, 100, 50)
+    corriendo = True
+
+    while corriendo:
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                corriendo = False
     
-    for i, datos in enumerate(top_10):
-        nombre, puntuacion, duracion_partida = datos[:3]
-        texto = fuente.render(f"{i + 1}. {nombre}: {puntuacion} pts ({duracion_partida}s)", True, BLACK)
-        pantalla.blit(texto, (100, 150 + i * 40))
-    pygame.display.flip()
-    pygame.time.delay(10000)
+        pantalla.blit(imagen_de_fondo_pantalla_ranking, (0, 0))  # Fondo azul oscuro
+        mouse = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+
+        if mostrando_ranking:
+            for i, datos in enumerate(top_10):
+                nombre, puntuacion, duracion_partida = datos[:3]
+                texto = fuente.render(f"{i + 1}. {nombre}: {puntuacion} pts ({duracion_partida}s)", True, BLACK)
+                pantalla.blit(texto, (100, 150 + i * 40))
+        
+
+            texto_boton_retroceder = fuente.render("Volver", True, BLACK)
+            boton_color = COLOR_HOVER if boton_retroceder.collidepoint(mouse) else COLOR_NORMAL
+            pygame.draw.rect(pantalla, boton_color, boton_retroceder)
+            pantalla.blit(texto_boton_retroceder, (boton_retroceder.x + 50, boton_retroceder.y + 5))
+    
+            if boton_retroceder.collidepoint(mouse) and click[0] == 1:
+                mostrando_ranking = False
+                pygame.time.wait(200)
+                return
+            pygame.display.flip()
+    pygame.quit()
+
+
 
 
 def mostrar_pantalla_opciones(pantalla, fuente):
@@ -108,7 +133,7 @@ def mostrar_pantalla_opciones(pantalla, fuente):
         pantalla.blit(texto_de_pregunta, (50, 50))
 
         # Crear los botones de opciones
-        botones = crear_botones(pantalla, fuente, (100, 150, 600, 50), WHITE, COLOR_HOVER,None, None, opciones)
+        botones = crear_botones(pantalla, fuente, (100, 150, 600, 50), WHITE, COLOR_HOVER, None, None, opciones)
 
         # Temporizador
         tiempo_actual = pygame.time.get_ticks()

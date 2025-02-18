@@ -312,6 +312,43 @@ def mostrar_input(campo_rect, texto, activo):
 
 
 
+def modificar_valor(etiqueta, valor_actual):
+    """Permite modificar un valor entero mediante una pantalla alterna.
+
+    Args:
+        valor_actual (str): valor que se quiere modificar.
+
+    """
+    input_rect = pygame.Rect(250, 300, 300, 50)
+    activo = False
+    texto = str(valor_actual)
+
+    while True:
+        pantalla.blit(imagen_de_fondo, (0, 0))
+        color = COLOR_HOVER if activo else WHITE
+        pygame.draw.rect(pantalla, color, input_rect)
+
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if evento.type == pygame.MOUSEBUTTONDOWN:
+                if input_rect.collidepoint(evento.pos):
+                    activo = True
+                else:
+                    activo = False
+            if evento.type == pygame.KEYDOWN and activo:
+                if evento.key == pygame.K_RETURN:
+                    return int(texto)
+                elif evento.key == pygame.K_BACKSPACE:
+                    texto = texto[:-1]
+                else:
+                    texto += evento.unicode
+
+        texto_surface = fuente.render(texto, True, BLACK)
+        pantalla.blit(texto_surface, (input_rect.x + 10, input_rect.y + 10))
+        pygame.display.flip()
+        
 def menu_configuracion():
     """
     Muestra un menú de configuración con opciones para modificar la puntuación, vidas y tiempo entre preguntas.
@@ -350,7 +387,7 @@ def menu_configuracion():
                     vidas = modificar_valor("Cantidad de Vidas", vidas)
                 elif i == 2:
                     tiempo_restante = modificar_valor("Tiempo entre Preguntas (en segundos)", tiempo_restante)
-                elif i == 3:
+                else:
                     corriendo = False
             texto = fuente.render(opcion, True, BLACK)
             pantalla.blit(texto, (boton_rect.x + 10, boton_rect.y + 10))
@@ -358,45 +395,6 @@ def menu_configuracion():
 
         pygame.display.flip()
 
-def modificar_valor(etiqueta, valor_actual):
-    """Permite modificar un valor entero mediante una pantalla alterna.
-
-    Args:
-        etiqueta (str): etiqueta mostrada en pantalla paraayudar al usuario a identificar que dato esta por modificar.
-        valor_actual (str): valor que se quiere modificar.
-
-    Returns:
-        _type_: _description_
-    """
-    input_rect = pygame.Rect(250, 300, 300, 50)
-    activo = False
-    texto = str(valor_actual)
-
-    while True:
-        pantalla.blit(imagen_de_fondo, (0, 0))
-        color = COLOR_HOVER if activo else WHITE
-        pygame.draw.rect(pantalla, color, input_rect)
-
-        for evento in pygame.event.get():
-            if evento.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-            if evento.type == pygame.MOUSEBUTTONDOWN:
-                if input_rect.collidepoint(evento.pos):
-                    activo = True
-                else:
-                    activo = False
-            if evento.type == pygame.KEYDOWN and activo:
-                if evento.key == pygame.K_RETURN:
-                    return int(texto)
-                elif evento.key == pygame.K_BACKSPACE:
-                    texto = texto[:-1]
-                else:
-                    texto += evento.unicode
-
-        texto_surface = fuente.render(texto, True, BLACK)
-        pantalla.blit(texto_surface, (input_rect.x + 10, input_rect.y + 10))
-        pygame.display.flip()
 
 
 

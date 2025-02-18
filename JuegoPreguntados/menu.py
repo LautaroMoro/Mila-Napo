@@ -33,11 +33,9 @@ def menu():
                     agregar_preguntas()
                 elif i == 1:
                     menu_configuracion()
-                elif opcion == "Salir":
+                elif i == 2:
                     flag_correr = False
-                else:
-                    pygame.quit()
-                    quit()
+                    return
             #PUSE UN BLIT PARA QUESE DIBUJEN LAS PREGUNTAS Y CAMBIE EL NOMBRE DE LA VARIABLE DE TEXTO A TEXTO_OPCION_MINI_MENU
             texto_de_opcion_menu_mini = fuente.render(opcion, True, BLACK) # extrae el texto
             pantalla.blit(texto_de_opcion_menu_mini, (boton_rect.x + 10, boton_rect.y + 10))
@@ -45,3 +43,4 @@ def menu():
 
 
         pygame.display.flip()
+    pygame.quit()

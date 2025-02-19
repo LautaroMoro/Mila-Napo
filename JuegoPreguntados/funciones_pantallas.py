@@ -14,8 +14,8 @@ def mostrar_pantalla_ingreso_nombre(pantalla):
     Returns:
         nombre (str): Retorna el nombre puesto por el jugador
     """
-    global error
-    global nombre
+    error = False
+    nombre = ""
     input_box = pygame.Rect(312, 226, 393, 49)
     introduciendo_nombre = True
     
@@ -113,7 +113,9 @@ def mostrar_pantalla_opciones(pantalla, fuente):
     sonido_correcto.set_volume(0.4)
     sonido_incorrecto.set_volume(0.4)
     pygame.mixer.music.set_volume(0.2)
-    global puntuacion, vidas, tiempo_restante
+    puntuacion = config.puntuacion
+    vidas = config.vidas
+    tiempo_restante = config.tiempo_restante
 
     tema_random = seleccionar_categoria(categorias)
     pregunta = seleccionar_pregunta(preguntas.get(tema_random, []))
@@ -186,6 +188,7 @@ def mostrar_pantalla_opciones(pantalla, fuente):
                             tiempo_restante = 10
                         else:
                             flag_correr = False
+
 
         if tiempo_restante <= 0:
             vidas -= 1

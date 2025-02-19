@@ -5,6 +5,8 @@ from colores import *
 import datetime
 import csv
 from config import *
+import config
+import pygame_menu as pm
 pygame.init()
 
 def cargar_preguntas(file_path: str) -> str:
@@ -235,17 +237,23 @@ def agregar_preguntas():
         {"rect": pygame.Rect(220, 510, 460, 30), "texto": "", "activo": False, "etiqueta": "Respuesta Correcta"},
         {"rect": pygame.Rect(220, 570, 460, 30), "texto": "", "activo": False, "etiqueta": "Dificultad"}
     ]
+    boton_retroceder = pygame.Rect(20, 20, 100, 40)
     boton_guardar = pygame.Rect(300, 560, 200, 40)
     activo_campo = None
     corriendo = True
+    mostrando_agregar_preguntas = True
 
     while corriendo:
-        pantalla.blit(imagen_de_fondo_pantalla_agregar_preguntas, (0, 0))
-
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+        pantalla.blit(imagen_de_fondo_pantalla_agregar_preguntas, (0, 0))
+        mouse = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+
+        if mostrando_agregar_preguntas:
+
             if evento.type == pygame.MOUSEBUTTONDOWN:
                 for i, input_box in enumerate(input_boxes):
                     if input_box["rect"].collidepoint(evento.pos):
@@ -283,17 +291,25 @@ def agregar_preguntas():
                 else:
                     input_boxes[activo_campo]["texto"] += evento.unicode
 
-        for input_box in input_boxes:
-            etiqueta = fuente.render(input_box["etiqueta"], True, BLACK)
-            pantalla.blit(etiqueta, ( input_box["rect"].x, input_box["rect"].y - 30))
-            mostrar_input(input_box["rect"], input_box["texto"], input_box["activo"])
-        
-        texto_boton_guardar = fuente.render("Guardar", True, BLACK)
-        
-        mouse = pygame.mouse.get_pos()
-        boton_color = COLOR_HOVER if boton_guardar.collidepoint(mouse) else COLOR_NORMAL
-        pygame.draw.rect(pantalla, boton_color, boton_guardar)
-        pantalla.blit(texto_boton_guardar, (boton_guardar.x + 50, boton_guardar.y + 5))
+            for input_box in input_boxes:
+                etiqueta = fuente.render(input_box["etiqueta"], True, BLACK)
+                pantalla.blit(etiqueta, ( input_box["rect"].x, input_box["rect"].y - 30))
+                mostrar_input(input_box["rect"], input_box["texto"], input_box["activo"])
+
+            texto_boton_guardar = fuente.render("Guardar", True, BLACK)
+            boton_color = COLOR_HOVER if boton_guardar.collidepoint(evento.pos) else COLOR_NORMAL
+            pygame.draw.rect(pantalla, boton_color, boton_guardar)
+            pantalla.blit(texto_boton_guardar, (boton_guardar.x + 50, boton_guardar.y + 5))
+
+            texto_boton_retroceder = fuente.render("Volver", True, BLACK)
+            boton_color_retroceder = COLOR_HOVER if boton_retroceder.collidepoint(evento.pos) else COLOR_NORMAL
+            pygame.draw.rect(pantalla, boton_color_retroceder, boton_retroceder)
+            pantalla.blit(texto_boton_retroceder, (boton_retroceder.x + 50, boton_retroceder.y + 5))
+
+        if boton_retroceder.collidepoint(mouse) and click[0] == 1:
+                mostrando_agregar_preguntas = False
+                pygame.time.wait(200)
+                return
 
         pygame.display.flip()
 
@@ -310,90 +326,70 @@ def mostrar_input(campo_rect, texto, activo):
     texto_superficie = fuente.render(texto, True, BLACK)
     pantalla.blit(texto_superficie, (campo_rect.x + 10, campo_rect.y + 10))
 
-
-
-def modificar_valor(etiqueta, valor_actual):
-    """Permite modificar un valor entero mediante una pantalla alterna.
+def dibujar_fondo_menu_configuracion(pantalla):
+    """Dibuja el fondo del menú de configuración.
 
     Args:
-        valor_actual (str): valor que se quiere modificar.
-
+        pantalla (Surface): superficie de la pantalla.
     """
-    input_rect = pygame.Rect(250, 300, 300, 50)
-    activo = False
-    texto = str(valor_actual)
+    pantalla.blit(imagen_de_fondo_pantalla_mini_menu, (0, 0))
 
-    while True:
-        pantalla.blit(imagen_de_fondo, (0, 0))
-        color = COLOR_HOVER if activo else WHITE
-        pygame.draw.rect(pantalla, color, input_rect)
-
-        for evento in pygame.event.get():
-            if evento.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-            if evento.type == pygame.MOUSEBUTTONDOWN:
-                if input_rect.collidepoint(evento.pos):
-                    activo = True
-                else:
-                    activo = False
-            if evento.type == pygame.KEYDOWN and activo:
-                if evento.key == pygame.K_RETURN:
-                    return int(texto)
-                elif evento.key == pygame.K_BACKSPACE:
-                    texto = texto[:-1]
-                else:
-                    texto += evento.unicode
-
-        texto_surface = fuente.render(texto, True, BLACK)
-        pantalla.blit(texto_surface, (input_rect.x + 10, input_rect.y + 10))
-        pygame.display.flip()
-        
 def menu_configuracion():
     """
-    Muestra un menú de configuración con opciones para modificar la puntuación, vidas y tiempo entre preguntas.
+    Muestra un menú de configuración con opciones para que el jugador modifique la cantidad de vidas, la puntuación y el tiempo restante.
     """
-    global puntuacion, vidas, tiempo_restante
+    pantalla.blit(imagen_de_fondo_pantalla_mini_menu, (0, 0))
+    settings = pm.Menu(title="Configuración", width=800, height=600, theme=pm.themes.THEME_DARK)
 
-    opciones = [
-        f"Modificar Puntos por Respuesta Correcta (Actual: {puntuacion})",
-        f"Modificar Cantidad de Vidas (Actual: {vidas})",
-        f"Modificar Tiempo entre Preguntas (Actual: {tiempo_restante}s)",
-        "Volver al Menú Principal"
-    ]
-    posiciones_botones = [(100, 200 + i * 70) for i in range(len(opciones))]
+    # Entradas de usuario con valores actuales de config.py
+    input_vidas = settings.add.text_input("Vidas: ", default=str(config.vidas))
+    input_puntuacion = settings.add.text_input("Puntuación: ", default=str(config.puntuacion))
+    input_tiempo = settings.add.text_input("Tiempo restante: ", default=str(config.tiempo_restante))
+    settings.add.clock(clock_format="%d-%m-%y %H:%M:%S",
+                     title_format="Hora : {0}")
+    settings.add.button(title="Reiniciar", action=settings.reset_value, 
+                    font_color=WHITE, background_color=ROJO) 
 
-    corriendo = True
-    while corriendo:
-        pantalla.blit(imagen_de_fondo_pantalla_mini_menu, (0, 0))
-        mouse = pygame.mouse.get_pos()
-        click = pygame.mouse.get_pressed()
+    # Función para guardar cambios sin crear archivos
+    def guardar_cambios():
+        global vidas, puntuacion, tiempo_restante  # Añadir esto
 
-        for evento in pygame.event.get():
-            if evento.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+        config.vidas = int(input_vidas.get_value())
+        config.puntuacion = int(input_puntuacion.get_value())
+        config.tiempo_restante = int(input_tiempo.get_value())
 
-        for i, (opcion, pos) in enumerate(zip(opciones, posiciones_botones)):
-            boton_rect = pygame.Rect(pos, (600, 50))
-            color = COLOR_HOVER if boton_rect.collidepoint(mouse) else COLOR_NORMAL
-            pygame.draw.rect(pantalla, color, boton_rect)
+        vidas = config.vidas
+        puntuacion = config.puntuacion
+        tiempo_restante = config.tiempo_restante
 
-            if boton_rect.collidepoint(mouse) and click[0] == 1:
-                pygame.time.wait(200)  # Breve pausa para evitar múltiples clics
-                if i == 0:
-                    puntuacion = modificar_valor("Puntos por Respuesta Correcta", puntuacion)
-                elif i == 1:
-                    vidas = modificar_valor("Cantidad de Vidas", vidas)
-                elif i == 2:
-                    tiempo_restante = modificar_valor("Tiempo entre Preguntas (en segundos)", tiempo_restante)
-                else:
-                    corriendo = False
-            texto = fuente.render(opcion, True, BLACK)
-            pantalla.blit(texto, (boton_rect.x + 10, boton_rect.y + 10))
+        settings.disable()  # Cierra el menú
+
+    settings.add.button("Guardar", guardar_cambios)
+    settings.add.button(title="Volver al menu", action=lambda: settings.disable(), align=pm.locals.ALIGN_CENTER) 
+
+    settings.mainloop(pantalla)
 
 
-        pygame.display.flip()
+# Función para guardar cambios sin crear archivos
+    def guardar_cambios():
+        """Guarda las variables modificadas por el usuario en el menú de configuración.
+        """
+        global vidas, puntuacion, tiempo_restante  # Añadir esto
+
+        config.vidas = int(input_vidas.get_value())
+        config.puntuacion = int(input_puntuacion.get_value())
+        config.tiempo_restante = int(input_tiempo.get_value())
+
+        vidas = config.vidas
+        puntuacion = config.puntuacion
+        tiempo_restante = config.tiempo_restante
+
+        settings.disable()  # Cierra el menú
+
+    settings.add.button("Guardar", guardar_cambios)
+    settings.add.button(title="Volver al menu", action=lambda: settings.disable(), align=pm.locals.ALIGN_CENTER) 
+
+    settings.mainloop(pantalla)
 
 
 

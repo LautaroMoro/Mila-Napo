@@ -4,6 +4,7 @@ import random
 from config import *
 from colores import *
 from funciones_generales import *
+pygame.init()
 pygame.mixer.init()
 def mostrar_pantalla_ingreso_nombre(pantalla):
     """Muestra un rectangulo, en una pantalla alterna para ingresar el nombre del jugador y poder arrancar a responder las preguntas

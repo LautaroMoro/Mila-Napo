@@ -253,68 +253,68 @@ def agregar_preguntas():
                 pygame.quit()
                 quit()
 
-        if mostrando_agregar_preguntas:
+            if mostrando_agregar_preguntas:
 
-            if evento.type == pygame.MOUSEBUTTONDOWN:
-                for i, input_box in enumerate(input_boxes):
-                    if input_box["rect"].collidepoint(evento.pos):
-                        activo_campo = i
-                        input_box["activo"] = True
+                if evento.type == pygame.MOUSEBUTTONDOWN:
+                    for i, input_box in enumerate(input_boxes):
+                        if input_box["rect"].collidepoint(evento.pos):
+                            activo_campo = i
+                            input_box["activo"] = True
+                        else:
+                            input_box["activo"] = False
+
+                    if boton_guardar.collidepoint(evento.pos):
+                        categoria = input_boxes[0]["texto"]
+                        nueva_pregunta = {
+                            "pregunta": input_boxes[1]["texto"],
+                            "opciones": [
+                                input_boxes[2]["texto"],
+                                input_boxes[3]["texto"],
+                                input_boxes[4]["texto"],
+                                input_boxes[5]["texto"]
+                            ],
+                            "respuesta_correcta": input_boxes[6]["texto"],
+                            "dificultad": input_boxes[7]["texto"]
+                        }
+                        # Agregar la nueva pregunta a la categoría correspondiente
+                        if categoria in preguntas_por_categoria:
+                            preguntas_por_categoria[categoria].append(nueva_pregunta)
+                        else:
+                            preguntas_por_categoria[categoria] = [nueva_pregunta]
+
+                        guardar_preguntas_json(preguntas_por_categoria)  # Guardar en archivo JSON
+                        print("¡Pregunta agregada con éxito!")
+                        corriendo = False
+
+                if evento.type == pygame.KEYDOWN and activo_campo is not None:
+                    if evento.key == pygame.K_BACKSPACE:
+                        input_boxes[activo_campo]["texto"] = input_boxes[activo_campo]["texto"][:-1]
                     else:
-                        input_box["activo"] = False
-
-                if boton_guardar.collidepoint(evento.pos):
-                    categoria = input_boxes[0]["texto"]
-                    nueva_pregunta = {
-                        "pregunta": input_boxes[1]["texto"],
-                        "opciones": [
-                            input_boxes[2]["texto"],
-                            input_boxes[3]["texto"],
-                            input_boxes[4]["texto"],
-                            input_boxes[5]["texto"]
-                        ],
-                        "respuesta_correcta": input_boxes[6]["texto"],
-                        "dificultad": input_boxes[7]["texto"]
-                    }
-                     # Agregar la nueva pregunta a la categoría correspondiente
-                    if categoria in preguntas_por_categoria:
-                        preguntas_por_categoria[categoria].append(nueva_pregunta)
-                    else:
-                        preguntas_por_categoria[categoria] = [nueva_pregunta]
-
-                    guardar_preguntas_json(preguntas_por_categoria)  # Guardar en archivo JSON
-                    print("¡Pregunta agregada con éxito!")
-                    corriendo = False
-
-            if evento.type == pygame.KEYDOWN and activo_campo is not None:
-                if evento.key == pygame.K_BACKSPACE:
-                    input_boxes[activo_campo]["texto"] = input_boxes[activo_campo]["texto"][:-1]
-                else:
-                    input_boxes[activo_campo]["texto"] += evento.unicode
+                        input_boxes[activo_campo]["texto"] += evento.unicode
 
 
-            for input_box in input_boxes:
-                etiqueta = fuente.render(input_box["etiqueta"], True, BLACK)
-                pantalla.blit(etiqueta, ( input_box["rect"].x, input_box["rect"].y - 30))
-                mostrar_input(input_box["rect"], input_box["texto"], input_box["activo"])
-                
-            texto_boton_guardar = fuente.render("Guardar", True, BLACK)
-            boton_color = COLOR_HOVER if boton_guardar.collidepoint(mouse) else COLOR_NORMAL
-            pygame.draw.rect(pantalla, boton_color, boton_guardar)
-            pantalla.blit(texto_boton_guardar, (boton_guardar.x + 50, boton_guardar.y + 5))
+                for input_box in input_boxes:
+                    etiqueta = fuente.render(input_box["etiqueta"], True, BLACK)
+                    pantalla.blit(etiqueta, ( input_box["rect"].x, input_box["rect"].y - 30))
+                    mostrar_input(input_box["rect"], input_box["texto"], input_box["activo"])
+                    
+                texto_boton_guardar = fuente.render("Guardar", True, BLACK)
+                boton_color = COLOR_HOVER if boton_guardar.collidepoint(mouse) else COLOR_NORMAL
+                pygame.draw.rect(pantalla, boton_color, boton_guardar)
+                pantalla.blit(texto_boton_guardar, (boton_guardar.x + 50, boton_guardar.y + 5))
 
-            texto_boton_retroceder = fuente.render("Volver", True, BLACK)
-            boton_color_retroceder = COLOR_HOVER if boton_retroceder.collidepoint(mouse) else COLOR_NORMAL
-            pygame.draw.rect(pantalla, boton_color_retroceder, boton_retroceder)
-            pantalla.blit(texto_boton_retroceder, (boton_retroceder.x + 50, boton_retroceder.y + 5))
-            print(f"Campo activo: {activo_campo}")
+                texto_boton_retroceder = fuente.render("Volver", True, BLACK)
+                boton_color_retroceder = COLOR_HOVER if boton_retroceder.collidepoint(mouse) else COLOR_NORMAL
+                pygame.draw.rect(pantalla, boton_color_retroceder, boton_retroceder)
+                pantalla.blit(texto_boton_retroceder, (boton_retroceder.x + 50, boton_retroceder.y + 5))
+                print(f"Campo activo: {activo_campo}")
 
-        if boton_retroceder.collidepoint(mouse) and click[0] == 1:
-            mostrando_agregar_preguntas = False
-            pygame.time.wait(200)
-            return
+            if boton_retroceder.collidepoint(mouse) and click[0] == 1:
+                mostrando_agregar_preguntas = False
+                pygame.time.wait(200)
+                return
 
-        pygame.display.flip()
+            pygame.display.flip()
 
 def mostrar_input(campo_rect, texto, activo):
     """Muestra un campo de entrada de texto en la pantalla.

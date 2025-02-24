@@ -32,7 +32,7 @@ def menu():
                 if i == 0:
                     agregar_preguntas()
                 elif i == 1:
-                    menu_configuracion()
+                    menu_configuracion(pantalla)
                 elif i == 2:
                     flag_correr = False
                     return

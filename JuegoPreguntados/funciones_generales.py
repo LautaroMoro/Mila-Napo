@@ -330,15 +330,9 @@ def mostrar_input(campo_rect, texto, activo):
     texto_superficie = fuente.render(texto, True, BLACK)
     pantalla.blit(texto_superficie, (campo_rect.x + 10, campo_rect.y + 10))
 
-def dibujar_fondo_menu_configuracion(pantalla):
-    """Dibuja el fondo del menú de configuración.
 
-    Args:
-        pantalla (Surface): superficie de la pantalla.
-    """
-    pantalla.blit(imagen_de_fondo_pantalla_mini_menu, (0, 0))
 
-def menu_configuracion():
+def menu_configuracion(pantalla):
     """
     Muestra un menú de configuración con opciones para que el jugador modifique la cantidad de vidas, la puntuación y el tiempo restante.
     """
@@ -349,32 +343,14 @@ def menu_configuracion():
     input_vidas = settings.add.text_input("Vidas: ", default=str(config.vidas))
     input_puntuacion = settings.add.text_input("Puntuación: ", default=str(config.puntuacion))
     input_tiempo = settings.add.text_input("Tiempo restante: ", default=str(config.tiempo_restante))
+
     settings.add.clock(clock_format="%d-%m-%y %H:%M:%S",
                      title_format="Hora : {0}")
+    
     settings.add.button(title="Reiniciar", action=settings.reset_value, 
                     font_color=WHITE, background_color=ROJO) 
 
     # Función para guardar cambios sin crear archivos
-    def guardar_cambios():
-        global vidas, puntuacion, tiempo_restante  # Añadir esto
-
-        config.vidas = int(input_vidas.get_value())
-        config.puntuacion = int(input_puntuacion.get_value())
-        config.tiempo_restante = int(input_tiempo.get_value())
-
-        vidas = config.vidas
-        puntuacion = config.puntuacion
-        tiempo_restante = config.tiempo_restante
-
-        settings.disable()  # Cierra el menú
-
-    settings.add.button("Guardar", guardar_cambios)
-    settings.add.button(title="Volver al menu", action=lambda: settings.disable(), align=pm.locals.ALIGN_CENTER) 
-
-    settings.mainloop(pantalla)
-
-
-# Función para guardar cambios sin crear archivos
     def guardar_cambios():
         """Guarda las variables modificadas por el usuario en el menú de configuración.
         """

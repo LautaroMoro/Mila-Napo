@@ -183,9 +183,6 @@ def mostrar_pantalla_opciones(pantalla, fuente, nombre):
                         # Actualizar o terminar el juego
                         if vidas > 0:
                             tema_random = seleccionar_categoria(categorias)
-                            print(f"Categoría seleccionada: {tema_random}")
-                            if tema_random not in preguntas:
-                                print(f"⚠️ Error: La categoría '{tema_random}' no está en el JSON.")
                             pregunta = seleccionar_pregunta(preguntas.get(tema_random, []))
                             opciones = pregunta["opciones"]
                             respuesta_correcta = pregunta["respuesta_correcta"]

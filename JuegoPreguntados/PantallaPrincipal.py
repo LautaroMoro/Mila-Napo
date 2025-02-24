@@ -39,7 +39,7 @@ def pantalla_principal_juego():
             if nombre.strip():
                 cambiar_ingreso_nombre = False
                 try:
-                    puntuacion = mostrar_pantalla_opciones(pantalla, fuente)
+                    puntuacion = mostrar_pantalla_opciones(pantalla, fuente, nombre)
                     print(f"Puntos finales: {puntuacion}")
                 except ValueError as e:
                     print(e)

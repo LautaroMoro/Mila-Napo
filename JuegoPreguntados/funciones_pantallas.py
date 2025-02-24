@@ -101,7 +101,7 @@ def mostrar_top_10(pantalla, fuente, archivo_ranking="ranking.csv"):
 
 
 
-def mostrar_pantalla_opciones(pantalla, fuente):
+def mostrar_pantalla_opciones(pantalla, fuente, nombre):
     """Muestra la pantalla de opciones con la pregunta y las posibles respuestas de la misma.
 
     Args:
@@ -182,6 +182,9 @@ def mostrar_pantalla_opciones(pantalla, fuente):
                         # Actualizar o terminar el juego
                         if vidas > 0:
                             tema_random = seleccionar_categoria(categorias)
+                            print(f"Categoría seleccionada: {tema_random}")
+                            if tema_random not in preguntas:
+                                print(f"⚠️ Error: La categoría '{tema_random}' no está en el JSON.")
                             pregunta = seleccionar_pregunta(preguntas.get(tema_random, []))
                             opciones = pregunta["opciones"]
                             respuesta_correcta = pregunta["respuesta_correcta"]
@@ -197,6 +200,9 @@ def mostrar_pantalla_opciones(pantalla, fuente):
             print("Se te acabó el tiempo.")
             if vidas > 0:
                 tema_random = seleccionar_categoria(categorias)
+                print(f"Categoría seleccionada: {tema_random}")
+                if tema_random not in preguntas:
+                    print(f"⚠️ Error: La categoría '{tema_random}' no está en el JSON.")
                 pregunta = seleccionar_pregunta(preguntas.get(tema_random, []))
                 opciones = pregunta["opciones"]
                 respuesta_correcta = pregunta["respuesta_correcta"]
@@ -217,3 +223,4 @@ def mostrar_pantalla_opciones(pantalla, fuente):
     
     return puntuacion
 # mostrar_pantalla_opciones(pantalla, fuente)
+

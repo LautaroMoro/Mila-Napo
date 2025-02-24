@@ -8,7 +8,7 @@ from config import *
 import config
 import pygame_menu as pm
 pygame.init()
-
+pygame.font.init()
 def cargar_preguntas(file_path: str) -> str:
     """Permite agregar nuevas preguntas al juego mediante una interfaz gráfica.
 
@@ -22,6 +22,7 @@ def cargar_preguntas(file_path: str) -> str:
         preguntas = json.load(file)
     return preguntas
 preguntas = cargar_preguntas('preguntas_juego.json')
+
 
 def guardar_preguntas_json(preguntas_por_categoria, nombre_archivo="preguntas_juego.json"):
     """Guarda las preguntas en un archivo JSON.

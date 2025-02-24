@@ -216,3 +216,4 @@ def mostrar_pantalla_opciones(pantalla, fuente):
     guardar_estadisticas_preguntas_realizadas_csv()
     
     return puntuacion
+# mostrar_pantalla_opciones(pantalla, fuente)

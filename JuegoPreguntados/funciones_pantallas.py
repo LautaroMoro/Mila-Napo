@@ -67,7 +67,7 @@ def mostrar_top_10(pantalla, fuente, archivo_ranking="ranking.csv"):
     global puntuacion, nombre, duracion_partida
     top_10 = obtener_top_10("ranking.csv")
     mostrando_ranking = True
-    boton_retroceder = pygame.Rect(30, 10, 100, 50)
+    boton_retroceder = pygame.Rect(650, 10, 100, 50)
     corriendo = True
 
     while corriendo:
@@ -95,6 +95,7 @@ def mostrar_top_10(pantalla, fuente, archivo_ranking="ranking.csv"):
                 mostrando_ranking = False
                 pygame.time.wait(200)
                 return
+            
             pygame.display.flip()
     pygame.quit()
 
@@ -200,9 +201,6 @@ def mostrar_pantalla_opciones(pantalla, fuente, nombre):
             print("Se te acabó el tiempo.")
             if vidas > 0:
                 tema_random = seleccionar_categoria(categorias)
-                print(f"Categoría seleccionada: {tema_random}")
-                if tema_random not in preguntas:
-                    print(f"⚠️ Error: La categoría '{tema_random}' no está en el JSON.")
                 pregunta = seleccionar_pregunta(preguntas.get(tema_random, []))
                 opciones = pregunta["opciones"]
                 respuesta_correcta = pregunta["respuesta_correcta"]
@@ -220,6 +218,7 @@ def mostrar_pantalla_opciones(pantalla, fuente, nombre):
     print(f"La partida duró: {duracion_partida:.2f} segundos")
     guardar_ranking("ranking.csv", puntuacion, nombre, duracion_partida)
     guardar_estadisticas_preguntas_realizadas_csv()
+    mostrar_top_10(pantalla, fuente, "ranking.csv")
     
     return puntuacion
 # mostrar_pantalla_opciones(pantalla, fuente)

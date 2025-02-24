@@ -284,6 +284,17 @@
             ],
             "respuesta_correcta": "Premios Oscars",
             "dificultad": "Facil"
+        },
+        {
+            "pregunta": "A qué juego pertenece el mapa de Dust 2?",
+            "opciones": [
+                "Counter Strike",
+                "CoD BO2",
+                "Battelfield V",
+                "Battlefield 3"
+            ],
+            "respuesta_correcta": "Counter Strike",
+            "dificultad": "Media"
         }
     ]
 }

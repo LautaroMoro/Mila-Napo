@@ -321,20 +321,5 @@
             "dificultad": "Media"
         }
 
-    ],
-    "geogafia": [
-        {
-            "pregunta": "Cual es la capital de Argentina?",
-            "opciones": [
-                "Salta",
-                "Jujuy",
-                "Buenos Aires",
-                "Tucuman"
-            ],
-            "respuesta_correcta": "Buenos Aires",
-            "dificultad": "Facil"
-        }
-
-
     ]
 }

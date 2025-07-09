@@ -64,8 +64,11 @@ def mostrar_top_10(pantalla, fuente, archivo_ranking="ranking.csv"):
         pantalla: superficie donde se dibuja el ranking.
         top_10: Lista de los 10 mejores datos en formato (nombre, puntuacion, duracion_partida).
     """
-    top_10 = obtener_top_10(RUTA_RANKING_CSV)
-    mostrando_ranking = True
+    try:
+        top_10 = obtener_top_10(archivo_ranking)
+    except Exception as e:
+        print(f"Error al leer ranking: {e}")
+        top_10 = []
     boton_retroceder = pygame.Rect(650, 10, 100, 50)
     corriendo = True
 
@@ -78,11 +81,10 @@ def mostrar_top_10(pantalla, fuente, archivo_ranking="ranking.csv"):
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
 
-        if mostrando_ranking:
-            for i, datos in enumerate(top_10):
-                nombre, puntuacion, duracion_partida = datos[:3]
-                texto = fuente.render(f"{i + 1}. {nombre}: {puntuacion} pts ({duracion_partida}s)", True, BLACK)
-                pantalla.blit(texto, (100, 150 + i * 40))
+        for i, datos in enumerate(top_10):
+            nombre, puntuacion, duracion_partida = datos[:3]
+            texto = fuente.render(f"{i + 1}. {nombre}: {puntuacion} pts ({duracion_partida}s)", True, BLACK)
+            pantalla.blit(texto, (100, 150 + i * 40))
         
 
             texto_boton_retroceder = fuente.render("Volver", True, BLACK)
@@ -91,12 +93,10 @@ def mostrar_top_10(pantalla, fuente, archivo_ranking="ranking.csv"):
             pantalla.blit(texto_boton_retroceder, (boton_retroceder.x + 50, boton_retroceder.y + 5))
     
             if boton_retroceder.collidepoint(mouse) and click[0] == 1:
-                mostrando_ranking = False
                 pygame.time.wait(200)
                 return
             
-            pygame.display.flip()
-    pygame.quit()
+        pygame.display.flip()
 
 
 
@@ -152,11 +152,7 @@ def mostrar_pantalla_opciones(pantalla, fuente, nombre):
 
         # Manejo de eventos
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                flag_correr = False
-                pygame.quit()
-                exit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 for boton in botones:
                     if boton[0].collidepoint(event.pos):
                         if boton[1] == respuesta_correcta:
@@ -186,7 +182,7 @@ def mostrar_pantalla_opciones(pantalla, fuente, nombre):
                             opciones = pregunta["opciones"]
                             respuesta_correcta = pregunta["respuesta_correcta"]
                             dificultad = pregunta["dificultad"]
-                            tiempo_restante = config.tiempo_restante - ultimo_tiempo
+                            tiempo_restante = config.tiempo_restante
                         else:
                             flag_correr = False
 
@@ -201,21 +197,15 @@ def mostrar_pantalla_opciones(pantalla, fuente, nombre):
                 opciones = pregunta["opciones"]
                 respuesta_correcta = pregunta["respuesta_correcta"]
                 dificultad = pregunta["dificultad"]
-                tiempo_restante = 5
+                tiempo_restante = config.tiempo_restante - ultimo_tiempo
             else:
                 print("¡Fin del juego!")
                 flag_correr = False
-                pygame.quit()
-
         pygame.display.flip()
-
     tiempo_final = pygame.time.get_ticks()
     duracion_partida = (tiempo_final - tiempo_inicial) / 1000
     print(f"La partida duró: {duracion_partida:.2f} segundos")
     guardar_ranking("ranking.csv", puntuacion, nombre, duracion_partida)
     guardar_estadisticas_preguntas_realizadas_csv()
-    mostrar_top_10(pantalla, fuente, "ranking.csv")
-    
     return puntuacion
-# mostrar_pantalla_opciones(pantalla, fuente)
 

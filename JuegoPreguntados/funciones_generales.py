@@ -73,8 +73,6 @@ def seleccionar_pregunta(pregunta_por_categoria: list) -> str:
 
 def guardar_ranking(file_path, puntuacion, nombre_formateado, duracion_partida=None):
     """Guarda en un archivo formato "csv" el nombre, el timepo de la partida total y los puntos optenidos por el jugador.
-
-
     """
     if duracion_partida == None:
         duracion_partida = None
@@ -85,13 +83,11 @@ def guardar_ranking(file_path, puntuacion, nombre_formateado, duracion_partida=N
         file.write(datos)
     
 
-
 def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, accion=None, opciones=None, tiempo_restante=None):
     font = pygame.font.Font(None, 36)
     rect = pygame.Rect(rect)
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
-
 
     if tiempo_restante is None:
         tiempo_restante = 5
@@ -108,7 +104,6 @@ def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, a
     if rect.collidepoint(mouse):
         pygame.draw.rect(pantalla, color_hover, rect)
     
-
     if tiempo_restante == None:
         tiempo_restante = 5
     
@@ -124,11 +119,8 @@ def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, a
     if len(opciones) > len (posiciones_botones):
         print(f"Hay mas opciones que posiciones disponibles para los botones")
         return []
-
-
         
     buttons = []
-
 
     if rect.collidepoint(mouse):
         pygame.draw.rect(pantalla, color_hover, rect)
@@ -213,11 +205,9 @@ def obtener_input_boxes():
     ]
     return input_boxes
 
-def agregar_preguntas():
+def agregar_preguntas(pantalla, fuente, preguntas):
     """Permite agregar nuevas preguntas mediante una pantalla alterna.
     """
-    global preguntas_por_categoria
-    preguntas_por_categoria = preguntas
     input_boxes = obtener_input_boxes()
 
     boton_retroceder = pygame.Rect(20, 20, 100, 40)
@@ -260,12 +250,12 @@ def agregar_preguntas():
                             "dificultad": input_boxes[7]["texto"]
                         }
                         # Agregar la nueva pregunta a la categoría correspondiente
-                        if categoria in preguntas_por_categoria:
-                            preguntas_por_categoria[categoria].append(nueva_pregunta)
+                        if categoria in preguntas:
+                            preguntas[categoria].append(nueva_pregunta)
                         else:
-                            preguntas_por_categoria[categoria] = [nueva_pregunta]
+                            preguntas[categoria] = [nueva_pregunta]
 
-                        guardar_preguntas_json(preguntas_por_categoria)  # Guardar en archivo JSON
+                        guardar_preguntas_json(preguntas)  # Guardar en archivo JSON
                         print("¡Pregunta agregada con éxito!")
                         corriendo = False
 
@@ -351,7 +341,7 @@ def menu_configuracion(pantalla):
 def obtener_top_10(file_path):
 
     try:
-        with open(file_path, newline="", encoding="utf-8") as file:
+        with open(file_path, newline="", encoding="latin-1") as file:
             lector = csv.reader(file)
             datos = []
             for fila in lector:

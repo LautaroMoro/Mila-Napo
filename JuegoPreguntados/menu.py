@@ -30,7 +30,7 @@ def menu():
             if boton_rect.collidepoint(mouse) and click[0] == 1:
                 pygame.time.wait(200)  # Breve pausa para evitar múltiples clics
                 if i == 0:
-                    agregar_preguntas()
+                    agregar_preguntas(pantalla, fuente, preguntas)
                 elif i == 1:
                     menu_configuracion(pantalla)
                 elif i == 2:

@@ -8,6 +8,7 @@ pygame.init()
 pygame.mixer.init()
 def pantalla_principal_juego():
     cambiar_ingreso_nombre = False
+    mostrando_pantalla_ranking = False
     flag_correr = True
     error = False
     sonido_interfaz_ps2.set_volume(0.5)
@@ -37,15 +38,19 @@ def pantalla_principal_juego():
         if cambiar_ingreso_nombre:
             nombre = mostrar_pantalla_ingreso_nombre(pantalla)
             if nombre.strip():
-                cambiar_ingreso_nombre = False
                 try:
                     puntuacion = mostrar_pantalla_opciones(pantalla, fuente, nombre)
                     print(f"Puntos finales: {puntuacion}")
+                    mostrando_pantalla_ranking = True
                 except ValueError as e:
                     print(e)
                     flag_correr = False
+                cambiar_ingreso_nombre = False
             else:
                 error = True
+        if mostrando_pantalla_ranking:
+            mostrar_top_10(pantalla, fuente, "ranking.csv")
+            mostrando_pantalla_ranking = False
 
         texto_boton_salir = fuente.render("Salir", True, BLACK)
         boton_color = COLOR_HOVER if boton_salir.collidepoint(mouse) else COLOR_NORMAL
@@ -59,6 +64,3 @@ def pantalla_principal_juego():
   
         pygame.display.flip()
     pygame.mixer.music.stop()
-    pygame.quit()
-    quit()
-pantalla_principal_juego()

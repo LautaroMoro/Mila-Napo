@@ -64,8 +64,7 @@ def mostrar_top_10(pantalla, fuente, archivo_ranking="ranking.csv"):
         pantalla: superficie donde se dibuja el ranking.
         top_10: Lista de los 10 mejores datos en formato (nombre, puntuacion, duracion_partida).
     """
-    global puntuacion, nombre, duracion_partida
-    top_10 = obtener_top_10("ranking.csv")
+    top_10 = obtener_top_10(RUTA_RANKING_CSV)
     mostrando_ranking = True
     boton_retroceder = pygame.Rect(650, 10, 100, 50)
     corriendo = True
@@ -187,7 +186,7 @@ def mostrar_pantalla_opciones(pantalla, fuente, nombre):
                             opciones = pregunta["opciones"]
                             respuesta_correcta = pregunta["respuesta_correcta"]
                             dificultad = pregunta["dificultad"]
-                            tiempo_restante = 10
+                            tiempo_restante = config.tiempo_restante - ultimo_tiempo
                         else:
                             flag_correr = False
 

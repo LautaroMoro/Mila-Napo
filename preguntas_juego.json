@@ -146,6 +146,17 @@
             ],
             "respuesta_correcta": "China",
             "dificultad": "Dificil"
+        },
+        {
+            "pregunta": "Capital de EE.UU.",
+            "opciones": [
+                "Washintong Dc",
+                "Arkansas",
+                "New York",
+                "Texas"
+            ],
+            "respuesta_correcta": "Washintong Dc",
+            "dificultad": "Media"
         }
     ],
     "tecnologia": [
@@ -192,6 +203,17 @@
             ],
             "respuesta_correcta": "Python",
             "dificultad": "Facil"
+        },
+        {
+            "pregunta": "Que empresa tiene la estructura en sus chip con \"Zen\"?",
+            "opciones": [
+                "Amd",
+                "Nvidia",
+                "Intel",
+                "Samsung"
+            ],
+            "respuesta_correcta": "Amd",
+            "dificultad": "Dificil"
         }
     ],
     "historia": [
@@ -295,6 +317,19 @@
             ],
             "respuesta_correcta": "Counter Strike",
             "dificultad": "Media"
+        }
+    ],
+    "geogafia": [
+        {
+            "pregunta": "Cual es la capital de Argentina?",
+            "opciones": [
+                "Salta",
+                "Jujuy",
+                "Buenos Aires",
+                "Tucuman"
+            ],
+            "respuesta_correcta": "Buenos Aires",
+            "dificultad": "Facil"
         }
     ]
 }

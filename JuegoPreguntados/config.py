@@ -13,6 +13,7 @@ ultimo_tiempo = pygame.time.get_ticks()
 categorias = ["geografia", "historia", "entretenimiento", "deportes", "ciencia", "tecnologia"]
 pregunta = None
 tema_random = None
+
 RUTA_BASE = os.path.dirname(os.path.dirname(__file__))
 
 # 📁 Rutas a carpetas

@@ -7,30 +7,23 @@ import csv
 from config import *
 import config
 from config import RUTA_LOGO
+from config import RUTA_RANKING_CSV
 import pygame_menu as pm
 pygame.init()
 pygame.font.init()
-def cargar_preguntas(file_path: str) -> str:
+def cargar_preguntas() -> str:
     """Permite agregar nuevas preguntas al juego mediante una interfaz gráfica.
-
-    Args:
-        file_path (_type_): toma el path(camino) del archivo
-
     Returns:
         str: retorna las preguntas que carga del Json
     """
     with open(RUTA_PREGUNTAS_JSON, 'r', encoding='utf-8') as file:
         preguntas = json.load(file)
     return preguntas
-preguntas = cargar_preguntas('preguntas_juego.json')
+preguntas = cargar_preguntas()
 
 
 def guardar_preguntas_json(preguntas_por_categoria, nombre_archivo="preguntas_juego.json"):
     """Guarda las preguntas en un archivo JSON.
-
-    Args:
-        preguntas_por_categoria (list): lista de preguntas segun la categoria escogida
-        nombre_archivo (json, optional): archivo.json opcional para guardar las preguntas. Defaults to "preguntas_juego.json".
     """
     try:
         with open(nombre_archivo, "w", encoding="utf-8") as archivo:
@@ -40,11 +33,7 @@ def guardar_preguntas_json(preguntas_por_categoria, nombre_archivo="preguntas_ju
         print(f"Error al guardar las preguntas: {e}")
 
 def manejar_string(cadena: str) -> str:
-    """_summary_
-
-    Args:
-        cadena (str): nombre que ingresa el usuario
-
+    """Hace que la primera letra del nombre, este SI O SI, en mayuscula.
     Returns:
         str: retorna la cadena modificada con mayuscula y guion en caso de espacio
     """
@@ -83,13 +72,6 @@ def seleccionar_pregunta(pregunta_por_categoria: list) -> str:
 
 def guardar_ranking(file_path, puntuacion, nombre_formateado, duracion_partida=None):
     """Guarda en un archivo formato "csv" el nombre, el timepo de la partida total y los puntos optenidos por el jugador.
-
-    Args:
-        file_path (_type_): camino hacia el archivo
-        puntuacion (_type_): variable que guarda los puntos obtenidos por el jugador
-        nombre (_type_): guarda el nombre ingresado por el jugador
-        tiempo_total_partida (_type_, optional): variable que guarda el tiempo que duró la partida. Defaults to None.
-        
     """
     if duracion_partida == None:
         duracion_partida = None
@@ -100,58 +82,33 @@ def guardar_ranking(file_path, puntuacion, nombre_formateado, duracion_partida=N
         file.write(datos)
     
 
-def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, accion=None, opciones=None , tiempo_restante=None):
-    """_summary_
-
-    Args:
-        pantalla (_type_): pantalla donde se dibujara el boton
-        texto (_type_): texto del boton
-        rect(_type_): rectangulo obtenido mediante "pygame.Rect"
-        color_normal (_type_): color normal del boton
-        color_hover (_type_): color del boton cuando las coordenadas(x,y), del mouse, se superponen a la superficie de este
-        accion (_type_, optional): que hace el boton(Su Default es None)
-        opciones(_type_, optional): opciones de respuestas a elegir para las preguntas
-        timepo_respuestas(_type_, optional): temporizador para elegir la respuesta a la pregunta
-    Returns:
-    Retorna un boton dibujado en la pantalla con texto en su superficie y las opciones de que al presionarlo, tenga alguna funcion, que muestre las opciones de las preguntas y/o utilize el temporizador para las preguntas.
-    """
+def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, accion=None, opciones=None, tiempo_restante=None):
     font = pygame.font.Font(None, 36)
     rect = pygame.Rect(rect)
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
-    
 
-    if tiempo_restante == None:
+    if tiempo_restante is None:
         tiempo_restante = 5
-    
     if opciones is None:
         opciones = []
-    
-    posiciones_botones = [
-        (200, 443),  # Botón 1
-        (570, 443),  # Botón 2
-        (200, 514),  # Botón 3
-        (570, 514)
-    ]
-    if len(opciones) > len (posiciones_botones):
-        print(f"Hay mas opciones que posiciones disponibles para los botones")
+
+    posiciones_botones = [(200, 443), (570, 443), (200, 514), (570, 514)]
+    if len(opciones) > len(posiciones_botones):
+        print("Hay más opciones que posiciones disponibles para los botones")
         return []
 
-
-        
     buttons = []
-
 
     if rect.collidepoint(mouse):
         pygame.draw.rect(pantalla, color_hover, rect)
- 
         if click[0] == 1 and accion is not None:
             accion()
     else:
         pygame.draw.rect(pantalla, color_normal, rect)
 
     texto_superficie = font.render(texto, True, BLACK)
-    texto_rect = texto_superficie.get_rect(center=(rect.left + rect.width // 2, rect.top + rect.height // 2))
+    texto_rect = texto_superficie.get_rect(center=rect.center)
     pantalla.blit(texto_superficie, texto_rect)
 
     tamaño_boton = (300, 50)
@@ -159,16 +116,9 @@ def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, a
     for pos, opcion in zip(posiciones_botones, opciones):
         boton_rect_opciones = pygame.Rect(pos, tamaño_boton)
         buttons.append((boton_rect_opciones, opcion))
-        
-
-        if boton_rect_opciones.collidepoint(mouse):
-            pygame.draw.rect(pantalla, color_hover, boton_rect_opciones)
-
-        else:
-            pygame.draw.rect(pantalla, color_normal, boton_rect_opciones)
-
-
-        text_surface = font.render(opcion, True, BLACK)  # Texto negro
+        color = color_hover if boton_rect_opciones.collidepoint(mouse) else color_normal
+        pygame.draw.rect(pantalla, color, boton_rect_opciones)
+        text_surface = font.render(opcion, True, BLACK)
         pantalla.blit(text_surface, (boton_rect_opciones.left + 10, boton_rect_opciones.top + 10))
 
     return buttons
@@ -176,11 +126,6 @@ def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, a
 estadisticas_preguntas = {}
 def actualizar_estadisticas_preguntas(pregunta, respuesta_correcta, respuesta_usuario):
     """Actualiza las estadisticas cada vez que se realiza una pregunta
-
-    Args:
-        pregunta (clave del dikt): pregunta realizada mediante el json
-        respuesta_correcta (clave del dikt): respuesta correcta de la pregunta
-        respuesta_usuario (clave del dikt): respuesta del usuario
     """
     if pregunta not in estadisticas_preguntas:
         estadisticas_preguntas[pregunta] = {
@@ -221,14 +166,7 @@ def guardar_estadisticas_preguntas_realizadas_csv():
 
             escrito.writerow(fila)
 
-
-
-def agregar_preguntas():
-    """
-    Permite agregar nuevas preguntas mediante una pantalla alterna.
-    """
-    global preguntas_por_categoria
-    preguntas_por_categoria = preguntas
+def obtener_input_boxes():
     input_boxes = [
         {"rect": pygame.Rect(220, 150, 360, 30), "texto": "", "activo": False, "etiqueta": "Categoría"},
         {"rect": pygame.Rect(220, 210, 560, 30), "texto": "", "activo": False, "etiqueta": "Texto de la Pregunta"},
@@ -239,6 +177,14 @@ def agregar_preguntas():
         {"rect": pygame.Rect(220, 510, 460, 30), "texto": "", "activo": False, "etiqueta": "Respuesta Correcta"},
         {"rect": pygame.Rect(220, 570, 460, 30), "texto": "", "activo": False, "etiqueta": "Dificultad"}
     ]
+    return input_boxes
+
+def agregar_preguntas():
+    """Permite agregar nuevas preguntas mediante una pantalla alterna.
+    """
+    global preguntas_por_categoria
+    preguntas_por_categoria = preguntas
+    input_boxes = obtener_input_boxes()
     boton_retroceder = pygame.Rect(20, 20, 100, 40)
     boton_guardar = pygame.Rect(300, 560, 200, 40)
     activo_campo = None
@@ -320,11 +266,6 @@ def agregar_preguntas():
 
 def mostrar_input(campo_rect, texto, activo):
     """Muestra un campo de entrada de texto en la pantalla.
-
-    Args:
-        campo_rect (Rect): rectángulo que define la posición y tamaño del campo de entrada.
-        texto (str): texto actual del campo de entrada.
-        activo (bool): indica si el campo de entrada está activo (seleccionado) o no.
     """
     color = COLOR_HOVER if activo else WHITE
     pygame.draw.rect(pantalla, color, campo_rect)
@@ -355,16 +296,9 @@ def menu_configuracion(pantalla):
     def guardar_cambios():
         """Guarda las variables modificadas por el usuario en el menú de configuración.
         """
-        global vidas, puntuacion, tiempo_restante  # Añadir esto
-
         config.vidas = int(input_vidas.get_value())
         config.puntuacion = int(input_puntuacion.get_value())
         config.tiempo_restante = int(input_tiempo.get_value())
-
-        vidas = config.vidas
-        puntuacion = config.puntuacion
-        tiempo_restante = config.tiempo_restante
-
         settings.disable()  # Cierra el menú
 
     settings.add.button("Guardar", guardar_cambios)
@@ -376,24 +310,19 @@ def menu_configuracion(pantalla):
 
 
 def obtener_top_10(file_path):
-    """obtinene el top 10 de los jugadores con mayor puntuacion en el ranking.
-
-    Args:
-        file_path (csv): camino hacia el archivo csv
-
-    Returns:
-        datos[:10]: retorna los 10 primeros datos del archivo csv(ordenados en base a su puntuacion, tiempo de partida y nombre)
-    """
-
     try:
-        with open(file_path, newline="") as file:
-            archivo = csv.reader(file)
-            next(archivo)
-            datos = sorted(archivo, key=lambda x: int(x[1]), reverse=True)
+        with open(file_path, newline="", encoding="utf-8") as file:
+            lector = csv.reader(file)
+            datos = []
+            for fila in lector:
+                if len(fila) >= 2 and fila[1].isdigit():
+                    datos.append(fila)
+                else:
+                    print(" Fila ignorada por formato inválido:", fila)
+            datos.sort(key=lambda x: int(x[1]), reverse=True)
             return datos[:10]
-    except FileNotFoundError:
-        return [] 
-    except ValueError:
-        return [] 
+    except Exception as e:
+        print(" Error al leer ranking:", e)
+        return []
 
 

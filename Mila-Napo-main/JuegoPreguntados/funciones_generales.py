@@ -1,0 +1,399 @@
+import pygame
+import json
+import random
+from colores import *
+import datetime
+import csv
+from config import *
+import config
+from config import RUTA_LOGO
+import pygame_menu as pm
+pygame.init()
+pygame.font.init()
+def cargar_preguntas(file_path: str) -> str:
+    """Permite agregar nuevas preguntas al juego mediante una interfaz gráfica.
+
+    Args:
+        file_path (_type_): toma el path(camino) del archivo
+
+    Returns:
+        str: retorna las preguntas que carga del Json
+    """
+    with open(RUTA_PREGUNTAS_JSON, 'r', encoding='utf-8') as file:
+        preguntas = json.load(file)
+    return preguntas
+preguntas = cargar_preguntas('preguntas_juego.json')
+
+
+def guardar_preguntas_json(preguntas_por_categoria, nombre_archivo="preguntas_juego.json"):
+    """Guarda las preguntas en un archivo JSON.
+
+    Args:
+        preguntas_por_categoria (list): lista de preguntas segun la categoria escogida
+        nombre_archivo (json, optional): archivo.json opcional para guardar las preguntas. Defaults to "preguntas_juego.json".
+    """
+    try:
+        with open(nombre_archivo, "w", encoding="utf-8") as archivo:
+            json.dump(preguntas_por_categoria, archivo, indent=4, ensure_ascii=False)
+        print(f"Preguntas guardadas correctamente en {nombre_archivo}")
+    except Exception as e:
+        print(f"Error al guardar las preguntas: {e}")
+
+def manejar_string(cadena: str) -> str:
+    """_summary_
+
+    Args:
+        cadena (str): nombre que ingresa el usuario
+
+    Returns:
+        str: retorna la cadena modificada con mayuscula y guion en caso de espacio
+    """
+    cadena_mayusculas = cadena.capitalize()
+    # Reemplazar espacios con guiones bajos
+    cadena_modificada = cadena_mayusculas.replace(' ', '_')
+    return cadena_modificada
+
+
+
+def seleccionar_categoria(categorias: list) -> str:
+    """Selecciona una categoría aleatoria de una lista de categorías.
+
+    Args:
+    categorias: list: keys del archivo .json donde random.choise elige aleatoriamente 
+
+    Returns:
+    str: retorna una categoria aleatoria en formato de str
+    """
+    return random.choice(categorias)
+
+
+
+def seleccionar_pregunta(pregunta_por_categoria: list) -> str:
+    """_summary_
+
+    Args:
+    pregunta_por_categoria (list): lista de preguntas de cada categoria
+    Returns:
+    pregunta_por_categoria: lista de preguntas de la categoria elegida aleatoriamente 
+    """
+    if not pregunta_por_categoria:
+        raise ValueError("No hay preguntas disponibles para la categoría seleccionada.")
+    return random.choice(pregunta_por_categoria)
+
+
+def guardar_ranking(file_path, puntuacion, nombre_formateado, duracion_partida=None):
+    """Guarda en un archivo formato "csv" el nombre, el timepo de la partida total y los puntos optenidos por el jugador.
+
+    Args:
+        file_path (_type_): camino hacia el archivo
+        puntuacion (_type_): variable que guarda los puntos obtenidos por el jugador
+        nombre (_type_): guarda el nombre ingresado por el jugador
+        tiempo_total_partida (_type_, optional): variable que guarda el tiempo que duró la partida. Defaults to None.
+        
+    """
+    if duracion_partida == None:
+        duracion_partida = None
+
+    fecha_actual = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    with open(file_path, 'a', newline='') as file:
+        datos = f"{nombre_formateado},{puntuacion},{fecha_actual},{duracion_partida}\n"
+        file.write(datos)
+    
+
+def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, accion=None, opciones=None , tiempo_restante=None):
+    """_summary_
+
+    Args:
+        pantalla (_type_): pantalla donde se dibujara el boton
+        texto (_type_): texto del boton
+        rect(_type_): rectangulo obtenido mediante "pygame.Rect"
+        color_normal (_type_): color normal del boton
+        color_hover (_type_): color del boton cuando las coordenadas(x,y), del mouse, se superponen a la superficie de este
+        accion (_type_, optional): que hace el boton(Su Default es None)
+        opciones(_type_, optional): opciones de respuestas a elegir para las preguntas
+        timepo_respuestas(_type_, optional): temporizador para elegir la respuesta a la pregunta
+    Returns:
+    Retorna un boton dibujado en la pantalla con texto en su superficie y las opciones de que al presionarlo, tenga alguna funcion, que muestre las opciones de las preguntas y/o utilize el temporizador para las preguntas.
+    """
+    font = pygame.font.Font(None, 36)
+    rect = pygame.Rect(rect)
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+    
+
+    if tiempo_restante == None:
+        tiempo_restante = 5
+    
+    if opciones is None:
+        opciones = []
+    
+    posiciones_botones = [
+        (200, 443),  # Botón 1
+        (570, 443),  # Botón 2
+        (200, 514),  # Botón 3
+        (570, 514)
+    ]
+    if len(opciones) > len (posiciones_botones):
+        print(f"Hay mas opciones que posiciones disponibles para los botones")
+        return []
+
+
+        
+    buttons = []
+
+
+    if rect.collidepoint(mouse):
+        pygame.draw.rect(pantalla, color_hover, rect)
+ 
+        if click[0] == 1 and accion is not None:
+            accion()
+    else:
+        pygame.draw.rect(pantalla, color_normal, rect)
+
+    texto_superficie = font.render(texto, True, BLACK)
+    texto_rect = texto_superficie.get_rect(center=(rect.left + rect.width // 2, rect.top + rect.height // 2))
+    pantalla.blit(texto_superficie, texto_rect)
+
+    tamaño_boton = (300, 50)
+
+    for pos, opcion in zip(posiciones_botones, opciones):
+        boton_rect_opciones = pygame.Rect(pos, tamaño_boton)
+        buttons.append((boton_rect_opciones, opcion))
+        
+
+        if boton_rect_opciones.collidepoint(mouse):
+            pygame.draw.rect(pantalla, color_hover, boton_rect_opciones)
+
+        else:
+            pygame.draw.rect(pantalla, color_normal, boton_rect_opciones)
+
+
+        text_surface = font.render(opcion, True, BLACK)  # Texto negro
+        pantalla.blit(text_surface, (boton_rect_opciones.left + 10, boton_rect_opciones.top + 10))
+
+    return buttons
+
+estadisticas_preguntas = {}
+def actualizar_estadisticas_preguntas(pregunta, respuesta_correcta, respuesta_usuario):
+    """Actualiza las estadisticas cada vez que se realiza una pregunta
+
+    Args:
+        pregunta (clave del dikt): pregunta realizada mediante el json
+        respuesta_correcta (clave del dikt): respuesta correcta de la pregunta
+        respuesta_usuario (clave del dikt): respuesta del usuario
+    """
+    if pregunta not in estadisticas_preguntas:
+        estadisticas_preguntas[pregunta] = {
+            "total_preguntas": 0,
+            "respuestas_correctas": 0,
+            "respuestas_incorrectas": 0    
+        }
+
+    estadisticas_preguntas[pregunta]["total_preguntas"] += 1
+
+    # Incrementar las respuestas correctas o incorrectas
+    if respuesta_usuario == respuesta_correcta:
+        estadisticas_preguntas[pregunta]["respuestas_correctas"] += 1
+    else:
+        estadisticas_preguntas[pregunta]["respuestas_incorrectas"] += 1
+
+
+def guardar_estadisticas_preguntas_realizadas_csv():
+    """guarda y escribe las estadisticas actualizadas en un csv
+    """
+    with open("estadisticas_preguntas.csv", mode="w", newline="", encoding="utf-8") as file:
+        campos = ["Pregunta hecha", "Veces que se preguntó", "Respuestas acertadas", "Respuestas erradas", "Porcentaje Aciertos"]
+        escrito = csv.DictWriter(file, fieldnames=campos)
+        escrito.writeheader()
+
+        for pregunta, estadisticas in estadisticas_preguntas.items():
+            if estadisticas["total_preguntas"] > 0:
+                porcentaje_aciertos = (estadisticas["respuestas_correctas"] / estadisticas["total_preguntas"]) * 100
+            else:
+                porcentaje_aciertos = 0
+            fila = {
+            'Pregunta hecha': pregunta,
+            'Veces que se preguntó': estadisticas['total_preguntas'],
+            'Respuestas acertadas': estadisticas['respuestas_correctas'],
+            'Respuestas erradas': estadisticas['respuestas_incorrectas'],
+            'Porcentaje Aciertos': f"{porcentaje_aciertos:.2f}%"  
+            }
+
+            escrito.writerow(fila)
+
+
+
+def agregar_preguntas():
+    """
+    Permite agregar nuevas preguntas mediante una pantalla alterna.
+    """
+    global preguntas_por_categoria
+    preguntas_por_categoria = preguntas
+    input_boxes = [
+        {"rect": pygame.Rect(220, 150, 360, 30), "texto": "", "activo": False, "etiqueta": "Categoría"},
+        {"rect": pygame.Rect(220, 210, 560, 30), "texto": "", "activo": False, "etiqueta": "Texto de la Pregunta"},
+        {"rect": pygame.Rect(220, 270, 460, 30), "texto": "", "activo": False, "etiqueta": "Opción 1"},
+        {"rect": pygame.Rect(220, 330, 460, 30), "texto": "", "activo": False, "etiqueta": "Opción 2"},
+        {"rect": pygame.Rect(220, 390, 460, 30), "texto": "", "activo": False, "etiqueta": "Opción 3"},
+        {"rect": pygame.Rect(220, 450, 460, 30), "texto": "", "activo": False, "etiqueta": "Opción 4"},
+        {"rect": pygame.Rect(220, 510, 460, 30), "texto": "", "activo": False, "etiqueta": "Respuesta Correcta"},
+        {"rect": pygame.Rect(220, 570, 460, 30), "texto": "", "activo": False, "etiqueta": "Dificultad"}
+    ]
+    boton_retroceder = pygame.Rect(20, 20, 100, 40)
+    boton_guardar = pygame.Rect(300, 560, 200, 40)
+    activo_campo = None
+    corriendo = True
+    mostrando_agregar_preguntas = True
+
+    while corriendo:
+        pantalla.blit(imagen_de_fondo_pantalla_agregar_preguntas, (0, 0))
+        click = pygame.mouse.get_pressed()
+        mouse = pygame.mouse.get_pos()
+
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+            if mostrando_agregar_preguntas:
+
+                if evento.type == pygame.MOUSEBUTTONDOWN:
+                    for i, input_box in enumerate(input_boxes):
+                        if input_box["rect"].collidepoint(evento.pos):
+                            activo_campo = i
+                            input_box["activo"] = True
+                        else:
+                            input_box["activo"] = False
+
+                    if boton_guardar.collidepoint(evento.pos):
+                        categoria = input_boxes[0]["texto"]
+                        nueva_pregunta = {
+                            "pregunta": input_boxes[1]["texto"],
+                            "opciones": [
+                                input_boxes[2]["texto"],
+                                input_boxes[3]["texto"],
+                                input_boxes[4]["texto"],
+                                input_boxes[5]["texto"]
+                            ],
+                            "respuesta_correcta": input_boxes[6]["texto"],
+                            "dificultad": input_boxes[7]["texto"]
+                        }
+                        # Agregar la nueva pregunta a la categoría correspondiente
+                        if categoria in preguntas_por_categoria:
+                            preguntas_por_categoria[categoria].append(nueva_pregunta)
+                        else:
+                            preguntas_por_categoria[categoria] = [nueva_pregunta]
+
+                        guardar_preguntas_json(preguntas_por_categoria)  # Guardar en archivo JSON
+                        print("¡Pregunta agregada con éxito!")
+                        corriendo = False
+
+                if evento.type == pygame.KEYDOWN and activo_campo is not None:
+                    if evento.key == pygame.K_BACKSPACE:
+                        input_boxes[activo_campo]["texto"] = input_boxes[activo_campo]["texto"][:-1]
+                    else:
+                        input_boxes[activo_campo]["texto"] += evento.unicode
+
+
+                for input_box in input_boxes:
+                    etiqueta = fuente.render(input_box["etiqueta"], True, BLACK)
+                    pantalla.blit(etiqueta, ( input_box["rect"].x, input_box["rect"].y - 30))
+                    mostrar_input(input_box["rect"], input_box["texto"], input_box["activo"])
+                    
+                texto_boton_guardar = fuente.render("Guardar", True, BLACK)
+                boton_color = COLOR_HOVER if boton_guardar.collidepoint(mouse) else COLOR_NORMAL
+                pygame.draw.rect(pantalla, boton_color, boton_guardar)
+                pantalla.blit(texto_boton_guardar, (boton_guardar.x + 50, boton_guardar.y + 5))
+
+                texto_boton_retroceder = fuente.render("Volver", True, BLACK)
+                boton_color_retroceder = COLOR_HOVER if boton_retroceder.collidepoint(mouse) else COLOR_NORMAL
+                pygame.draw.rect(pantalla, boton_color_retroceder, boton_retroceder)
+                pantalla.blit(texto_boton_retroceder, (boton_retroceder.x + 50, boton_retroceder.y + 5))
+                print(f"Campo activo: {activo_campo}")
+
+            if boton_retroceder.collidepoint(mouse) and click[0] == 1:
+                mostrando_agregar_preguntas = False
+                pygame.time.wait(200)
+                return
+
+            pygame.display.flip()
+
+def mostrar_input(campo_rect, texto, activo):
+    """Muestra un campo de entrada de texto en la pantalla.
+
+    Args:
+        campo_rect (Rect): rectángulo que define la posición y tamaño del campo de entrada.
+        texto (str): texto actual del campo de entrada.
+        activo (bool): indica si el campo de entrada está activo (seleccionado) o no.
+    """
+    color = COLOR_HOVER if activo else WHITE
+    pygame.draw.rect(pantalla, color, campo_rect)
+    texto_superficie = fuente.render(texto, True, BLACK)
+    pantalla.blit(texto_superficie, (campo_rect.x + 10, campo_rect.y + 10))
+
+
+
+def menu_configuracion(pantalla):
+    """
+    Muestra un menú de configuración con opciones para que el jugador modifique la cantidad de vidas, la puntuación y el tiempo restante.
+    """
+    pantalla.blit(imagen_de_fondo_pantalla_mini_menu, (0, 0))
+    settings = pm.Menu(title="Configuración", width=800, height=600, theme=pm.themes.THEME_DARK)
+
+    # Entradas de usuario con valores actuales de config.py
+    input_vidas = settings.add.text_input("Vidas: ", default=str(config.vidas))
+    input_puntuacion = settings.add.text_input("Puntuación: ", default=str(config.puntuacion))
+    input_tiempo = settings.add.text_input("Tiempo restante: ", default=str(config.tiempo_restante))
+
+    settings.add.clock(clock_format="%d-%m-%y %H:%M:%S",
+                     title_format="Hora : {0}")
+    
+    settings.add.button(title="Reiniciar", action=settings.reset_value, 
+                    font_color=WHITE, background_color=ROJO) 
+
+    # Función para guardar cambios sin crear archivos
+    def guardar_cambios():
+        """Guarda las variables modificadas por el usuario en el menú de configuración.
+        """
+        global vidas, puntuacion, tiempo_restante  # Añadir esto
+
+        config.vidas = int(input_vidas.get_value())
+        config.puntuacion = int(input_puntuacion.get_value())
+        config.tiempo_restante = int(input_tiempo.get_value())
+
+        vidas = config.vidas
+        puntuacion = config.puntuacion
+        tiempo_restante = config.tiempo_restante
+
+        settings.disable()  # Cierra el menú
+
+    settings.add.button("Guardar", guardar_cambios)
+    settings.add.button(title="Volver al menu", action=lambda: settings.disable(), align=pm.locals.ALIGN_CENTER) 
+
+    settings.mainloop(pantalla)
+
+
+
+
+def obtener_top_10(file_path):
+    """obtinene el top 10 de los jugadores con mayor puntuacion en el ranking.
+
+    Args:
+        file_path (csv): camino hacia el archivo csv
+
+    Returns:
+        datos[:10]: retorna los 10 primeros datos del archivo csv(ordenados en base a su puntuacion, tiempo de partida y nombre)
+    """
+
+    try:
+        with open(file_path, newline="") as file:
+            archivo = csv.reader(file)
+            next(archivo)
+            datos = sorted(archivo, key=lambda x: int(x[1]), reverse=True)
+            return datos[:10]
+    except FileNotFoundError:
+        return [] 
+    except ValueError:
+        return [] 
+
+

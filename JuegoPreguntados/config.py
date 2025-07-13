@@ -14,6 +14,7 @@ categorias = ["geografia", "historia", "entretenimiento", "deportes", "ciencia",
 pregunta = None
 tema_random = None
 
+
 RUTA_BASE = os.path.dirname(os.path.dirname(__file__))
 
 # 📁 Rutas a carpetas
@@ -34,11 +35,13 @@ RUTA_MUSICA = os.path.join(RUTA_SONIDOS,  "musica_fondo.ogg")
 RUTA_SONIDO_CO = os.path.join(RUTA_SONIDOS,  "respuesta-correcta.ogg")
 RUTA_SONIDO_INC = os.path.join(RUTA_SONIDOS,  "respuesta-incorrecta.ogg")
 RUTA_SONIDO_MENU = os.path.join(RUTA_SONIDOS,  "ps2-select-sound.ogg")
+
 pygame.init() 
 pygame.mixer.init() 
 pantalla = pygame.display.set_mode((ANCHO, ALTO))
 pygame.display.set_caption("Preguntados")
 icono_juego = pygame.image.load(RUTA_LOGO)
+
 pygame.display.set_icon(icono_juego)
 
 
@@ -64,6 +67,7 @@ sonido_incorrecto = pygame.mixer.Sound(RUTA_SONIDO_INC)
 sonido_interfaz_ps2 = pygame.mixer.Sound(RUTA_SONIDO_MENU)
 
 musica_fondo = pygame.mixer.music.load(RUTA_MUSICA)
+
 
 
 fuente = pygame.font.SysFont("arial", 20)

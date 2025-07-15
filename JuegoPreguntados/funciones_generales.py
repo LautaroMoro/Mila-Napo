@@ -32,9 +32,7 @@ def guardar_preguntas_json(preguntas_por_categoria, nombre_archivo="preguntas_ju
         print(f"Error al guardar las preguntas: {e}")
 
 def manejar_string(cadena: str) -> str:
-
-    """Hace que la primera letra del nombre, este SI O SI, en mayuscula.
-
+    """
     Returns:
         str: retorna la cadena modificada con mayuscula y guion en caso de espacio
     """
@@ -89,11 +87,6 @@ def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, a
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
 
-    if tiempo_restante is None:
-        tiempo_restante = 5
-    if opciones is None:
-        opciones = []
-
     posiciones_botones = [(200, 443), (570, 443), (200, 514), (570, 514)]
     if len(opciones) > len(posiciones_botones):
         print("Hay más opciones que posiciones disponibles para los botones")
@@ -106,32 +99,23 @@ def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, a
     
     if tiempo_restante == None:
         tiempo_restante = 5
-    
     if opciones is None:
         opciones = []
-    
-    posiciones_botones = [
-        (200, 443),  # Botón 1
-        (570, 443),  # Botón 2
-        (200, 514),  # Botón 3
-        (570, 514)
-    ]
-    if len(opciones) > len (posiciones_botones):
-        print(f"Hay mas opciones que posiciones disponibles para los botones")
+
+    posiciones_botones = [(200, 443), (570, 443), (200, 514), (570, 514)]
+    if len(opciones) > len(posiciones_botones):
+        print("Hay más opciones que posiciones disponibles para los botones")
         return []
-        
     buttons = []
 
     if rect.collidepoint(mouse):
         pygame.draw.rect(pantalla, color_hover, rect)
- 
         if click[0] == 1 and accion is not None:
             accion()
     else:
         pygame.draw.rect(pantalla, color_normal, rect)
 
     texto_superficie = font.render(texto, True, BLACK)
-
     texto_rect = texto_superficie.get_rect(center=rect.center)
     pantalla.blit(texto_superficie, texto_rect)
 
@@ -140,7 +124,6 @@ def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, a
     for pos, opcion in zip(posiciones_botones, opciones):
         boton_rect_opciones = pygame.Rect(pos, tamaño_boton)
         buttons.append((boton_rect_opciones, opcion))
-
         color = color_hover if boton_rect_opciones.collidepoint(mouse) else color_normal
         pygame.draw.rect(pantalla, color, boton_rect_opciones)
         text_surface = font.render(opcion, True, BLACK)
@@ -191,7 +174,6 @@ def guardar_estadisticas_preguntas_realizadas_csv():
 
             escrito.writerow(fila)
 
-
 def obtener_input_boxes():
     input_boxes = [
         {"rect": pygame.Rect(220, 150, 360, 30), "texto": "", "activo": False, "etiqueta": "Categoría"},
@@ -209,7 +191,6 @@ def agregar_preguntas(pantalla, fuente, preguntas):
     """Permite agregar nuevas preguntas mediante una pantalla alterna.
     """
     input_boxes = obtener_input_boxes()
-
     boton_retroceder = pygame.Rect(20, 20, 100, 40)
     boton_guardar = pygame.Rect(300, 560, 200, 40)
     activo_campo = None
@@ -295,6 +276,7 @@ def mostrar_input(campo_rect, texto, activo):
         campo_rect (Rect): rectángulo que define la posición y tamaño del campo de entrada.
         texto (str): texto actual del campo de entrada.
         activo (bool): indica si el campo de entrada está activo (seleccionado) o no."""
+
     color = COLOR_HOVER if activo else WHITE
     pygame.draw.rect(pantalla, color, campo_rect)
     texto_superficie = fuente.render(texto, True, BLACK)
@@ -324,7 +306,6 @@ def menu_configuracion(pantalla):
     def guardar_cambios():
         """Guarda las variables modificadas por el usuario en el menú de configuración.
         """
-
         config.vidas = int(input_vidas.get_value())
         config.puntuacion = int(input_puntuacion.get_value())
         config.tiempo_restante = int(input_tiempo.get_value())
@@ -342,6 +323,7 @@ def obtener_top_10(file_path):
 
     try:
         with open(file_path, newline="", encoding="latin-1") as file:
+
             lector = csv.reader(file)
             datos = []
             for fila in lector:

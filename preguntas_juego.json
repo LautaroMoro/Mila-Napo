@@ -146,7 +146,6 @@
             ],
             "respuesta_correcta": "China",
             "dificultad": "Dificil"
-
         },
         {
             "pregunta": "Capital de EE.UU.",
@@ -215,7 +214,6 @@
             ],
             "respuesta_correcta": "Amd",
             "dificultad": "Dificil"
-
         }
     ],
     "historia": [
@@ -320,6 +318,5 @@
             "respuesta_correcta": "Counter Strike",
             "dificultad": "Media"
         }
-
     ]
 }

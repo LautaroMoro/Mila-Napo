@@ -14,7 +14,6 @@ categorias = ["geografia", "historia", "entretenimiento", "deportes", "ciencia",
 pregunta = None
 tema_random = None
 
-
 RUTA_BASE = os.path.dirname(os.path.dirname(__file__))
 
 # 📁 Rutas a carpetas

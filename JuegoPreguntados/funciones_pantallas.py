@@ -71,28 +71,28 @@ def mostrar_top_10(pantalla, fuente, archivo_ranking="ranking.csv"):
         top_10 = []
     boton_retroceder = pygame.Rect(650, 10, 100, 50)
     corriendo = True
+    volver_presionado = [False]
 
     while corriendo:
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 corriendo = False
+
+        def volver():
+            volver_presionado[0] = True
     
         pantalla.blit(imagen_de_fondo_pantalla_ranking, (0, 0))  # Fondo azul oscuro
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
+        
+        crear_botones(pantalla, fuente, boton_retroceder, COLOR_NORMAL, COLOR_HOVER, "Volver", volver)
 
         for i, datos in enumerate(top_10):
             nombre, puntuacion, duracion_partida = datos[:3]
             texto = fuente.render(f"{i + 1}. {nombre}: {puntuacion} pts ({duracion_partida}s)", True, BLACK)
             pantalla.blit(texto, (100, 150 + i * 40))
         
-
-            texto_boton_retroceder = fuente.render("Volver", True, BLACK)
-            boton_color = COLOR_HOVER if boton_retroceder.collidepoint(mouse) else COLOR_NORMAL
-            pygame.draw.rect(pantalla, boton_color, boton_retroceder)
-            pantalla.blit(texto_boton_retroceder, (boton_retroceder.x + 50, boton_retroceder.y + 5))
-    
-            if boton_retroceder.collidepoint(mouse) and click[0] == 1:
+            if volver_presionado[0]:
                 pygame.time.wait(200)
                 return
             

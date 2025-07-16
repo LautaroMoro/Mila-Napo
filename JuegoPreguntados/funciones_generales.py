@@ -87,6 +87,10 @@ def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, a
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
 
+    if tiempo_restante == None:
+        tiempo_restante = 5
+    if opciones is None:
+        opciones = []
     posiciones_botones = [(200, 443), (570, 443), (200, 514), (570, 514)]
     if len(opciones) > len(posiciones_botones):
         print("Hay más opciones que posiciones disponibles para los botones")
@@ -97,10 +101,6 @@ def crear_botones(pantalla, font, rect, color_normal, color_hover, texto=None, a
     if rect.collidepoint(mouse):
         pygame.draw.rect(pantalla, color_hover, rect)
     
-    if tiempo_restante == None:
-        tiempo_restante = 5
-    if opciones is None:
-        opciones = []
 
     posiciones_botones = [(200, 443), (570, 443), (200, 514), (570, 514)]
     if len(opciones) > len(posiciones_botones):
@@ -196,19 +196,22 @@ def agregar_preguntas(pantalla, fuente, preguntas):
     activo_campo = None
     corriendo = True
     mostrando_agregar_preguntas = True
+    volver_presionado = [False]
 
     while corriendo:
         pantalla.blit(imagen_de_fondo_pantalla_agregar_preguntas, (0, 0))
         click = pygame.mouse.get_pressed()
         mouse = pygame.mouse.get_pos()
+        def volver():
+            volver_presionado[0] = True
 
+        crear_botones(pantalla, fuente, boton_retroceder, COLOR_NORMAL, COLOR_HOVER, "Volver", volver)
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 pygame.quit()
                 quit()
 
-            if mostrando_agregar_preguntas:
-
+            if mostrando_agregar_preguntas: 
                 if evento.type == pygame.MOUSEBUTTONDOWN:
                     for i, input_box in enumerate(input_boxes):
                         if input_box["rect"].collidepoint(evento.pos):
@@ -251,21 +254,15 @@ def agregar_preguntas(pantalla, fuente, preguntas):
                     etiqueta = fuente.render(input_box["etiqueta"], True, BLACK)
                     pantalla.blit(etiqueta, ( input_box["rect"].x, input_box["rect"].y - 30))
                     mostrar_input(input_box["rect"], input_box["texto"], input_box["activo"])
-                    
+                    print(f"Campo activo: {activo_campo}")
+                
                 texto_boton_guardar = fuente.render("Guardar", True, BLACK)
                 boton_color = COLOR_HOVER if boton_guardar.collidepoint(mouse) else COLOR_NORMAL
                 pygame.draw.rect(pantalla, boton_color, boton_guardar)
                 pantalla.blit(texto_boton_guardar, (boton_guardar.x + 50, boton_guardar.y + 5))
 
-                texto_boton_retroceder = fuente.render("Volver", True, BLACK)
-                boton_color_retroceder = COLOR_HOVER if boton_retroceder.collidepoint(mouse) else COLOR_NORMAL
-                pygame.draw.rect(pantalla, boton_color_retroceder, boton_retroceder)
-                pantalla.blit(texto_boton_retroceder, (boton_retroceder.x + 50, boton_retroceder.y + 5))
-                print(f"Campo activo: {activo_campo}")
-
-            if boton_retroceder.collidepoint(mouse) and click[0] == 1:
-                mostrando_agregar_preguntas = False
-                pygame.time.wait(200)
+            if volver_presionado[0]:
+                pygame.time.wait(100)
                 return
 
             pygame.display.flip()

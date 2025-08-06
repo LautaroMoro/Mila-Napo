@@ -1,0 +1,322 @@
+{
+    "ciencia": [
+        {
+            "pregunta": "¿Cuál es el planeta más cercano al Sol?",
+            "opciones": [
+                "Mercurio",
+                "Venus",
+                "Tierra",
+                "Marte"
+            ],
+            "respuesta_correcta": "Mercurio",
+            "dificultad": "Dificil"
+        },
+        {
+            "pregunta": "¿Qué tipo de animal es una rana?",
+            "opciones": [
+                "Reptil",
+                "Ave",
+                "Mamífero",
+                "Anfibio"
+            ],
+            "respuesta_correcta": "Anfibio",
+            "dificultad": "Facil"
+        },
+        {
+            "pregunta": "¿Cuál es el animal terrestre más rápido?",
+            "opciones": [
+                "León",       
+                "Guepardo",
+                "Tigre",
+                "Jaguar"
+            ],
+            "respuesta_correcta": "Guepardo",
+            "dificultad": "Media"
+        },
+        {
+            "pregunta": "¿Qué elemento químico tiene el símbolo 'O'?",
+            "opciones": [
+                "Oro",
+                "Osmio",
+                "Oxígeno",
+                "Oganesón"
+            ],
+            "respuesta_correcta": "Oxígeno",
+            "dificultad": "Dificil"
+        }
+    ],
+    "deportes": [
+        {
+            "pregunta": "¿Cuántos jugadores hay en un equipo de fútbol?",
+            "opciones": [
+                "10",
+                "11",
+                "12",
+                "13"
+            ],
+            "respuesta_correcta": "11",
+            "dificultad": "Facil"
+        },
+        {
+            "pregunta": "ciudad donde se jugaron los primeros Juegos Olímpicos modernos",
+            "opciones": [
+                "París",
+                "Atenas",
+                "Londres",
+                "Roma"
+            ],
+            "respuesta_correcta": "Atenas",
+            "dificultad": "Media"
+        },
+        {
+            "pregunta": "¿Qué país gano mas Copas del Mundo de FUTBOL?",
+            "opciones": [
+                "Brasil",
+                "Alemania",
+                "Italia",
+                "Argentina"
+            ],
+            "respuesta_correcta": "Brasil",
+            "dificultad": "Facil"
+        },
+        {
+            "pregunta": "¿Qué país ha ganado más Copas del Mundo de Rugby?",
+            "opciones": [
+                "Australia",
+                "Nueva Zelanda",
+                "Inglaterra",
+                "Sudáfrica"
+            ],
+            "respuesta_correcta": "Nueva Zelanda",
+            "dificultad": "Dificil"
+        }
+    ],
+    "geografia": [
+        {
+            "pregunta": "¿Qué océano bordea la costa este de los Estados Unidos?",
+            "opciones": [
+                "Océano Atlántico",
+                "Océano Pacífico",
+                "Océano Índico",
+                "Océano Ártico"
+            ],
+            "respuesta_correcta": "Océano Atlántico",
+            "dificultad": "Media"
+        },
+        {
+            "pregunta": "¿Cuál es la capital de Francia?",
+            "opciones": [
+                "París",
+                "Londres",
+                "Roma",
+                "Berlín"
+            ],
+            "respuesta_correcta": "París",
+            "dificultad": "Facil"
+        },
+        {
+            "pregunta": "¿En qué continente se encuentra Egipto?",
+            "opciones": [
+                "Asia",
+                "África",
+                "Europa",
+                "América"
+            ],
+            "respuesta_correcta": "África",
+            "dificultad": "Facil"
+        },
+        {
+            "pregunta": "¿Qué país tiene la mayor población del mundo?",
+            "opciones": [
+                "India",
+                "Estados Unidos",
+                "Indonesia",
+                "China"
+            ],
+            "respuesta_correcta": "China",
+            "dificultad": "Media"
+        },
+        {
+            "pregunta": "Que pais es considerado la proxima potencia mundial?",
+            "opciones": [
+                "China",
+                "India",
+                "Rusia",
+                "Japon"
+            ],
+            "respuesta_correcta": "China",
+            "dificultad": "Dificil"
+        },
+        {
+            "pregunta": "Capital de EE.UU.",
+            "opciones": [
+                "Washintong Dc",
+                "Arkansas",
+                "New York",
+                "Texas"
+            ],
+            "respuesta_correcta": "Washintong Dc",
+            "dificultad": "Media"
+        }
+    ],
+    "tecnologia": [
+        {
+            "pregunta": "¿Qué empresa desarrolló el sistema operativo Windows?",
+            "opciones": [
+                "Apple",
+                "Google",
+                "Microsoft",
+                "IBM"
+            ],
+            "respuesta_correcta": "Microsoft",
+            "dificultad": "Media"
+        },
+        {
+            "pregunta": "¿Qué significa la sigla CPU?",
+            "opciones": [
+                "Control Processing Unit",
+                "Central Processing Unit",
+                "Central Performance Unit",
+                "Computer Personal Unit"
+            ],
+            "respuesta_correcta": "Central Processing Unit",
+            "dificultad": "Dificil"
+        },
+        {
+            "pregunta": "¿Qué empresa es conocida por sus tarjetas gráficas GeForce?",
+            "opciones": [
+                "AMD",
+                "NVIDIA",
+                "Intel",
+                "Qualcomm"
+            ],
+            "respuesta_correcta": "NVIDIA",
+            "dificultad": "Media"
+        },
+        {
+            "pregunta": "¿Qué lenguaje de programación es conocido por su logo de una serpiente?",
+            "opciones": [
+                "Java",
+                "C++",
+                "Python",
+                "Ruby"
+            ],
+            "respuesta_correcta": "Python",
+            "dificultad": "Facil"
+        },
+        {
+            "pregunta": "Que empresa tiene la estructura en sus chip con \"Zen\"?",
+            "opciones": [
+                "Amd",
+                "Nvidia",
+                "Intel",
+                "Samsung"
+            ],
+            "respuesta_correcta": "Amd",
+            "dificultad": "Dificil"
+        }
+    ],
+    "historia": [
+        {
+            "pregunta": "¿En qué año comenzó la Primera Guerra Mundial?",
+            "opciones": [
+                "1914",
+                "1918",
+                "1939",
+                "1945"
+            ],
+            "respuesta_correcta": "1914",
+            "dificultad": "Media"
+        },
+        {
+            "pregunta": "¿En qué año llegó Cristóbal Colón a América?",
+            "opciones": [
+                "1492",
+                "1498",
+                "1501",
+                "1520"
+            ],
+            "respuesta_correcta": "1492",
+            "dificultad": "Facil"
+        },
+        {
+            "pregunta": "¿En qué año cayó el Muro de Berlín?",
+            "opciones": [
+                "1987",
+                "1988",
+                "1989",
+                "1990"
+            ],
+            "respuesta_correcta": "1989",
+            "dificultad": "Media"
+        },
+        {
+            "pregunta": "¿Qué tratado puso fin a la Primera Guerra Mundial?",
+            "opciones": [
+                "Tratado de Versalles",
+                "Tratado de París",
+                "Tratado de Utrecht",
+                "Tratado de Tordesillas"
+            ],
+            "respuesta_correcta": "Tratado de Versalles",
+            "dificultad": "Dificil"
+        }
+    ],
+    "entretenimiento": [
+        {
+            "pregunta": "como se llama el padre de la familia simpson en Los Simpsons",
+            "opciones": [
+                "Barney",
+                "Moe",
+                "Homero",
+                "Carl"
+            ],
+            "respuesta_correcta": "Homero",
+            "dificultad": "Facil"
+        },
+        {
+            "pregunta": "Como se llama el actor que protagoniza las peliculas de mision imposible",
+            "opciones": [
+                "Tom cruise",
+                "Brad Pitt",
+                "Leonardo di Caprio",
+                "Chris Evans"
+            ],
+            "respuesta_correcta": "Tom Cruise",
+            "dificultad": "Media"
+        },
+        {
+            "pregunta": "Como se llama el protagonista de Braking Bad",
+            "opciones": [
+                "Walter White",
+                "Gustavo Fring",
+                "Saul Goodman",
+                "Tuco Salamanca"
+            ],
+            "respuesta_correcta": "Walter White",
+            "dificultad": "Media"
+        },
+        {
+            "pregunta": "Cual es el premio mas importante de la industria del entrenimiento",
+            "opciones": [
+                "Premios Emmy",
+                "Premios Oscars",
+                "Premios Latin Grammy",
+                "Premios Golden Raspberry"
+            ],
+            "respuesta_correcta": "Premios Oscars",
+            "dificultad": "Facil"
+        },
+        {
+            "pregunta": "A qué juego pertenece el mapa de Dust 2?",
+            "opciones": [
+                "Counter Strike",
+                "CoD BO2",
+                "Battelfield V",
+                "Battlefield 3"
+            ],
+            "respuesta_correcta": "Counter Strike",
+            "dificultad": "Media"
+        }
+    ]
+}

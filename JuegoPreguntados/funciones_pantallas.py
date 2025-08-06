@@ -189,6 +189,7 @@ def mostrar_pantalla_opciones(pantalla, fuente, nombre):
 
         if tiempo_restante <= 0:
             vidas -= 1
+            guardar_ranking("ranking.csv", puntuacion, nombre)
             print("Se te acabó el tiempo.")
             if vidas > 0:
                 tema_random = seleccionar_categoria(categorias)
@@ -196,7 +197,7 @@ def mostrar_pantalla_opciones(pantalla, fuente, nombre):
                 opciones = pregunta["opciones"]
                 respuesta_correcta = pregunta["respuesta_correcta"]
                 dificultad = pregunta["dificultad"]
-                tiempo_restante = config.tiempo_restante
+                tiempo_restante = config.tiempo_restante - ultimo_tiempo
             else:
                 print("¡Fin del juego!")
                 flag_correr = False

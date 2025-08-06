@@ -45,7 +45,6 @@ def pantalla_principal_juego():
                     print(e)
                     flag_correr = False
                 cambiar_ingreso_nombre = False
-
         if mostrando_pantalla_ranking:
             mostrar_top_10(pantalla, fuente, "ranking.csv")
             mostrando_pantalla_ranking = False

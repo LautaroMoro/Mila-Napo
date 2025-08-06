@@ -39,4 +39,3 @@ def menu():
             texto_de_opcion_menu_mini = fuente.render(opcion, True, BLACK) # extrae el texto
             pantalla.blit(texto_de_opcion_menu_mini, (boton_rect.x + 10, boton_rect.y + 10))
         pygame.display.flip()
-    pygame.quit()
